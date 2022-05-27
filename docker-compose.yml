@@ -1,42 +1,28 @@
 version: "3.9"
 
 services:
-  database_speedy:
+  database_school:
     image: postgres
-    container_name: database_api
+    container_name: database_school
     restart: always
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_DB=template
+      - POSTGRES_DB=school
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=passw
     volumes:
       - pgdata:/data/postgres
-  mongodb:
-    image: mongo
-    command: [--auth]
-    container_name: mongo_template
-    restart: always
-    ports:
-      - 27017:27017
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=mongopassw
-      - MONGODB_USER=root
-      - MONGODB_PASS=mongopassw
-      - MONGO_INITDB_DATABASE=template
-    volumes:
-      - pgdata:/data/db
+ 
   redis:
     image: redis
-    container_name: redis_template
+    container_name: redis_school
     restart: always
     ports:
       - 6379:6379
   app:
     build: .
-    container_name: template_api
+    container_name: school_api
     restart: always
     ports:
       - 3003:3003
@@ -44,13 +30,11 @@ services:
     volumes:
       - .:/usr/app
     links:
-      - database_api
-      - mongo_template
-      - redis_template
+      - database_school
+      - redis_school
     depends_on:
-      - database_api
-      - mongo_template
-      - redis_template
+      - database_school
+      - redis_school
 volumes:
   pgdata:
     driver: local
