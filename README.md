@@ -13,11 +13,11 @@ You need [Git](https://git-scm.com/), [Node.js](https://nodejs.org/), [Yarn](htt
 
 First of all, clone the repository:
 ```bash
-git clone https://github.com/kortkamp/template-node-api.git
+git clone https://github.com/kortkamp/school-management-api.git
 ```
 Then enter the folder and install dependencies
 ```bash
-cd template-node-api
+cd school-management-api
 yarn install
 ```
 Create your .env file and put there your configs
