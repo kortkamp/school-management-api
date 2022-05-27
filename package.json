@@ -11,7 +11,7 @@
     "test": "jest",
     "seed:admin": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/admin.ts",
     "seed:admin.prod":"node ./dist/src/shared/infra/typeorm/seed/admin.js",
-    "docs:build": "ts-node-dev -r tsconfig-paths/register ./src/docs/build.ts",
+    "docs:build": "ts-node-dev -r tsconfig-paths/register ./src/docs/build.ts"
   },
   "heroku-run-build-script": true,
   "repository": "https://github.com/kortkamp/template-node-api.git",
