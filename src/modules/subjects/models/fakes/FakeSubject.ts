@@ -9,6 +9,8 @@ class FakeSubject implements ISubject {
 
   name: string;
 
+  segment_id: string;
+
   created_at: Date;
 
   updated_at: Date;

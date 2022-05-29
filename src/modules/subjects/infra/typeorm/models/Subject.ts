@@ -1,8 +1,11 @@
+import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
 import { ISubject } from '@modules/subjects/models/ISubject';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -15,6 +18,13 @@ class Subject implements ISubject {
 
   @Column()
   name: string;
+
+  @Column()
+  segment_id: string;
+
+  @ManyToOne(() => Segment, segment => segment)
+  @JoinColumn({ name: 'segment_id', referencedColumnName: 'id' })
+  segment: Segment;
 
   @CreateDateColumn()
   created_at: Date;
