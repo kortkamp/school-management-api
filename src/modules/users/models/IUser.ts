@@ -5,6 +5,8 @@ interface IUser {
 
   role_id: string;
 
+  school_id?: string;
+
   email: string;
 
   password: string;

@@ -26,6 +26,9 @@ class User implements IUser {
   @Column('uuid')
   role_id: string;
 
+  @Column('uuid')
+  school_id?: string;
+
   @ManyToOne(() => Role, role => role)
   @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
   role: Role;

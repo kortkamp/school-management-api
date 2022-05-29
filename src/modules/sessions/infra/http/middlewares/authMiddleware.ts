@@ -9,6 +9,7 @@ interface ITokenResponse {
   exp: number;
   sub: string;
   role: string;
+  school_id: string;
 }
 
 async function authMiddleware(
@@ -29,7 +30,11 @@ async function authMiddleware(
       authConfig.jwt.secret,
     )) as ITokenResponse;
 
-    request.user = { id: check.sub, role: check.role };
+    request.user = {
+      id: check.sub,
+      role: check.role,
+      school_id: check.school_id,
+    };
 
     next();
   } catch (error) {

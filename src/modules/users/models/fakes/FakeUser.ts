@@ -16,6 +16,8 @@ class FakeUser implements IUser {
 
   role_id: string;
 
+  school_id?: string;
+
   email: string;
 
   active: boolean;
