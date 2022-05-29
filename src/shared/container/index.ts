@@ -6,6 +6,8 @@ import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/Roles
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
 import { SchoolsRepository } from '@modules/schools/infra/typeorm/repositories/SchoolsRepository';
 import { ISchoolsRepository } from '@modules/schools/repositories/ISchoolsRepository';
+import { SubjectsRepository } from '@modules/subjects/infra/typeorm/repositories/SubjectsRepository';
+import { ISubjectsRepository } from '@modules/subjects/repositories/ISubjectsRepository';
 import { UsersRepository } from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import { UserTokensRepository } from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
@@ -35,4 +37,9 @@ container.registerSingleton<ISchoolsRepository>(
 container.registerSingleton<IGradesRepository>(
   'GradesRepository',
   GradesRepository,
+);
+
+container.registerSingleton<ISubjectsRepository>(
+  'SubjectsRepository',
+  SubjectsRepository,
 );
