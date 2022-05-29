@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+export SOURCE=$1
+export DEST=$2
+
+# upper case names
+export USOURCE=${SOURCE^}
+export UDEST=${DEST^}
+echo "source:" $USOURCE "destination:" $UDEST
+
+# copy the module directory
+cp -r './src/modules/'$SOURCE's' './src/modules/'$DEST's'
+
+# rename the lower case files
+find ./src/modules/$DEST"s" -name "*"$SOURCE"*"  -exec bash -c 'FILE={}; mv $FILE ${FILE//$SOURCE/$DEST}' \; 
+
+# rename the upercase files
+find ./src/modules/$DEST"s" -name "*"$USOURCE"*"  -exec bash -c 'FILE={}; mv $FILE ${FILE//$USOURCE/$UDEST}' \; 
+
+# replave content of file 
+find ./src/modules/$DEST"s" -type f -exec sed -i 's/'$SOURCE'/'$DEST'/g' {} \;
+find ./src/modules/$DEST"s" -type f -exec sed -i 's/'$USOURCE'/'$UDEST'/g' {} \;
