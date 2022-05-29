@@ -5,11 +5,10 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class AlterGradeAddSegment1653850316360 implements MigrationInterface {
+export class AlterSubjectAddSegment1653857298026 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropColumn('grades', 'segment');
     await queryRunner.addColumn(
-      'grades',
+      'subjects',
       new TableColumn({
         name: 'segment_id',
         type: 'uuid',
@@ -17,9 +16,9 @@ export class AlterGradeAddSegment1653850316360 implements MigrationInterface {
       }),
     );
     await queryRunner.createForeignKey(
-      'grades',
+      'subjects',
       new TableForeignKey({
-        name: 'FKGradeSegment',
+        name: 'FKSubjectSegment',
         referencedTableName: 'segments',
         referencedColumnNames: ['id'],
         columnNames: ['segment_id'],
@@ -30,14 +29,7 @@ export class AlterGradeAddSegment1653850316360 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('grades', 'FKGradeSegment');
-    await queryRunner.dropColumn('grades', 'segment_id');
-    await queryRunner.addColumn(
-      'grades',
-      new TableColumn({
-        name: 'segment',
-        type: 'varchar(255)',
-      }),
-    );
+    await queryRunner.dropForeignKey('subjects', 'FKSubjectSegment');
+    await queryRunner.dropColumn('subjects', 'segment_id');
   }
 }
