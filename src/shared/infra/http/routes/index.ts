@@ -1,3 +1,4 @@
+import { gradesRoutes } from '@modules/grades/infra/http/routes/grades.routes';
 import { rolesRoutes } from '@modules/roles/infra/http/routes/roles.routes';
 import { schoolsRoutes } from '@modules/schools/infra/http/routes/schools.routes';
 import { sessionsRoutes } from '@modules/sessions/infra/http/routes/sessions.routes';
@@ -12,5 +13,6 @@ routes.use('/users', usersRoutes);
 routes.use('/sessions', sessionsRoutes);
 routes.use('/roles', rolesRoutes);
 routes.use('/schools', schoolsRoutes);
+routes.use('/grades', gradesRoutes);
 
 export { routes };

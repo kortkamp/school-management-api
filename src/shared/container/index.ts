@@ -1,5 +1,7 @@
 import '@shared/container/providers';
 
+import { GradesRepository } from '@modules/grades/infra/typeorm/repositories/GradesRepository';
+import { IGradesRepository } from '@modules/grades/repositories/IGradesRepository';
 import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/RolesRepository';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
 import { SchoolsRepository } from '@modules/schools/infra/typeorm/repositories/SchoolsRepository';
@@ -28,4 +30,9 @@ container.registerSingleton<IRolesRepository>(
 container.registerSingleton<ISchoolsRepository>(
   'SchoolsRepository',
   SchoolsRepository,
+);
+
+container.registerSingleton<IGradesRepository>(
+  'GradesRepository',
+  GradesRepository,
 );
