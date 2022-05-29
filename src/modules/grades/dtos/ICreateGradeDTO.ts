@@ -1,8 +1,6 @@
-import { Segments } from '../models/IGrade';
-
 interface ICreateGradeDTO {
   name: string;
-  segment: Segments;
+  segment_id: string;
 }
 
 export { ICreateGradeDTO };
