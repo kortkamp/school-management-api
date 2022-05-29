@@ -1,8 +1,11 @@
-import { IGrade, Segments } from '@modules/grades/models/IGrade';
+import { IGrade } from '@modules/grades/models/IGrade';
+import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -16,8 +19,12 @@ class Grade implements IGrade {
   @Column()
   name: string;
 
-  @Column('varchar')
-  segment: Segments;
+  @Column()
+  segment_id: string;
+
+  @ManyToOne(() => Segment, segment => segment)
+  @JoinColumn({ name: 'segment_id', referencedColumnName: 'id' })
+  segment: Segment;
 
   @CreateDateColumn()
   created_at: Date;

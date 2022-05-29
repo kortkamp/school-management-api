@@ -2,14 +2,14 @@ import { ICreateGradeDTO } from '@modules/grades/dtos/ICreateGradeDTO';
 import crypto from 'crypto';
 import { v4 as uuid } from 'uuid';
 
-import { IGrade, Segments } from '../IGrade';
+import { IGrade } from '../IGrade';
 
 class FakeGrade implements IGrade {
   id: string;
 
   name: string;
 
-  segment: Segments;
+  segment_id: string;
 
   created_at: Date;
 

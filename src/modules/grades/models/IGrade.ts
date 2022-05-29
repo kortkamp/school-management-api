@@ -1,20 +1,13 @@
-enum Segments {
-  infantil = 'Infantil',
-  pre_escola = 'Pre escola',
-  fundamental = 'Ensino Fundamental',
-  medio = 'Ensino Médio',
-}
-
 interface IGrade {
   id: string;
 
   name: string;
 
-  segment: Segments;
+  segment_id: string;
 
   created_at: Date;
 
   updated_at: Date;
 }
 
-export { IGrade, Segments };
+export { IGrade };

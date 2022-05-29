@@ -4,6 +4,7 @@ export const createGradeValidate = celebrate(
   {
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
+      segment_id: Joi.string().uuid().required(),
     },
   },
   {
@@ -30,6 +31,7 @@ export const updateGradeValidate = celebrate(
     },
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100),
+      segment_id: Joi.string().uuid(),
     },
   },
   {

@@ -1,8 +1,11 @@
+import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
 import { ISegment } from '@modules/segments/models/ISegment';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -21,6 +24,10 @@ class Segment implements ISegment {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(type => Grade, grade => grade.segment, {})
+  @JoinColumn({ name: 'id' })
+  grades: Grade[];
 
   constructor() {
     if (!this.id) {
