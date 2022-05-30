@@ -1,12 +1,14 @@
 import { UserToken } from '@modules/users/infra/typeorm/models/UserToken';
 import { IUserTokensRepository } from '@modules/users/repositories/IUserTokensRepository';
-import { getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
+
+import { AppDataSource } from '@shared/infra/typeorm';
 
 class UserTokensRepository implements IUserTokensRepository {
   private ormRepository: Repository<UserToken>;
 
   constructor() {
-    this.ormRepository = getRepository(UserToken);
+    this.ormRepository = AppDataSource.getRepository<UserToken>(UserToken);
   }
 
   public async generate(user_id: string): Promise<UserToken> {
