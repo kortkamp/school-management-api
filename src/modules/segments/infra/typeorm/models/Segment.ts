@@ -1,5 +1,6 @@
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
 import { ISegment } from '@modules/segments/models/ISegment';
+import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import {
   Column,
   CreateDateColumn,
@@ -28,6 +29,10 @@ class Segment implements ISegment {
   @OneToMany(type => Grade, grade => grade.segment, {})
   @JoinColumn({ name: 'id' })
   grades: Grade[];
+
+  @OneToMany(type => Subject, subject => subject.segment, {})
+  @JoinColumn({ name: 'id' })
+  subjects: Subject[];
 
   constructor() {
     if (!this.id) {

@@ -11,7 +11,10 @@ class ShowSegmentService {
     private segmentsRepository: ISegmentsRepository,
   ) {}
   public async execute(segmentId: string) {
-    const segment = await this.segmentsRepository.findById(segmentId);
+    const segment = await this.segmentsRepository.findById(segmentId, [
+      'grades',
+      'subjects',
+    ]);
     if (!segment) {
       throw new ErrorsApp('Segment does not exists', 404);
     }
