@@ -5,7 +5,9 @@ import { Role } from '@modules/roles/infra/typeorm/models/Role';
 import { School } from '@modules/schools/infra/typeorm/models/School';
 import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
+import { UserSubject } from '@modules/subjects/infra/typeorm/models/UserSubject';
 import { User } from '@modules/users/infra/typeorm/models/User';
+import { UserToken } from '@modules/users/infra/typeorm/models/UserToken';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 const dataSourceOptions: DataSourceOptions = {
@@ -14,7 +16,16 @@ const dataSourceOptions: DataSourceOptions = {
   url: process.env.DATABASE_URL,
   ssl:
     process.env.ENVIRONMENT === 'prod' ? { rejectUnauthorized: false } : false,
-  entities: [User, Role, School, Grade, Subject, Segment],
+  entities: [
+    User,
+    UserToken,
+    Role,
+    School,
+    Grade,
+    Subject,
+    UserSubject,
+    Segment,
+  ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };
 

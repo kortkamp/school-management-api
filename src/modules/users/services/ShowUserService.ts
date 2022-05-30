@@ -19,7 +19,10 @@ class ShowUserService {
     private usersRepository: IUsersRepository,
   ) {}
   public async execute({ userId }: IRequest): Promise<IUser> {
-    const user = await this.usersRepository.findById(userId, ['role']);
+    const user = await this.usersRepository.findById(userId, [
+      'role',
+      'subjects',
+    ]);
 
     if (!user) {
       throw new ErrorsApp('User not found', 404);

@@ -13,7 +13,10 @@ class SubjectsController {
 
     const subjects = await listSubjectsService.execute();
 
-    return response.json({ success: true, subjects: instanceToInstance(subjects) });
+    return response.json({
+      success: true,
+      subjects: instanceToInstance(subjects),
+    });
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
