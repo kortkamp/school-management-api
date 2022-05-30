@@ -1,3 +1,4 @@
+import { classGroupsRoutes } from '@modules/classGroups/infra/http/routes/classGroups.routes';
 import { gradesRoutes } from '@modules/grades/infra/http/routes/grades.routes';
 import { rolesRoutes } from '@modules/roles/infra/http/routes/roles.routes';
 import { schoolsRoutes } from '@modules/schools/infra/http/routes/schools.routes';
@@ -20,5 +21,6 @@ routes.use('/grades', gradesRoutes);
 routes.use('/subjects', subjectsRoutes);
 routes.use('/user-subjects', userSubjectsRoutes);
 routes.use('/segments', segmentsRoutes);
+routes.use('/class-groups', classGroupsRoutes);
 
 export { routes };

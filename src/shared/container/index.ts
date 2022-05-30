@@ -1,5 +1,7 @@
 import '@shared/container/providers';
 
+import { ClassGroupsRepository } from '@modules/classGroups/infra/typeorm/repositories/ClassGroupsRepository';
+import { IClassGroupsRepository } from '@modules/classGroups/repositories/IClassGroupsRepository';
 import { GradesRepository } from '@modules/grades/infra/typeorm/repositories/GradesRepository';
 import { IGradesRepository } from '@modules/grades/repositories/IGradesRepository';
 import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/RolesRepository';
@@ -56,4 +58,9 @@ container.registerSingleton<ISegmentsRepository>(
 container.registerSingleton<IUserSubjectsRepository>(
   'UserSubjectsRepository',
   UserSubjectsRepository,
+);
+
+container.registerSingleton<IClassGroupsRepository>(
+  'ClassGroupsRepository',
+  ClassGroupsRepository,
 );
