@@ -31,7 +31,7 @@ usersRoutes.post('/', createUserValidate, usersController.create);
 
 usersRoutes.put(
   '/:id',
-  ensureRolesOrSelf(['admin']),
+  ensureRoles(['admin']),
   updateUserValidate,
   usersController.update,
 );

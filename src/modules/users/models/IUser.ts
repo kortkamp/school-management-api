@@ -7,6 +7,12 @@ interface IUser {
 
   school_id?: string;
 
+  segment_id?: string;
+
+  grade_id?: string;
+
+  class_group_id?: string;
+
   email: string;
 
   password: string;

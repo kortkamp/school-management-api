@@ -22,6 +22,9 @@ class ShowUserService {
     const user = await this.usersRepository.findById(userId, [
       'role',
       'subjects',
+      'grade',
+      'segment',
+      'classGroup',
     ]);
 
     if (!user) {
