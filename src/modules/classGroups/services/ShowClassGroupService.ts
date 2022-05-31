@@ -11,7 +11,10 @@ class ShowClassGroupService {
     private classGroupsRepository: IClassGroupsRepository,
   ) {}
   public async execute(classGroupId: string) {
-    const classGroup = await this.classGroupsRepository.findById(classGroupId);
+    const classGroup = await this.classGroupsRepository.findById(classGroupId, [
+      'users',
+      'grade',
+    ]);
     if (!classGroup) {
       throw new ErrorsApp('ClassGroup does not exists', 404);
     }

@@ -28,9 +28,9 @@ export const updateClassGroupValidate = celebrate(
   {
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
-      grade_id: Joi.string().uuid().required(),
     },
     [Segments.BODY]: {
+      grade_id: Joi.string().uuid(),
       name: Joi.string().min(3).max(100),
     },
   },

@@ -1,3 +1,5 @@
+import { ISubject } from '@modules/subjects/models/ISubject';
+
 interface IUser {
   id: string;
 
@@ -12,6 +14,8 @@ interface IUser {
   grade_id?: string;
 
   class_group_id?: string;
+
+  subjects: ISubject[];
 
   email: string;
 

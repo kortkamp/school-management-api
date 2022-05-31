@@ -24,7 +24,9 @@ class UpdateClassGroupService {
     }
 
     if (data.name && data.name !== classGroup.name) {
-      const classGroupExists = await this.classGroupsRepository.findByName(data.name);
+      const classGroupExists = await this.classGroupsRepository.findByName(
+        data.name,
+      );
 
       if (classGroupExists) {
         throw new ErrorsApp('ClassGroup name already exists', 409);
