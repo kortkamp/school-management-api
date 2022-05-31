@@ -28,6 +28,14 @@ class ExamResultsRepository implements IExamResultsRepository {
     return newExamResult;
   }
 
+  public async createMany(data: ICreateExamResultDTO[]): Promise<ExamResult[]> {
+    const newExamResults = this.ormRepository.create(data);
+
+    await this.ormRepository.save(newExamResults);
+
+    return newExamResults;
+  }
+
   public async getAll(query: IFilterQuery): Promise<[ExamResult[], number]> {
     const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'user');
 

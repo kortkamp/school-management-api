@@ -6,10 +6,13 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
+import { ExamResult } from './ExamResult';
 
 @Entity('exams')
 class Exam implements IExam {
@@ -37,6 +40,10 @@ class Exam implements IExam {
   @ManyToOne(() => ClassGroup, class_group => class_group)
   @JoinColumn({ name: 'class_id', referencedColumnName: 'id' })
   class_group: ClassGroup;
+
+  @OneToMany(type => ExamResult, examResult => examResult.exam, {})
+  @JoinColumn({ name: 'id' })
+  results: ExamResult[];
 
   @Column()
   date: Date;

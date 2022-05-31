@@ -4,12 +4,11 @@ import { listWithFilterSchema } from 'typeorm-dynamic-filters';
 export const createExamResultValidate = celebrate(
   {
     [Segments.BODY]: {
-      type: Joi.string().required(),
-      value: Joi.number().integer().required(),
-      weight: Joi.number().integer().required(),
-      subject_id: Joi.string().uuid().required(),
-      class_id: Joi.string().uuid().required(),
-      date: Joi.string().isoDate().required(),
+      exam_id: Joi.string().uuid().required(),
+      results: Joi.array().items({
+        student_id: Joi.string().uuid().required(),
+        value: Joi.number().integer().required(),
+      }),
     },
   },
   {

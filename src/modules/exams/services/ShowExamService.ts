@@ -11,7 +11,7 @@ class ShowExamService {
     private examsRepository: IExamsRepository,
   ) {}
   public async execute(examId: string) {
-    const exam = await this.examsRepository.findById(examId);
+    const exam = await this.examsRepository.show(examId);
     if (!exam) {
       throw new ErrorsApp('Exam does not exists', 404);
     }

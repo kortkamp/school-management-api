@@ -29,7 +29,7 @@ class ExamsRepository implements IExamsRepository {
   }
 
   public async getAll(query: IFilterQuery): Promise<[Exam[], number]> {
-    const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'user');
+    const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'exam');
 
     const queryBuilder = filterQueryBuilder.build(query);
 
@@ -52,6 +52,18 @@ class ExamsRepository implements IExamsRepository {
     });
 
     return exam;
+  }
+
+  public async show(id: string): Promise<Exam> {
+    const qb = this.ormRepository
+      .createQueryBuilder('exam')
+      .andWhere({ id })
+      .leftJoin('exam.results', 'results')
+      .addSelect(['results.id', 'results.value'])
+      .leftJoin('results.student', 'student')
+      .addSelect(['student.id', 'student.name']);
+
+    return qb.getOne();
   }
 
   public async delete(exam: Exam): Promise<void> {

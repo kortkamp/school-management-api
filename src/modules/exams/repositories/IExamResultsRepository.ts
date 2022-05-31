@@ -5,8 +5,12 @@ import { IExamResult } from '../models/IExamResult';
 
 interface IExamResultsRepository {
   create(data: ICreateExamResultDTO): Promise<IExamResult>;
+  createMany(data: ICreateExamResultDTO[]): Promise<IExamResult[]>;
   getAll(query: IFilterQuery): Promise<[IExamResult[], number]>;
-  findById(userId: string, relations?: string[]): Promise<IExamResult | undefined>;
+  findById(
+    userId: string,
+    relations?: string[],
+  ): Promise<IExamResult | undefined>;
   save(dataUpdate: IExamResult): Promise<void>;
   delete(user: IExamResult): Promise<void>;
   getTotal(): Promise<number>;
