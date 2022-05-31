@@ -13,13 +13,24 @@ class ClassGroupsController {
 
     const classGroups = await listClassGroupsService.execute();
 
-    return response.json({ success: true, classGroups: instanceToInstance(classGroups) });
+    return response.json({
+      success: true,
+      classGroups: instanceToInstance(classGroups),
+    });
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const createClassGroupService = container.resolve(CreateClassGroupService);
 
-    const classGroup = await createClassGroupService.execute(request.body);
+    const { school_id } = request.user;
+
+    const { name, grade_id } = request.body;
+
+    const classGroup = await createClassGroupService.execute({
+      name,
+      grade_id,
+      school_id,
+    });
 
     return response
       .status(201)
@@ -43,7 +54,10 @@ class ClassGroupsController {
 
     const data = request.body;
 
-    const classGroup = await updateClassGroupService.execute({ classGroupId, data });
+    const classGroup = await updateClassGroupService.execute({
+      classGroupId,
+      data,
+    });
 
     return response.status(200).json({ success: true, classGroup });
   }

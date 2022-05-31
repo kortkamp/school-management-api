@@ -24,6 +24,9 @@ class ClassGroup implements IClassGroup {
   @Column()
   grade_id: string;
 
+  @Column()
+  school_id: string;
+
   @OneToMany(type => User, users => users.classGroup, {})
   @JoinColumn({ name: 'id' })
   users: User[];
