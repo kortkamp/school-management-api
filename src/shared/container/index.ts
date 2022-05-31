@@ -2,6 +2,8 @@ import '@shared/container/providers';
 
 import { ClassGroupsRepository } from '@modules/classGroups/infra/typeorm/repositories/ClassGroupsRepository';
 import { IClassGroupsRepository } from '@modules/classGroups/repositories/IClassGroupsRepository';
+import { ExamsRepository } from '@modules/exams/infra/typeorm/repositories/ExamsRepository';
+import { IExamsRepository } from '@modules/exams/repositories/IExamsRepository';
 import { GradesRepository } from '@modules/grades/infra/typeorm/repositories/GradesRepository';
 import { IGradesRepository } from '@modules/grades/repositories/IGradesRepository';
 import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/RolesRepository';
@@ -63,4 +65,9 @@ container.registerSingleton<IUserSubjectsRepository>(
 container.registerSingleton<IClassGroupsRepository>(
   'ClassGroupsRepository',
   ClassGroupsRepository,
+);
+
+container.registerSingleton<IExamsRepository>(
+  'ExamsRepository',
+  ExamsRepository,
 );
