@@ -48,8 +48,6 @@ class UpdateSegmentGradeClassService {
         'subjects',
       ]);
 
-      console.log(segment.subjects);
-
       if (!segment) {
         throw new ErrorsApp('Segment not found', 404);
       }
