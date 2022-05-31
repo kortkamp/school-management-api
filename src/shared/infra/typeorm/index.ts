@@ -2,6 +2,7 @@ import 'dotenv/config';
 import 'reflect-metadata';
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { Exam } from '@modules/exams/infra/typeorm/models/Exam';
+import { ExamResult } from '@modules/exams/infra/typeorm/models/ExamResult';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
 import { Role } from '@modules/roles/infra/typeorm/models/Role';
 import { School } from '@modules/schools/infra/typeorm/models/School';
@@ -29,6 +30,7 @@ const dataSourceOptions: DataSourceOptions = {
     Segment,
     ClassGroup,
     Exam,
+    ExamResult,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };

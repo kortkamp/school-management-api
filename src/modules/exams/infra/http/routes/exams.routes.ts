@@ -10,12 +10,15 @@ import {
   showExamValidate,
   updateExamValidate,
 } from '../validations/exams.validation';
+import { examResultsRoutes } from './examResults.routes';
 
 const examsRoutes = Router();
 
 examsRoutes.use(authMiddleware);
 
 const examsController = new ExamsController();
+
+examsRoutes.use('/results', examResultsRoutes);
 
 examsRoutes.post(
   '/',
