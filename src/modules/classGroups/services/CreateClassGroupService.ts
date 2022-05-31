@@ -13,7 +13,9 @@ class CreateClassGroupService {
   ) {}
 
   public async execute(data: ICreateClassGroupDTO) {
-    const classGroupExists = await this.classGroupsRepository.findByName(data.name);
+    const classGroupExists = await this.classGroupsRepository.findByName(
+      data.name,
+    );
 
     if (classGroupExists) {
       throw new ErrorsApp('ClassGroup already exists', 409);
