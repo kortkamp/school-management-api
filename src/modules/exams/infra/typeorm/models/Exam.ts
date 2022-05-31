@@ -1,8 +1,11 @@
+import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { IExam } from '@modules/exams/models/IExam';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -30,6 +33,10 @@ class Exam implements IExam {
 
   @Column()
   class_id: string;
+
+  @ManyToOne(() => ClassGroup, class_group => class_group)
+  @JoinColumn({ name: 'class_id', referencedColumnName: 'id' })
+  class_group: ClassGroup;
 
   @Column()
   date: Date;
