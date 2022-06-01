@@ -11,7 +11,11 @@ import ErrorsApp from '@shared/errors/ErrorsApp';
 import { ICreateSessionDTO } from '../dtos/ICreateSessionDTO';
 
 interface IResponse {
-  user: IUser;
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  avatar: string;
   token: string;
 }
 @injectable()
@@ -66,7 +70,11 @@ class CreateSessionService {
     );
 
     return {
-      user: userExists,
+      id: userExists.id,
+      name: userExists.name,
+      email: userExists.email,
+      avatar: `${process.env.AVATAR_URL}/${userExists.avatar}`,
+      role: role.name,
       token,
     };
   }
