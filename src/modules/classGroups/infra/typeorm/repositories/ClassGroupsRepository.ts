@@ -30,7 +30,16 @@ class ClassGroupsRepository implements IClassGroupsRepository {
   }
 
   public async getAll(relations: string[] = []): Promise<ClassGroup[]> {
-    return this.ormRepository.find({ relations });
+    const qb = this.ormRepository.createQueryBuilder('classGroup');
+    qb.leftJoin('classGroup.grade', 'grade')
+      .addSelect(['grade.id', 'grade.name'])
+      .leftJoin('grade.segment', 'segment')
+      .addSelect(['segment.id', 'segment.name'])
+      // .leftJoin('classGroup.users', 'users')
+      // .addSelect(['users.id', 'users.name'])
+      .loadRelationCountAndMap('classGroup.students_count', 'classGroup.users');
+
+    return qb.getMany();
   }
 
   public async save(data: ClassGroup): Promise<void> {

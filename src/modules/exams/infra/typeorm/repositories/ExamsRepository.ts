@@ -31,7 +31,12 @@ class ExamsRepository implements IExamsRepository {
   public async getAll(query: IFilterQuery): Promise<[Exam[], number]> {
     const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'exam');
 
-    const queryBuilder = filterQueryBuilder.build(query);
+    const queryBuilder = filterQueryBuilder
+      .build(query)
+      .leftJoin('exam.subject', 'subject')
+      .addSelect(['subject.id', 'subject.name'])
+      .leftJoin('exam.class_group', 'class_group')
+      .addSelect(['class_group.id', 'class_group.name']);
 
     const result = await queryBuilder.getManyAndCount();
 
