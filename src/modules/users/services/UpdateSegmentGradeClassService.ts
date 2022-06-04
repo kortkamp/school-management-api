@@ -44,6 +44,7 @@ class UpdateSegmentGradeClassService {
       data.segment_id && data.segment_id !== user.segment_id;
 
     if (isUpdatingSegment) {
+      // update all subjects of that student
       const segment = await this.segmentsRepository.findById(data.segment_id, [
         'subjects',
       ]);
