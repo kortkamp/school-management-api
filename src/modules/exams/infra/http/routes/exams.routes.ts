@@ -22,7 +22,7 @@ examsRoutes.use('/results', examResultsRoutes);
 
 examsRoutes.post(
   '/',
-  ensureRoles(['teacher']),
+  ensureRoles(['teacher', 'admin']),
   createExamValidate,
   examsController.create,
 );
