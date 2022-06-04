@@ -34,7 +34,7 @@ app.use('/api-docs', serve, setup(swaggerConfig));
 app.use(errorHandling);
 
 app.get('/', (req, res) => {
-  return res.send('Template API Node - 2022');
+  return res.send('School API - 2022');
 });
 
 // setTimeout(() => {
