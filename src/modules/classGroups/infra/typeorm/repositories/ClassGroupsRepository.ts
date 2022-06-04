@@ -37,7 +37,10 @@ class ClassGroupsRepository implements IClassGroupsRepository {
       .addSelect(['segment.id', 'segment.name'])
       // .leftJoin('classGroup.users', 'users')
       // .addSelect(['users.id', 'users.name'])
-      .loadRelationCountAndMap('classGroup.students_count', 'classGroup.users');
+      .loadRelationCountAndMap(
+        'classGroup.students_count',
+        'classGroup.students',
+      );
 
     return qb.getMany();
   }

@@ -1,4 +1,5 @@
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
+import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { inject, injectable } from 'tsyringe';
 
 import ErrorsApp from '@shared/errors/ErrorsApp';
@@ -14,14 +15,23 @@ class CreateTeacherClassService {
 
     @inject('RolesRepository')
     private rolesRepository: IRolesRepository,
+
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
   ) {}
 
   public async execute(data: ICreateTeacherClassDTO) {
-    const role = await this.rolesRepository.findById(data.teacher_id);
+    const user = await this.usersRepository.findById(data.teacher_id);
 
-    if (role.name !== 'teacher') {
+    if (!user) {
+      throw new ErrorsApp('User not found', 404);
+    }
+
+    const role = await this.rolesRepository.findById(user.role_id);
+
+    if (role?.name !== 'teacher') {
       throw new ErrorsApp(
-        `Role ${role.name} not allowed for teaching classes`,
+        `Role ${role?.name} not allowed for teaching classes`,
         400,
       );
     }

@@ -12,7 +12,8 @@ class ShowClassGroupService {
   ) {}
   public async execute(classGroupId: string) {
     const classGroup = await this.classGroupsRepository.findById(classGroupId, [
-      'users',
+      'students',
+      'teachers',
       'grade',
     ]);
     if (!classGroup) {
