@@ -74,6 +74,20 @@ class User implements IUser {
   })
   subjects: Subject[];
 
+  @ManyToMany(type => ClassGroup, classGroup => classGroup.teachers)
+  @JoinTable({
+    name: 'teacher_classes',
+    joinColumn: {
+      name: 'teacher_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'class_group_id',
+      referencedColumnName: 'id',
+    },
+  })
+  teachingClasses: ClassGroup[];
+
   @Column('varchar')
   @Exclude()
   password: string;

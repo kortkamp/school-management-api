@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -29,7 +30,10 @@ class ClassGroup implements IClassGroup {
 
   @OneToMany(type => User, users => users.classGroup, {})
   @JoinColumn({ name: 'id' })
-  users: User[];
+  students: User[];
+
+  @ManyToMany(type => User, user => user.teachingClasses)
+  teachers: User[];
 
   @ManyToOne(() => Grade, grade => grade)
   @JoinColumn({ name: 'grade_id', referencedColumnName: 'id' })

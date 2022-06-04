@@ -1,4 +1,5 @@
 import { classGroupsRoutes } from '@modules/classGroups/infra/http/routes/classGroups.routes';
+import { teacherClassesRoutes } from '@modules/classGroups/infra/http/routes/teacherClasses.routes';
 import { examsRoutes } from '@modules/exams/infra/http/routes/exams.routes';
 import { gradesRoutes } from '@modules/grades/infra/http/routes/grades.routes';
 import { rolesRoutes } from '@modules/roles/infra/http/routes/roles.routes';
@@ -24,5 +25,6 @@ routes.use('/user-subjects', userSubjectsRoutes);
 routes.use('/segments', segmentsRoutes);
 routes.use('/class-groups', classGroupsRoutes);
 routes.use('/exams', examsRoutes);
+routes.use('/teacher-classes', teacherClassesRoutes);
 
 export { routes };

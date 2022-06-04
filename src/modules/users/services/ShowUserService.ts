@@ -25,6 +25,7 @@ class ShowUserService {
       'grade',
       'segment',
       'classGroup',
+      'teachingClasses',
     ]);
 
     if (!user) {

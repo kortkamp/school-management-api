@@ -1,5 +1,6 @@
 import { IClassGroupsRepository } from '@modules/classGroups/repositories/IClassGroupsRepository';
 import { IGradesRepository } from '@modules/grades/repositories/IGradesRepository';
+import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
 import { ISegmentsRepository } from '@modules/segments/repositories/ISegmentsRepository';
 import { injectable, inject } from 'tsyringe';
 
@@ -29,6 +30,9 @@ class UpdateSegmentGradeClassService {
 
     @inject('ClassGroupsRepository')
     private classGroupsRepository: IClassGroupsRepository,
+
+    @inject('RolesRepository')
+    private rolesRepository: IRolesRepository,
   ) {}
 
   public async execute(data: IRequest): Promise<IUser> {
@@ -38,6 +42,12 @@ class UpdateSegmentGradeClassService {
 
     if (!user) {
       throw new ErrorsApp('User not found', 404);
+    }
+
+    const role = await this.rolesRepository.findById(user.role_id);
+
+    if (role.name !== 'student') {
+      throw new ErrorsApp(`Action not allowed for role: ${role.name}`, 400);
     }
 
     const isUpdatingSegment =
