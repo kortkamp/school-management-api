@@ -63,6 +63,10 @@ class ExamsRepository implements IExamsRepository {
     const qb = this.ormRepository
       .createQueryBuilder('exam')
       .andWhere({ id })
+      .leftJoin('exam.subject', 'subject')
+      .addSelect(['subject.id', 'subject.name'])
+      .leftJoin('exam.class_group', 'class_group')
+      .addSelect(['class_group.id', 'class_group.name'])
       .leftJoin('exam.results', 'results')
       .addSelect(['results.id', 'results.value'])
       .leftJoin('results.student', 'student')
