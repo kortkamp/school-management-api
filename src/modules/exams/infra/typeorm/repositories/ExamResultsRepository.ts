@@ -50,12 +50,13 @@ class ExamResultsRepository implements IExamResultsRepository {
     await this.ormRepository.save(data);
   }
 
-  public async findById(
-    id: string,
+  public async findByIds(
+    exam_id: string,
+    student_id: string,
     relations?: string[],
   ): Promise<ExamResult | undefined> {
     const examResult = await this.ormRepository.findOne({
-      where: { id },
+      where: { exam_id, student_id },
       relations,
     });
 

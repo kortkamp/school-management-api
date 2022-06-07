@@ -1,5 +1,5 @@
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
-import { IExam } from '@modules/exams/models/IExam';
+import { examStatus, IExam } from '@modules/exams/models/IExam';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import {
   Column,
@@ -22,6 +22,9 @@ class Exam implements IExam {
 
   @Column()
   type: string;
+
+  @Column('varchar')
+  status: examStatus;
 
   @Column()
   value: number;

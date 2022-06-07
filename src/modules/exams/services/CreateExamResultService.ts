@@ -2,8 +2,7 @@ import { inject, injectable } from 'tsyringe';
 
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
-import { ICreateExamResultDTO } from '../dtos/ICreateExamResultDTO';
-import { ExamResult } from '../infra/typeorm/models/ExamResult';
+import { examStatus } from '../models/IExam';
 import { IExamResultsRepository } from '../repositories/IExamResultsRepository';
 import { IExamsRepository } from '../repositories/IExamsRepository';
 
@@ -28,11 +27,13 @@ class CreateExamResultService {
   ) {}
 
   public async execute(data: IRequest) {
-    const exam = await this.examsRepository.findById(data.exam_id, ['results']);
+    const exam = await this.examsRepository.findById(data.exam_id);
 
     if (!exam) {
       throw new ErrorsApp('Exam not found', 404);
     }
+
+    console.log(data);
 
     const createResultsData = data.results.map(result => {
       return {
@@ -42,9 +43,15 @@ class CreateExamResultService {
       };
     });
 
+    console.log(createResultsData);
+
     const examResult = await this.examResultsRepository.createMany(
       createResultsData,
     );
+
+    exam.status = examStatus.CLOSED;
+
+    await this.examsRepository.save(exam);
 
     return examResult;
   }

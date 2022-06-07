@@ -1,7 +1,15 @@
+export enum examStatus {
+  OPEN = 'open',
+  PARTIAL = 'partial',
+  CLOSED = 'closed',
+}
+
 interface IExam {
   id: string;
 
   type: string;
+
+  status: examStatus;
 
   value: number;
 

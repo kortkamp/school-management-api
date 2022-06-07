@@ -7,8 +7,9 @@ interface IExamResultsRepository {
   create(data: ICreateExamResultDTO): Promise<IExamResult>;
   createMany(data: ICreateExamResultDTO[]): Promise<IExamResult[]>;
   getAll(query: IFilterQuery): Promise<[IExamResult[], number]>;
-  findById(
-    userId: string,
+  findByIds(
+    exam_id: string,
+    student_id: string,
     relations?: string[],
   ): Promise<IExamResult | undefined>;
   save(dataUpdate: IExamResult): Promise<void>;
