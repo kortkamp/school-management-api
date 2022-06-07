@@ -1,11 +1,9 @@
 interface IExamResult {
-  id: string;
-
-  value: number;
-
   student_id: string;
 
   exam_id: string;
+
+  value: number;
 
   created_at: Date;
 

@@ -68,7 +68,7 @@ class ExamsRepository implements IExamsRepository {
       .leftJoin('exam.class_group', 'class_group')
       .addSelect(['class_group.id', 'class_group.name'])
       .leftJoin('exam.results', 'results')
-      .addSelect(['results.id', 'results.value'])
+      .addSelect(['results.value'])
       .leftJoin('results.student', 'student')
       .addSelect(['student.id', 'student.name']);
 
