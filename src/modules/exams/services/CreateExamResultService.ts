@@ -33,8 +33,6 @@ class CreateExamResultService {
       throw new ErrorsApp('Exam not found', 404);
     }
 
-    console.log(data);
-
     const createResultsData = data.results.map(result => {
       return {
         exam_id: data.exam_id,
@@ -42,8 +40,6 @@ class CreateExamResultService {
         value: result.value,
       };
     });
-
-    console.log(createResultsData);
 
     const examResult = await this.examResultsRepository.createMany(
       createResultsData,
