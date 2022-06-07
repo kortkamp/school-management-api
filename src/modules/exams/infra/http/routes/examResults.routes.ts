@@ -19,7 +19,7 @@ const examResultsController = new ExamResultsController();
 
 examResultsRoutes.post(
   '/',
-  ensureRoles(['teacher']),
+  ensureRoles(['teacher', 'admin']),
   createExamResultValidate,
   examResultsController.create,
 );
