@@ -22,6 +22,8 @@ async function create() {
     email: 'admin@template.com',
     name: 'Admin',
     active: true,
+    birth: new Date(),
+    sex: 'M',
     role_id: adminRole.id,
     password: await hash('123456', 8),
   };

@@ -29,6 +29,21 @@ class User implements IUser {
   @Column('varchar')
   name: string;
 
+  @Column('varchar')
+  enroll_id?: string;
+
+  @Column('varchar')
+  CPF?: string;
+
+  @Column('varchar')
+  phone?: string;
+
+  @Column('char')
+  sex: 'M' | 'F';
+
+  @Column()
+  birth: Date;
+
   @Column('uuid')
   role_id: string;
 
