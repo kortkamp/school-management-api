@@ -18,7 +18,7 @@ class StudentsController {
 
     return response.json({
       success: true,
-      students: instanceToInstance(students),
+      ...instanceToInstance(students),
     });
   }
 
