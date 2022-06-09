@@ -1,4 +1,4 @@
-import { IFilterQuery } from '@shared/helpers/filter/typeorm/FilterBuilder';
+import { IFilterQuery } from 'typeorm-dynamic-filters';
 
 import { ICreateUserDTO } from '../dtos/ICreateUserDTO';
 import { IUser } from '../models/IUser';

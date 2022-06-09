@@ -1,7 +1,7 @@
-interface ICreateUserDTO {
+interface ICreateStudentDTO {
   email?: string;
   name: string;
-  enroll_id?: string; // unique
+  enroll_id: string; // unique
   CPF?: string; // unique
   phone?: string;
   sex: 'M' | 'F';
@@ -14,4 +14,4 @@ interface ICreateUserDTO {
   class_group_id?: string;
 }
 
-export { ICreateUserDTO };
+export { ICreateStudentDTO };

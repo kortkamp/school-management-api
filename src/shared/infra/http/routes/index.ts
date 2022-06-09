@@ -6,6 +6,7 @@ import { rolesRoutes } from '@modules/roles/infra/http/routes/roles.routes';
 import { schoolsRoutes } from '@modules/schools/infra/http/routes/schools.routes';
 import { segmentsRoutes } from '@modules/segments/infra/http/routes/segments.routes';
 import { sessionsRoutes } from '@modules/sessions/infra/http/routes/sessions.routes';
+import { studentsRoutes } from '@modules/students/infra/http/routes/students.routes';
 import { subjectsRoutes } from '@modules/subjects/infra/http/routes/subjects.routes';
 import { userSubjectsRoutes } from '@modules/subjects/infra/http/routes/userSubjects.routes';
 import { usersRoutes } from '@modules/users/infra/http/routes/users.routes';
@@ -26,5 +27,6 @@ routes.use('/segments', segmentsRoutes);
 routes.use('/class-groups', classGroupsRoutes);
 routes.use('/exams', examsRoutes);
 routes.use('/teacher-classes', teacherClassesRoutes);
+routes.use('/students', studentsRoutes);
 
 export { routes };
