@@ -1,9 +1,27 @@
 import { ISubject } from '@modules/subjects/models/ISubject';
 
+// TODO add an address table
+// TODO add an heath table
+// TODO add an OtherInfo Table like religion , gender , food preferences
+
 interface IUser {
   id: string;
 
   name: string;
+
+  //= ========
+
+  enroll_id?: string; // unique
+
+  CPF?: string; // unique
+
+  phone?: string;
+
+  sex: 'M' | 'F';
+
+  birth: Date;
+
+  //= =========
 
   role_id: string;
 
