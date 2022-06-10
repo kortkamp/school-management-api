@@ -11,6 +11,7 @@
     "test": "jest",
     "seed:admin": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/admin.ts",
     "seed:segments": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/segments.ts",
+    "seed:students": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/students.ts",
     "seed:admin.prod":"node ./dist/src/shared/infra/typeorm/seed/admin.js",
     "seed:segments.prod":"node ./dist/src/shared/infra/typeorm/seed/segments.js",
     "docs:build": "ts-node-dev -r tsconfig-paths/register ./src/docs/build.ts",
