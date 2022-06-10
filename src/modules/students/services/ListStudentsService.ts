@@ -28,7 +28,9 @@ class ListStudentsService {
     query.filterType.push('eq');
     query.filterValue.push(studentRole.id);
 
-    const [students, length] = await this.studentsRepository.getAll(query);
+    const [students, length] = await this.studentsRepository.listStudents(
+      query,
+    );
 
     const total = await this.studentsRepository.getTotal();
 

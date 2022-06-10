@@ -37,6 +37,29 @@ class UsersRepository implements IUsersRepository {
 
     return result;
   }
+  public async listStudents(query: IFilterQuery): Promise<[User[], number]> {
+    const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'student');
+
+    const queryBuilder = filterQueryBuilder.build(query);
+
+    queryBuilder
+      .select([
+        'student.id',
+        'student.name',
+        'student.enroll_id',
+        'student.phone',
+      ])
+      .leftJoin('student.segment', 'segment')
+      .addSelect(['segment.id', 'segment.name'])
+      .leftJoin('student.grade', 'grade')
+      .addSelect(['grade.id', 'grade.name'])
+      .leftJoin('student.classGroup', 'classGroup')
+      .addSelect(['classGroup.id', 'classGroup.name']);
+
+    const result = await queryBuilder.getManyAndCount();
+
+    return result;
+  }
 
   public async findByEmail(email: string): Promise<User | undefined> {
     const user = await this.ormRepository.findOne({
