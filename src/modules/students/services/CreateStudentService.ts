@@ -83,6 +83,8 @@ class CreateStudentService {
       const templateFile = path.resolve(
         __dirname,
         '..',
+        '..',
+        'users',
         'views',
         'confirm_user.hbs',
       );

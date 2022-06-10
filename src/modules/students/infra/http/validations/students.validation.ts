@@ -12,9 +12,9 @@ export const createStudentValidate = celebrate(
       sex: Joi.string().valid('M', 'F').required(),
       birth: Joi.string().isoDate().required(),
 
-      segment_id: Joi.string().uuid(),
-      grade_id: Joi.string().uuid(),
-      class_group_id: Joi.string().uuid(),
+      segment_id: Joi.string().uuid().empty('').default(null).allow(null),
+      grade_id: Joi.string().uuid().empty('').default(null).allow(null),
+      class_group_id: Joi.string().uuid().empty('').default(null).allow(null),
       password: Joi.string(),
       password_confirmation: Joi.string().valid(Joi.ref('password')),
     },
