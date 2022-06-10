@@ -49,7 +49,7 @@ async function create() {
           name: '2º Ano',
         },
         {
-          name: '2º Ano',
+          name: '3º Ano',
         },
         {
           name: '4º Ano',
