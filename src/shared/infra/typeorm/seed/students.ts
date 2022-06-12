@@ -18,7 +18,7 @@ interface ISeed {
 }
 
 async function create() {
-  let enroll_increment = 1;
+  let enroll_increment = 1000;
 
   const getEnrollId = () => {
     enroll_increment += 1;
