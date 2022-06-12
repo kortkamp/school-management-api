@@ -9,6 +9,7 @@ import { sessionsRoutes } from '@modules/sessions/infra/http/routes/sessions.rou
 import { studentsRoutes } from '@modules/students/infra/http/routes/students.routes';
 import { subjectsRoutes } from '@modules/subjects/infra/http/routes/subjects.routes';
 import { userSubjectsRoutes } from '@modules/subjects/infra/http/routes/userSubjects.routes';
+import { teachersRoutes } from '@modules/teachers/infra/http/routes/teachers.routes';
 import { usersRoutes } from '@modules/users/infra/http/routes/users.routes';
 import { userTokensRoutes } from '@modules/users/infra/http/routes/userTokens.routes';
 import { Router } from 'express';
@@ -28,5 +29,6 @@ routes.use('/class-groups', classGroupsRoutes);
 routes.use('/exams', examsRoutes);
 routes.use('/teacher-classes', teacherClassesRoutes);
 routes.use('/students', studentsRoutes);
+routes.use('/teachers', teachersRoutes);
 
 export { routes };
