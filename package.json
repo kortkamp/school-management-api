@@ -5,15 +5,15 @@
   "scripts": {
     "start": "node dist/src/shared/infra/http/server.js",
     "typeorm": "MIGRATION=TRUE node ./node_modules/typeorm/cli.js -d ./dist/src/shared/infra/typeorm/index.js",
-    "migration:create" : "./node_modules/typeorm/cli.js migration:create",
+    "migration:create": "./node_modules/typeorm/cli.js migration:create",
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules ./src/shared/infra/http/server.ts",
     "build": "yarn babel src --extensions \".js,.ts\" --out-dir dist/src --copy-files --no-copy-ignored",
     "test": "jest",
     "seed:admin": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/admin.ts",
     "seed:segments": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/segments.ts",
     "seed:students": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/students.ts",
-    "seed:admin.prod":"node ./dist/src/shared/infra/typeorm/seed/admin.js",
-    "seed:segments.prod":"node ./dist/src/shared/infra/typeorm/seed/segments.js",
+    "seed:admin.prod": "node ./dist/src/shared/infra/typeorm/seed/admin.js",
+    "seed:segments.prod": "node ./dist/src/shared/infra/typeorm/seed/segments.js",
     "docs:build": "ts-node-dev -r tsconfig-paths/register ./src/docs/build.ts",
     "cp-module": "./src/bin/cp-module"
   },
@@ -48,7 +48,7 @@
     "tsconfig-paths": "^4.0.0",
     "tsyringe": "^4.6.0",
     "typeorm": "^0.3.6",
-    "typeorm-dynamic-filters": "^0.1.0",
+    "typeorm-dynamic-filters": "^0.1.1",
     "uuid": "^8.3.2",
     "winston": "^3.7.2"
   },
