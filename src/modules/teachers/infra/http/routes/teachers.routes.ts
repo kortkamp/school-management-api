@@ -10,10 +10,13 @@ import {
   showTeacherValidate,
   updateTeacherValidate,
 } from '../validations/teachers.validation';
+import { teacherSubjectsRoutes } from './teacherSubjects.routes';
 
 const teachersRoutes = Router();
 
 teachersRoutes.use(authMiddleware);
+
+teachersRoutes.use('/subjects', teacherSubjectsRoutes);
 
 const teachersController = new TeachersController();
 

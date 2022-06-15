@@ -21,6 +21,16 @@ class UserSubjectsRepository implements IUserSubjectsRepository {
     return newUserSubject;
   }
 
+  public async createMany(
+    data: ICreateUserSubjectDTO[],
+  ): Promise<UserSubject[]> {
+    const newUserSubject = this.ormRepository.create(data);
+
+    await this.ormRepository.save(newUserSubject);
+
+    return newUserSubject;
+  }
+
   public async findByIds(
     data: ICreateUserSubjectDTO,
   ): Promise<UserSubject | undefined> {

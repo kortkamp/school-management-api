@@ -3,6 +3,7 @@ import { IUserSubject } from '../models/IUserSubject';
 
 interface IUserSubjectsRepository {
   create(data: ICreateUserSubjectDTO): Promise<IUserSubject>;
+  createMany(data: ICreateUserSubjectDTO[]): Promise<IUserSubject[]>;
   findByIds(data: {
     user_id: string;
     subject_id: string;
