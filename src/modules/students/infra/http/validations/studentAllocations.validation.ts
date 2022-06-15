@@ -1,6 +1,6 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 
-export const updateUserAllocationValidate = celebrate(
+export const updateStudentAllocationValidate = celebrate(
   {
     [Segments.BODY]: {
       user_id: Joi.string().uuid(),

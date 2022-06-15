@@ -7,10 +7,8 @@ import multer from 'multer';
 
 import { paramsIdValidate } from '@shared/infra/http/validations/default.validation';
 
-import { UserAllocationsController } from '../controllers/UserAllocationsController';
 import { UserAvatarController } from '../controllers/UserAvatarController';
 import { UsersController } from '../controllers/UsersController';
-import { updateUserAllocationValidate } from '../validations/userAllocations.validation';
 import {
   createUserValidate,
   listUserValidate,
@@ -23,8 +21,6 @@ const usersController = new UsersController();
 
 const userAvatarController = new UserAvatarController();
 
-const userAllocationsController = new UserAllocationsController();
-
 const uploadAvatar = uploadConfig('avatar');
 
 const upload = multer(uploadAvatar.multer);
@@ -32,13 +28,6 @@ const upload = multer(uploadAvatar.multer);
 usersRoutes.use(authMiddleware);
 
 usersRoutes.post('/', createUserValidate, usersController.create);
-
-usersRoutes.put(
-  '/allocations',
-  ensureRoles(['admin']),
-  updateUserAllocationValidate,
-  userAllocationsController.update,
-);
 
 usersRoutes.put(
   '/:id',

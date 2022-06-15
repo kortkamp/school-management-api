@@ -2,12 +2,11 @@ import { IClassGroupsRepository } from '@modules/classGroups/repositories/IClass
 import { IGradesRepository } from '@modules/grades/repositories/IGradesRepository';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
 import { ISegmentsRepository } from '@modules/segments/repositories/ISegmentsRepository';
+import { IUser } from '@modules/users/models/IUser';
+import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { injectable, inject } from 'tsyringe';
 
 import ErrorsApp from '@shared/errors/ErrorsApp';
-
-import { IUser } from '../models/IUser';
-import { IUsersRepository } from '../repositories/IUsersRepository';
 
 interface IRequest {
   user_id: string;
@@ -17,7 +16,7 @@ interface IRequest {
 }
 
 @injectable()
-class UpdateSegmentGradeClassService {
+class UpdateAllocation {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -74,4 +73,4 @@ class UpdateSegmentGradeClassService {
   }
 }
 
-export { UpdateSegmentGradeClassService };
+export { UpdateAllocation };

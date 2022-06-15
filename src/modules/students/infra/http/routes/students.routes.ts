@@ -10,12 +10,15 @@ import {
   showStudentValidate,
   updateStudentValidate,
 } from '../validations/students.validation';
+import { studentAllocationsRoutes } from './studentsAllocations.routes';
 
 const studentsRoutes = Router();
 
 studentsRoutes.use(authMiddleware);
 
 const studentsController = new StudentsController();
+
+studentsRoutes.use('/allocations', studentAllocationsRoutes);
 
 studentsRoutes.post(
   '/',
