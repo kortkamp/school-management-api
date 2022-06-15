@@ -12,7 +12,7 @@ class DeleteUserSubjectService {
     private userSubjectsRepository: IUserSubjectsRepository,
   ) {}
 
-  public async execute(data: ICreateUserSubjectDTO) {
+  public async execute(data: Omit<ICreateUserSubjectDTO, 'type'>) {
     const userSubjectExists = await this.userSubjectsRepository.findByIds(data);
 
     if (!userSubjectExists) {
