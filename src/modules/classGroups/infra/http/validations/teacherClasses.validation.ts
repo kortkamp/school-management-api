@@ -5,6 +5,7 @@ export const teacherClassValidate = celebrate(
     [Segments.BODY]: {
       teacher_id: Joi.string().uuid().required(),
       class_group_id: Joi.string().uuid().required(),
+      subject_id: Joi.string().uuid().required(),
     },
   },
   {

@@ -9,6 +9,9 @@ class TeacherClass implements ITeacherClass {
   @PrimaryColumn()
   class_group_id: string;
 
+  @PrimaryColumn()
+  subject_id: string;
+
   @CreateDateColumn()
   created_at: Date;
 }

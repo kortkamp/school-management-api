@@ -3,6 +3,8 @@ interface ITeacherClass {
 
   class_group_id: string;
 
+  subject_id: string;
+
   created_at: Date;
 }
 
