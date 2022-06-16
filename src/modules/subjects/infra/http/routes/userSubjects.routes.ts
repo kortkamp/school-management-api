@@ -3,7 +3,10 @@ import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMid
 import { Router } from 'express';
 
 import { UserSubjectsController } from '../controllers/UserSubjectsController';
-import { userSubjectValidate } from '../validations/userSubjects.validation';
+import {
+  ListUserSubjectValidate,
+  userSubjectValidate,
+} from '../validations/userSubjects.validation';
 
 const userSubjectsRoutes = Router();
 
@@ -12,6 +15,12 @@ userSubjectsRoutes.use(authMiddleware);
 userSubjectsRoutes.use(ensureRoles(['admin']));
 
 const userSubjectsController = new UserSubjectsController();
+
+userSubjectsRoutes.get(
+  '/:user_id',
+  ListUserSubjectValidate,
+  userSubjectsController.index,
+);
 
 userSubjectsRoutes.post(
   '/',

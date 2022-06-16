@@ -1,5 +1,4 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
-import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
 import { TeacherSubjectsController } from '../controllers/TeacherSubjectsController';

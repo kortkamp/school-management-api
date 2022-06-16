@@ -8,6 +8,7 @@ interface IUserSubjectsRepository {
     user_id: string;
     subject_id: string;
   }): Promise<IUserSubject | undefined>;
+  getAll(user_id?: string): Promise<IUserSubject[]>;
   delete(userSubject: IUserSubject): Promise<void>;
 }
 

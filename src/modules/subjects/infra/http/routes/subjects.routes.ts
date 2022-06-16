@@ -8,10 +8,13 @@ import {
   showSubjectValidate,
   updateSubjectValidate,
 } from '../validations/subjects.validation';
+import { userSubjectsRoutes } from './userSubjects.routes';
 
 const subjectsRoutes = Router();
 
 subjectsRoutes.use(authMiddleware);
+
+subjectsRoutes.use('/user', userSubjectsRoutes);
 
 const subjectsController = new SubjectsController();
 

@@ -39,6 +39,12 @@ class UserSubjectsRepository implements IUserSubjectsRepository {
     return userSubject;
   }
 
+  public async getAll(user_id?: string): Promise<UserSubject[]> {
+    const userSubjects = await this.ormRepository.find({ where: { user_id } });
+
+    return userSubjects;
+  }
+
   public async delete(userSubject: UserSubject): Promise<void> {
     await this.ormRepository.remove(userSubject);
   }

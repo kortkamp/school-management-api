@@ -11,3 +11,9 @@ export const userSubjectValidate = celebrate(
     abortEarly: false,
   },
 );
+
+export const ListUserSubjectValidate = celebrate({
+  [Segments.PARAMS]: {
+    user_id: Joi.string().uuid().required(),
+  },
+});

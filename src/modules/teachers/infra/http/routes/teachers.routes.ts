@@ -1,5 +1,6 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
+import { userSubjectsRoutes } from '@modules/subjects/infra/http/routes/userSubjects.routes';
 import { Router } from 'express';
 
 import { TeachersController } from '../controllers/TeachersController';
@@ -10,13 +11,12 @@ import {
   showTeacherValidate,
   updateTeacherValidate,
 } from '../validations/teachers.validation';
-import { teacherSubjectsRoutes } from './teacherSubjects.routes';
 
 const teachersRoutes = Router();
 
 teachersRoutes.use(authMiddleware);
 
-teachersRoutes.use('/subjects', teacherSubjectsRoutes);
+teachersRoutes.use('/subjects', userSubjectsRoutes);
 
 const teachersController = new TeachersController();
 
