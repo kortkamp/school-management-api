@@ -40,6 +40,20 @@ class UserSubjectsRepository implements IUserSubjectsRepository {
   }
 
   public async getAll(user_id?: string): Promise<UserSubject[]> {
+    const qb = this.ormRepository.createQueryBuilder('userSubject');
+
+    qb.select([
+      'userSubject.user_id',
+      'userSubject.subject_id',
+      'userSubject.type',
+    ])
+      .where('userSubject.user_id = :user_id', { user_id })
+      .leftJoin('userSubject.subject', 'subject')
+      .addSelect(['subject.id', 'subject.name'])
+      .leftJoin('subject.segment', 'segment')
+      .addSelect(['segment.id', 'segment.name']);
+
+    return qb.getMany();
     const userSubjects = await this.ormRepository.find({ where: { user_id } });
 
     return userSubjects;

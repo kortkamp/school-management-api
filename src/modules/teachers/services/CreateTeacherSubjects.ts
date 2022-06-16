@@ -28,10 +28,11 @@ class CreateTeacherSubjects {
     private rolesRepository: IRolesRepository,
   ) {}
 
-  public async execute(data: IRequest): Promise<IUserSubject[]> {
-    const user = await this.usersRepository.findById(data.teacher_id, [
-      'subjects',
-    ]);
+  public async execute({
+    teacher_id,
+    subjects_ids,
+  }: IRequest): Promise<IUserSubject[]> {
+    const user = await this.usersRepository.findById(teacher_id, ['subjects']);
 
     if (!user) {
       throw new ErrorsApp('User not found', 404);
@@ -43,7 +44,7 @@ class CreateTeacherSubjects {
       throw new ErrorsApp(`Action not allowed for role: ${role.name}`, 400);
     }
 
-    const teacherSubjectsData: ICreateUserSubjectDTO[] = data.subjects_ids.map(
+    const teacherSubjectsData: ICreateUserSubjectDTO[] = subjects_ids.map(
       id => ({
         user_id: user.id,
         subject_id: id,

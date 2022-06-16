@@ -1,4 +1,5 @@
 import { CreateTeacherSubjects } from '@modules/teachers/services/CreateTeacherSubjects';
+import { DeleteTeacherSubjectService } from '@modules/teachers/services/DeleteTeacherSubjectService';
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
@@ -19,15 +20,17 @@ class TeacherSubjectsController {
     });
   }
 
-  // public async delete(request: Request, response: Response): Promise<Response> {
-  //   const deleteTeacherSubjectService = container.resolve(DeleteTeacherSubjectService);
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const deleteTeacherSubjectService = container.resolve(
+      DeleteTeacherSubjectService,
+    );
 
-  //   const teacherId = request.params.id;
+    const { teacher_id, subject_id } = request.body;
 
-  //   await deleteTeacherService.execute(teacherId);
+    await deleteTeacherSubjectService.execute({ teacher_id, subject_id });
 
-  //   return response.status(204).json({ success: true });
-  // }
+    return response.status(204).json({ success: true });
+  }
 }
 
 export { TeacherSubjectsController };

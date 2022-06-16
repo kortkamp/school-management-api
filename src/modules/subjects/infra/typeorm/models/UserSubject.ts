@@ -2,7 +2,16 @@ import {
   IUserSubject,
   IUserSubjectType,
 } from '@modules/subjects/models/IUserSubject';
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
+
+import { Subject } from './Subject';
 
 @Entity('user_subjects')
 class UserSubject implements IUserSubject {
@@ -11,6 +20,10 @@ class UserSubject implements IUserSubject {
 
   @PrimaryColumn()
   subject_id: string;
+
+  @ManyToOne(() => Subject, subject => subject)
+  @JoinColumn({ name: 'subject_id', referencedColumnName: 'id' })
+  subject: Subject;
 
   @Column({ type: 'enum', enum: IUserSubjectType })
   type: IUserSubjectType;
