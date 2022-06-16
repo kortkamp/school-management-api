@@ -1,14 +1,10 @@
-import { IClassGroupsRepository } from '@modules/classGroups/repositories/IClassGroupsRepository';
-import { IGradesRepository } from '@modules/grades/repositories/IGradesRepository';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
-import { ISegmentsRepository } from '@modules/segments/repositories/ISegmentsRepository';
 import { ICreateUserSubjectDTO } from '@modules/subjects/dtos/ICreateUserSubjectDTO';
 import {
   IUserSubject,
   IUserSubjectType,
 } from '@modules/subjects/models/IUserSubject';
 import { IUserSubjectsRepository } from '@modules/subjects/repositories/IUserSubjectsRepository';
-import { IUser } from '@modules/users/models/IUser';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { injectable, inject } from 'tsyringe';
 
