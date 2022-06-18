@@ -1,4 +1,5 @@
 import { celebrate, Joi, Segments } from 'celebrate';
+import { listWithFilterSchema } from 'typeorm-dynamic-filters';
 
 export const teacherClassValidate = celebrate(
   {
@@ -12,3 +13,7 @@ export const teacherClassValidate = celebrate(
     abortEarly: false,
   },
 );
+
+export const listTeacherClassesValidate = celebrate({
+  [Segments.QUERY]: listWithFilterSchema,
+});

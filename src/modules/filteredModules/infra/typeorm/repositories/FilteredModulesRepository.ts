@@ -11,7 +11,8 @@ class FilteredModulesRepository implements IFilteredModulesRepository {
   private ormRepository: Repository<FilteredModule>;
 
   constructor() {
-    this.ormRepository = AppDataSource.getRepository<FilteredModule>(FilteredModule);
+    this.ormRepository =
+      AppDataSource.getRepository<FilteredModule>(FilteredModule);
   }
 
   public async getTotal(): Promise<number> {
@@ -28,7 +29,9 @@ class FilteredModulesRepository implements IFilteredModulesRepository {
     return newFilteredModule;
   }
 
-  public async getAll(query: IFilterQuery): Promise<[FilteredModule[], number]> {
+  public async getAll(
+    query: IFilterQuery,
+  ): Promise<[FilteredModule[], number]> {
     const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'user');
 
     const queryBuilder = filterQueryBuilder.build(query);

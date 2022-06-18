@@ -6,7 +6,10 @@ import { IFilteredModule } from '../models/IFilteredModule';
 interface IFilteredModulesRepository {
   create(data: ICreateFilteredModuleDTO): Promise<IFilteredModule>;
   getAll(query: IFilterQuery): Promise<[IFilteredModule[], number]>;
-  findById(userId: string, relations?: string[]): Promise<IFilteredModule | undefined>;
+  findById(
+    userId: string,
+    relations?: string[],
+  ): Promise<IFilteredModule | undefined>;
   save(dataUpdate: IFilteredModule): Promise<void>;
   delete(user: IFilteredModule): Promise<void>;
   getTotal(): Promise<number>;

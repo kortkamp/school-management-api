@@ -1,6 +1,8 @@
 import { ICreateTeacherClassDTO } from '@modules/classGroups/dtos/ICreateTeacherClassDTO';
 import { ITeacherClassesRepository } from '@modules/classGroups/repositories/ITeacherClassesRepository';
+import { FilteredModule } from '@modules/filteredModules/infra/typeorm/models/FilteredModule';
 import { Repository } from 'typeorm';
+import { FilterBuilder, IFilterQuery } from 'typeorm-dynamic-filters';
 
 import { AppDataSource } from '@shared/infra/typeorm';
 
@@ -30,6 +32,16 @@ class TeacherClassesRepository implements ITeacherClassesRepository {
     });
 
     return teacherClass;
+  }
+
+  public async getAll(query: IFilterQuery): Promise<[TeacherClass[], number]> {
+    const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'user');
+
+    const queryBuilder = filterQueryBuilder.build(query);
+
+    const result = await queryBuilder.getManyAndCount();
+
+    return result;
   }
 
   public async delete(teacherClass: TeacherClass): Promise<void> {
