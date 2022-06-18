@@ -4,7 +4,8 @@ import { Router } from 'express';
 import { TeacherClassesController } from '../controllers/TeacherClassesController';
 import {
   listTeacherClassesValidate,
-  teacherClassValidate,
+  createTeacherClassValidate,
+  deleteTeacherClassValidate,
 } from '../validations/teacherClasses.validation';
 
 const teacherClassesRoutes = Router();
@@ -21,13 +22,13 @@ teacherClassesRoutes.get(
 
 teacherClassesRoutes.post(
   '/',
-  teacherClassValidate,
+  createTeacherClassValidate,
   teacherClassesController.create,
 );
 
 teacherClassesRoutes.delete(
   '/',
-  teacherClassValidate,
+  deleteTeacherClassValidate,
   teacherClassesController.delete,
 );
 

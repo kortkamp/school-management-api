@@ -1,7 +1,20 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 import { listWithFilterSchema } from 'typeorm-dynamic-filters';
 
-export const teacherClassValidate = celebrate(
+export const createTeacherClassValidate = celebrate(
+  {
+    [Segments.BODY]: {
+      teacher_id: Joi.string().uuid().required(),
+      class_group_id: Joi.string().uuid().required(),
+      subject_ids: Joi.array().items(Joi.string().uuid().required()).required(),
+    },
+  },
+  {
+    abortEarly: false,
+  },
+);
+
+export const deleteTeacherClassValidate = celebrate(
   {
     [Segments.BODY]: {
       teacher_id: Joi.string().uuid().required(),

@@ -7,6 +7,10 @@ import ErrorsApp from '@shared/errors/ErrorsApp';
 import { ICreateTeacherClassDTO } from '../dtos/ICreateTeacherClassDTO';
 import { ITeacherClassesRepository } from '../repositories/ITeacherClassesRepository';
 
+interface IRequest extends Omit<ICreateTeacherClassDTO, 'subject_id'> {
+  subject_ids: string[];
+}
+
 @injectable()
 class CreateTeacherClassService {
   constructor(
@@ -20,8 +24,8 @@ class CreateTeacherClassService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute(data: ICreateTeacherClassDTO) {
-    const user = await this.usersRepository.findById(data.teacher_id);
+  public async execute({ teacher_id, class_group_id, subject_ids }: IRequest) {
+    const user = await this.usersRepository.findById(teacher_id);
 
     if (!user) {
       throw new ErrorsApp('User not found', 404);
@@ -36,17 +40,23 @@ class CreateTeacherClassService {
       );
     }
 
-    const teacherClassExists = await this.teacherClassesRepository.findByIds(
-      data,
+    // const teacherClassExists = await this.teacherClassesRepository.findByIds(
+    //   data,
+    // );
+
+    // if (teacherClassExists) {
+    //   throw new ErrorsApp('TeacherClass relation already exists', 409);
+    // }
+
+    const teacherClassesData: ICreateTeacherClassDTO[] = subject_ids.map(
+      subject_id => ({ subject_id, class_group_id, teacher_id }),
     );
 
-    if (teacherClassExists) {
-      throw new ErrorsApp('TeacherClass relation already exists', 409);
-    }
+    const teacherClasses = await this.teacherClassesRepository.createMany(
+      teacherClassesData,
+    );
 
-    const teacherClass = await this.teacherClassesRepository.create(data);
-
-    return teacherClass;
+    return teacherClasses;
   }
 }
 

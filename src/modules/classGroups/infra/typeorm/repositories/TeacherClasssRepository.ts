@@ -23,6 +23,16 @@ class TeacherClassesRepository implements ITeacherClassesRepository {
     return newTeacherClass;
   }
 
+  public async createMany(
+    data: ICreateTeacherClassDTO[],
+  ): Promise<TeacherClass[]> {
+    const newTeacherClass = this.ormRepository.create(data);
+
+    await this.ormRepository.save(newTeacherClass);
+
+    return newTeacherClass;
+  }
+
   public async findByIds(
     data: ICreateTeacherClassDTO,
   ): Promise<TeacherClass | undefined> {
