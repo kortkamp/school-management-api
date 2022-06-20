@@ -1,4 +1,5 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
+import { ensureRolesOrSelf } from '@modules/roles/infra/http/middlewares/ensureRolesOrSelf';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
@@ -12,24 +13,25 @@ const userSubjectsRoutes = Router();
 
 userSubjectsRoutes.use(authMiddleware);
 
-userSubjectsRoutes.use(ensureRoles(['admin']));
-
 const userSubjectsController = new UserSubjectsController();
 
 userSubjectsRoutes.get(
-  '/:user_id',
+  '/:id',
+  ensureRolesOrSelf(['admin']),
   ListUserSubjectValidate,
   userSubjectsController.index,
 );
 
 userSubjectsRoutes.post(
   '/',
+  ensureRoles(['admin']),
   userSubjectValidate,
   userSubjectsController.create,
 );
 
 userSubjectsRoutes.delete(
   '/',
+  ensureRoles(['admin']),
   userSubjectValidate,
   userSubjectsController.delete,
 );

@@ -18,7 +18,7 @@ function ensureRolesOrSelf(authorizedRoles: string[]) {
       return next();
     }
 
-    throw new ErrorsApp('User forbidden to access that resource', 403);
+    throw new ErrorsApp('Usuário não autorizado a acessar este recurso', 403);
   };
 }
 

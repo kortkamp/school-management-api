@@ -9,9 +9,9 @@ class UserSubjectsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listUserSubjectsService = container.resolve(ListUserSubjectsService);
 
-    const { user_id } = request.params;
+    const { id } = request.params;
 
-    const userSubjects = await listUserSubjectsService.execute(user_id);
+    const userSubjects = await listUserSubjectsService.execute(id);
 
     return response.json({
       success: true,

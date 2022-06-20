@@ -14,6 +14,6 @@ export const userSubjectValidate = celebrate(
 
 export const ListUserSubjectValidate = celebrate({
   [Segments.PARAMS]: {
-    user_id: Joi.string().uuid().required(),
+    id: Joi.string().uuid().required(),
   },
 });
