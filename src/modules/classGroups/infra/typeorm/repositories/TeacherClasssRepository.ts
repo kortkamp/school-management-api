@@ -55,9 +55,29 @@ class TeacherClassesRepository implements ITeacherClassesRepository {
       .leftJoin('teacherClasses.classGroup', 'classGroup')
       .addSelect(['classGroup.id', 'classGroup.name'])
       .leftJoin('teacherClasses.subject', 'subject')
-      .addSelect(['subject.id', 'subject.name']);
+      .addSelect(['subject.id', 'subject.name'])
+      .leftJoin('classGroup.grade', 'grade')
+      .addSelect(['grade.id', 'grade.name']);
 
     const result = await queryBuilder.getManyAndCount();
+
+    return result;
+  }
+
+  public async getAllByTeacher(teacher_id: string): Promise<TeacherClass[]> {
+    const queryBuilder =
+      this.ormRepository.createQueryBuilder('teacherClasses');
+
+    queryBuilder
+      .where('teacherClasses.teacher_id = :teacher_id', { teacher_id })
+      .leftJoin('teacherClasses.classGroup', 'classGroup')
+      .addSelect(['classGroup.id', 'classGroup.name'])
+      .leftJoin('teacherClasses.subject', 'subject')
+      .addSelect(['subject.id', 'subject.name'])
+      .leftJoin('classGroup.grade', 'grade')
+      .addSelect(['grade.id', 'grade.name']);
+
+    const result = await queryBuilder.getMany();
 
     return result;
   }

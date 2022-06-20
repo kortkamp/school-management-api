@@ -1,5 +1,6 @@
 import { CreateTeacherClassService } from '@modules/classGroups/services/CreateTeacherClassService';
 import { DeleteTeacherClassService } from '@modules/classGroups/services/DeleteTeacherClassService';
+import { ListTeacherClassesByTeacherService } from '@modules/classGroups/services/ListTeacherClassesByTeacherService';
 import { ListTeacherClassesService } from '@modules/classGroups/services/ListTeacherClassesService';
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
@@ -14,6 +15,23 @@ class TeacherClassesController {
 
     const filteredModules = await listTeacherClassesService.execute(
       parseQueryFilters(request.query),
+    );
+
+    return response.json({
+      success: true,
+      teacherClasses: instanceToInstance(filteredModules),
+    });
+  }
+  public async listByTeacher(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const listTeacherClassesService = container.resolve(
+      ListTeacherClassesByTeacherService,
+    );
+
+    const filteredModules = await listTeacherClassesService.execute(
+      request.user.id,
     );
 
     return response.json({
