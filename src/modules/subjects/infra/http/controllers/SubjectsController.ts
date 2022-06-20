@@ -10,8 +10,8 @@ import { container } from 'tsyringe';
 class SubjectsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listSubjectsService = container.resolve(ListSubjectsService);
-
-    const subjects = await listSubjectsService.execute();
+    const { user } = request;
+    const subjects = await listSubjectsService.execute({ user });
 
     return response.json({
       success: true,

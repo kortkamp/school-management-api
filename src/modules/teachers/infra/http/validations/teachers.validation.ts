@@ -6,7 +6,7 @@ export const createTeacherValidate = celebrate(
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
       email: Joi.string().email().trim().lowercase(),
-      enroll_id: Joi.string().required(),
+      enroll_id: Joi.string().allow(''),
       CPF: Joi.string().min(11).max(14),
       phone: Joi.string().min(10).max(13),
       sex: Joi.string().valid('M', 'F').required(),
