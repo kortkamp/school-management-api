@@ -10,7 +10,6 @@ class ListTeacherClassesByTeacherService {
     private classGroupsRepository: IClassGroupsRepository,
   ) {}
   public async execute(teacher_id: string): Promise<IClassGroup[]> {
-    console.log('>>>>', teacher_id);
     const teacherClasses = await this.classGroupsRepository.getAllByTeacher(
       teacher_id,
     );
