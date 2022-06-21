@@ -47,8 +47,13 @@ class CreateTeacherService {
       const emailExists = await this.teachersRepository.findByEmail(data.email);
 
       if (emailExists) {
-        throw new ErrorsApp('Email already registered', 409);
+        throw new ErrorsApp('O Email já está cadastrado', 409);
       }
+    }
+
+    const teacherExists = this.teachersRepository.findByCPF(data.CPF);
+    if (teacherExists) {
+      throw new ErrorsApp('O CPF já está cadastrado', 409);
     }
 
     if (data.password) {

@@ -10,6 +10,8 @@ interface IUsersRepository {
   listTeachers(query: IFilterQuery): Promise<[IUser[], number]>;
   findById(userId: string, relations?: string[]): Promise<IUser | undefined>;
   findByEmail(email: string): Promise<IUser | undefined>;
+  findByEnrollId(enroll_id: string): Promise<IUser | undefined>;
+  findByCPF(CPF: string): Promise<IUser | undefined>;
   save(dataUpdate: IUser): Promise<void>;
   delete(user: IUser): Promise<void>;
   getTotal(): Promise<number>;

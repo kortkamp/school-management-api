@@ -92,6 +92,22 @@ class UsersRepository implements IUsersRepository {
     return user;
   }
 
+  public async findByEnrollId(enroll_id: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne({
+      where: { enroll_id },
+    });
+
+    return user;
+  }
+
+  public async findByCPF(CPF: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne({
+      where: { CPF },
+    });
+
+    return user;
+  }
+
   public async save(data: User): Promise<void> {
     await this.ormRepository.save(data);
   }

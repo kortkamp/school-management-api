@@ -51,6 +51,15 @@ class CreateStudentService {
       }
     }
 
+    if (data.enroll_id) {
+      const enrollExists = this.studentsRepository.findByEnrollId(
+        data.enroll_id,
+      );
+      if (enrollExists) {
+        throw new ErrorsApp('A matrícula já está cadastrada', 409);
+      }
+    }
+
     if (data.password) {
       const hashedPassword = await this.hashProvider.create(data.password, 8);
 
