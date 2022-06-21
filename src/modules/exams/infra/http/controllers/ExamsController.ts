@@ -11,10 +11,11 @@ import { parseQueryFilters } from 'typeorm-dynamic-filters';
 class ExamsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listExamsService = container.resolve(ListExamsService);
-
-    const exams = await listExamsService.execute(
-      parseQueryFilters(request.query),
-    );
+    const { user, query } = request;
+    const exams = await listExamsService.execute({
+      user,
+      query: parseQueryFilters(query),
+    });
 
     return response.json({ success: true, exams: instanceToInstance(exams) });
   }

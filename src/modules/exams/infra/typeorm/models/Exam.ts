@@ -1,6 +1,7 @@
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { examStatus, IExam } from '@modules/exams/models/IExam';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
+import { User } from '@modules/users/infra/typeorm/models/User';
 import {
   Column,
   CreateDateColumn,
@@ -34,6 +35,10 @@ class Exam implements IExam {
 
   @Column()
   teacher_id: string;
+
+  @ManyToOne(() => User, teacher => teacher)
+  @JoinColumn({ name: 'teacher_id', referencedColumnName: 'id' })
+  teacher: User;
 
   @Column()
   subject_id: string;

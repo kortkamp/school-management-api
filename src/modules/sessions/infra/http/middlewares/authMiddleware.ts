@@ -10,6 +10,7 @@ interface ITokenResponse {
   sub: string;
   role: string;
   school_id: string;
+  class_group_id: string;
 }
 
 async function authMiddleware(
@@ -34,6 +35,7 @@ async function authMiddleware(
       id: check.sub,
       role: check.role,
       school_id: check.school_id,
+      class_group_id: check.class_group_id,
     };
 
     next();

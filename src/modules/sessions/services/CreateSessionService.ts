@@ -61,7 +61,11 @@ class CreateSessionService {
     }
 
     const token = sign(
-      { role: role.name, school_id: userExists.school_id },
+      {
+        role: role.name,
+        school_id: userExists.school_id,
+        class_group_id: userExists.class_group_id,
+      },
       authConfig.jwt.secret,
       {
         subject: userExists.id,

@@ -36,7 +36,9 @@ class ExamsRepository implements IExamsRepository {
       .leftJoin('exam.subject', 'subject')
       .addSelect(['subject.id', 'subject.name'])
       .leftJoin('exam.class_group', 'class_group')
-      .addSelect(['class_group.id', 'class_group.name']);
+      .addSelect(['class_group.id', 'class_group.name'])
+      .leftJoin('exam.teacher', 'teacher')
+      .addSelect(['teacher.id', 'teacher.name']);
 
     const result = await queryBuilder.getManyAndCount();
 
