@@ -25,13 +25,11 @@ class ExamResultsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const createExamResultService = container.resolve(CreateExamResultService);
 
-    const teacher_id = request.user.id;
-
     const data = request.body;
 
     const examResult = await createExamResultService.execute({
-      teacher_id,
-      ...data,
+      auth_user_id: request.user.id,
+      data,
     });
 
     return response

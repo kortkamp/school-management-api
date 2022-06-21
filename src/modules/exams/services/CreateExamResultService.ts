@@ -12,8 +12,11 @@ interface IExamResult {
 }
 
 interface IRequest {
-  exam_id: string;
-  results: IExamResult[];
+  auth_user_id: string;
+  data: {
+    exam_id: string;
+    results: IExamResult[];
+  };
 }
 
 @injectable()
@@ -26,11 +29,18 @@ class CreateExamResultService {
     private examsRepository: IExamsRepository,
   ) {}
 
-  public async execute(data: IRequest) {
+  public async execute({ data, auth_user_id }: IRequest) {
     const exam = await this.examsRepository.findById(data.exam_id);
 
     if (!exam) {
-      throw new ErrorsApp('Exam not found', 404);
+      throw new ErrorsApp('Avaliação não encontrada', 404);
+    }
+
+    if (exam.teacher_id !== auth_user_id) {
+      throw new ErrorsApp(
+        'Apenas o professor responsável pode alterar as notas',
+        403,
+      );
     }
 
     const createResultsData = data.results.map(result => {
