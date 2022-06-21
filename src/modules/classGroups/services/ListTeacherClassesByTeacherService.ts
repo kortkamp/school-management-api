@@ -1,16 +1,17 @@
 import { inject, injectable } from 'tsyringe';
 
-import { ITeacherClass } from '../models/ITeacherClass';
-import { ITeacherClassesRepository } from '../repositories/ITeacherClassesRepository';
+import { IClassGroup } from '../models/IClassGroup';
+import { IClassGroupsRepository } from '../repositories/IClassGroupsRepository';
 
 @injectable()
 class ListTeacherClassesByTeacherService {
   constructor(
-    @inject('TeacherClassesRepository')
-    private teacherClassesRepository: ITeacherClassesRepository,
+    @inject('ClassGroupsRepository')
+    private classGroupsRepository: IClassGroupsRepository,
   ) {}
-  public async execute(teacher_id: string): Promise<ITeacherClass[]> {
-    const teacherClasses = await this.teacherClassesRepository.getAllByTeacher(
+  public async execute(teacher_id: string): Promise<IClassGroup[]> {
+    console.log('>>>>', teacher_id);
+    const teacherClasses = await this.classGroupsRepository.getAllByTeacher(
       teacher_id,
     );
 

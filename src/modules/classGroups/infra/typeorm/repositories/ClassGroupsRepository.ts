@@ -45,6 +45,24 @@ class ClassGroupsRepository implements IClassGroupsRepository {
     return qb.getMany();
   }
 
+  public async getAllByTeacher(teacher_id: string): Promise<ClassGroup[]> {
+    const queryBuilder = this.ormRepository.createQueryBuilder('classGroups');
+
+    queryBuilder
+      .select(['classGroups.id', 'classGroups.name'])
+      .leftJoin('classGroups.grade', 'grade')
+      .addSelect(['grade.id', 'grade.name'])
+      .leftJoin('classGroups.teacherClassGroups', 'teacherClassGroups')
+      .leftJoin('teacherClassGroups.subject', 'subject')
+      .addSelect(['subject.id', 'subject.name'])
+      .addSelect(['teacherClassGroups.subject_id'])
+      .where('teacherClassGroups.teacher_id = :teacher_id', { teacher_id });
+
+    const result = await queryBuilder.getMany();
+
+    return result;
+  }
+
   public async save(data: ClassGroup): Promise<void> {
     await this.ormRepository.save(data);
   }

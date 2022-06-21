@@ -4,6 +4,7 @@ import { IClassGroup } from '../models/IClassGroup';
 interface IClassGroupsRepository {
   create(data: ICreateClassGroupDTO): Promise<IClassGroup>;
   getAll(relations?: string[]): Promise<IClassGroup[]>;
+  getAllByTeacher(teacher_id: string): Promise<IClassGroup[]>;
   findById(
     userId: string,
     relations?: string[],

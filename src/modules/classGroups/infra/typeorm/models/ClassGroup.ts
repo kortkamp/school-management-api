@@ -14,6 +14,8 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
+import { TeacherClass } from './TeacherClass';
+
 @Entity('class_groups')
 class ClassGroup implements IClassGroup {
   @PrimaryGeneratedColumn('uuid')
@@ -31,6 +33,14 @@ class ClassGroup implements IClassGroup {
   @OneToMany(type => User, users => users.classGroup, {})
   @JoinColumn({ name: 'id' })
   students: User[];
+
+  @OneToMany(
+    type => TeacherClass,
+    teacherClassGroups => teacherClassGroups.classGroup,
+    {},
+  )
+  @JoinColumn({ name: 'class_group_id' })
+  teacherClassGroups: TeacherClass[];
 
   @ManyToMany(type => User, user => user.teachingClasses)
   teachers: User[];
