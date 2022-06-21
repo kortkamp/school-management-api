@@ -5,9 +5,9 @@ export const createStudentValidate = celebrate(
   {
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
-      email: Joi.string().email().trim().lowercase().allow(''),
+      email: Joi.string().email().trim().lowercase().empty('').default(null),
       enroll_id: Joi.string().required(),
-      CPF: Joi.string().min(11).max(14).allow(''),
+      CPF: Joi.string().min(11).max(14).empty('').default(null),
       phone: Joi.string().min(10).max(13),
       sex: Joi.string().valid('M', 'F').required(),
       birth: Joi.string().isoDate().required(),
