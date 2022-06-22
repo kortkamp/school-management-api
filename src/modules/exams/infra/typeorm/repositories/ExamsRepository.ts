@@ -61,7 +61,7 @@ class ExamsRepository implements IExamsRepository {
     return exam;
   }
 
-  public async show(id: string): Promise<Exam> {
+  public async show(id: string, student_id?: string): Promise<Exam> {
     const qb = this.ormRepository
       .createQueryBuilder('exam')
       .andWhere({ id })
@@ -73,6 +73,10 @@ class ExamsRepository implements IExamsRepository {
       .addSelect(['results.value'])
       .leftJoin('results.student', 'student')
       .addSelect(['student.id', 'student.name']);
+
+    if (student_id) {
+      qb.andWhere('student.id = :student_id', { student_id });
+    }
 
     return qb.getOne();
   }

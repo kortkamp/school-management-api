@@ -59,9 +59,10 @@ class ExamsController {
   public async show(request: Request, response: Response): Promise<Response> {
     const showExamService = container.resolve(ShowExamService);
 
-    const examId = request.params.id;
+    const { user } = request;
+    const exam_id = request.params.id;
 
-    const exam = await showExamService.execute(examId);
+    const exam = await showExamService.execute({ user, exam_id });
 
     return response.status(200).json({ success: true, exam });
   }
