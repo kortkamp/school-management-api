@@ -45,6 +45,44 @@ class ExamsRepository implements IExamsRepository {
     return result;
   }
 
+  public async getAllByClassSubject(
+    subject_id: string,
+    class_id: string,
+    student_id?: string,
+  ): Promise<Exam[]> {
+    const qb = this.ormRepository.createQueryBuilder('exam');
+
+    qb.where({ subject_id, class_id })
+      .select([
+        'exam.id',
+        'exam.type',
+        'exam.status',
+        'exam.value',
+        'exam.weight',
+        'exam.date',
+      ])
+      .leftJoin('exam.subject', 'subject')
+      .addSelect(['subject.id', 'subject.name'])
+      .leftJoin('exam.class_group', 'class_group')
+      .addSelect(['class_group.id', 'class_group.name'])
+      .leftJoin('exam.teacher', 'teacher')
+      .addSelect(['teacher.id', 'teacher.name'])
+      .leftJoin('exam.results', 'results')
+      .addSelect(['results.value'])
+      .leftJoin('results.student', 'student')
+      .addSelect(['student.id', 'student.name']);
+
+    if (student_id) {
+      qb.andWhere('student.id = :student_id or student.id is null ', {
+        student_id,
+      });
+    }
+
+    const result = await qb.getMany();
+
+    return result;
+  }
+
   public async save(data: Exam): Promise<void> {
     await this.ormRepository.save(data);
   }
@@ -75,7 +113,9 @@ class ExamsRepository implements IExamsRepository {
       .addSelect(['student.id', 'student.name']);
 
     if (student_id) {
-      qb.andWhere('student.id = :student_id', { student_id });
+      qb.andWhere('student.id = :student_id or student.id is null ', {
+        student_id,
+      });
     }
 
     return qb.getOne();

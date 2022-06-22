@@ -1,6 +1,7 @@
 import { CreateExamService } from '@modules/exams/services/CreateExamService';
 import { DeleteExamService } from '@modules/exams/services/DeleteExamService';
 import { ListExamsService } from '@modules/exams/services/ListExamsService';
+import { ListResultsBySubjectService } from '@modules/exams/services/ListResultsBySubjectService';
 import { ShowExamService } from '@modules/exams/services/ShowExamService';
 import { UpdateExamService } from '@modules/exams/services/UpdateExamService';
 import { instanceToInstance } from 'class-transformer';
@@ -65,6 +66,21 @@ class ExamsController {
     const exam = await showExamService.execute({ user, exam_id });
 
     return response.status(200).json({ success: true, exam });
+  }
+
+  public async listByClassSubject(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const listExams = container.resolve(ListResultsBySubjectService);
+
+    const { user } = request;
+    const subject_id = request.query.subject_id as string;
+    const class_id = request.query.class_id as string;
+
+    const exams = await listExams.execute({ user, subject_id, class_id });
+
+    return response.status(200).json({ success: true, exams });
   }
 }
 

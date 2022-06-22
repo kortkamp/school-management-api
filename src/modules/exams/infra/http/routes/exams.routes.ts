@@ -6,6 +6,7 @@ import { ExamsController } from '../controllers/ExamsController';
 import {
   createExamValidate,
   deleteExamValidate,
+  listExamsByClassSubjectValidate,
   listExamsValidate,
   showExamValidate,
   updateExamValidate,
@@ -28,6 +29,12 @@ examsRoutes.post(
 );
 
 examsRoutes.get('/', listExamsValidate, examsController.index);
+
+examsRoutes.get(
+  '/subject',
+  listExamsByClassSubjectValidate,
+  examsController.listByClassSubject,
+);
 
 examsRoutes.delete('/:id', deleteExamValidate, examsController.delete);
 
