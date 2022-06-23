@@ -52,7 +52,7 @@ class ExamsRepository implements IExamsRepository {
   ): Promise<Exam[]> {
     const qb = this.ormRepository.createQueryBuilder('exam');
 
-    qb.where({ subject_id, class_id })
+    qb.andWhere({ subject_id, class_id })
       .select([
         'exam.id',
         'exam.type',
@@ -60,6 +60,7 @@ class ExamsRepository implements IExamsRepository {
         'exam.value',
         'exam.weight',
         'exam.date',
+        'exam.subject_id',
       ])
       .leftJoin('exam.subject', 'subject')
       .addSelect(['subject.id', 'subject.name'])
@@ -67,16 +68,25 @@ class ExamsRepository implements IExamsRepository {
       .addSelect(['class_group.id', 'class_group.name'])
       .leftJoin('exam.teacher', 'teacher')
       .addSelect(['teacher.id', 'teacher.name'])
-      .leftJoin('exam.results', 'results')
+
+      .leftJoin(
+        'exam.results',
+        'results',
+        student_id ? 'results.student_id = :student_id' : '',
+        {
+          student_id,
+        },
+      )
+
       .addSelect(['results.value'])
       .leftJoin('results.student', 'student')
       .addSelect(['student.id', 'student.name']);
 
-    if (student_id) {
-      qb.andWhere('student.id = :student_id or student.id is null ', {
-        student_id,
-      });
-    }
+    // if (student_id) {
+    //   qb.andWhere('student.id = :student_id or student.id is null ', {
+    //     student_id,
+    //   });
+    // }
 
     const result = await qb.getMany();
 
@@ -107,16 +117,17 @@ class ExamsRepository implements IExamsRepository {
       .addSelect(['subject.id', 'subject.name'])
       .leftJoin('exam.class_group', 'class_group')
       .addSelect(['class_group.id', 'class_group.name'])
-      .leftJoin('exam.results', 'results')
+      .leftJoin(
+        'exam.results',
+        'results',
+        student_id ? 'results.student_id = :student_id' : '',
+        {
+          student_id,
+        },
+      )
       .addSelect(['results.value'])
       .leftJoin('results.student', 'student')
       .addSelect(['student.id', 'student.name']);
-
-    if (student_id) {
-      qb.andWhere('student.id = :student_id or student.id is null ', {
-        student_id,
-      });
-    }
 
     return qb.getOne();
   }
