@@ -31,7 +31,7 @@ class TeacherClassesController {
     );
 
     const filteredModules = await listTeacherClassesService.execute(
-      request.user.id,
+      request.params.id,
     );
 
     return response.json({
