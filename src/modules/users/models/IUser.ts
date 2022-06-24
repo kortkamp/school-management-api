@@ -1,3 +1,4 @@
+import { IRole } from '@modules/roles/models/IRole';
 import { ISubject } from '@modules/subjects/models/ISubject';
 
 // TODO add an address table
@@ -34,6 +35,8 @@ interface IUser {
   class_group_id?: string;
 
   subjects: ISubject[];
+
+  role?: IRole;
 
   email: string;
 

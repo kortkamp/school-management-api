@@ -10,8 +10,15 @@ class ShowStudentService {
     private studentsRepository: IUsersRepository,
   ) {}
   public async execute(studentId: string) {
-    const student = await this.studentsRepository.findById(studentId);
-    if (!student) {
+    const student = await this.studentsRepository.findById(studentId, [
+      'role',
+      'subjects',
+      'grade',
+      'segment',
+      'classGroup',
+      'teachingClasses',
+    ]);
+    if (!student || student.role.name !== 'student') {
       throw new ErrorsApp('Student does not exists', 404);
     }
 
