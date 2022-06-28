@@ -20,6 +20,8 @@ import { SubjectsRepository } from '@modules/subjects/infra/typeorm/repositories
 import { UserSubjectsRepository } from '@modules/subjects/infra/typeorm/repositories/UserSubjectsRepository';
 import { ISubjectsRepository } from '@modules/subjects/repositories/ISubjectsRepository';
 import { IUserSubjectsRepository } from '@modules/subjects/repositories/IUserSubjectsRepository';
+import { TermsRepository } from '@modules/terms/infra/typeorm/repositories/TermsRepository';
+import { ITermsRepository } from '@modules/terms/repositories/ITermsRepository';
 import { UsersRepository } from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import { UserTokensRepository } from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
@@ -84,4 +86,9 @@ container.registerSingleton<IExamResultsRepository>(
 container.registerSingleton<ITeacherClassesRepository>(
   'TeacherClassesRepository',
   TeacherClassesRepository,
+);
+
+container.registerSingleton<ITermsRepository>(
+  'TermsRepository',
+  TermsRepository,
 );
