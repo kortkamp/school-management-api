@@ -10,6 +10,7 @@ import { studentsRoutes } from '@modules/students/infra/http/routes/students.rou
 import { subjectsRoutes } from '@modules/subjects/infra/http/routes/subjects.routes';
 import { userSubjectsRoutes } from '@modules/subjects/infra/http/routes/userSubjects.routes';
 import { teachersRoutes } from '@modules/teachers/infra/http/routes/teachers.routes';
+import { termsRoutes } from '@modules/terms/infra/http/routes/terms.routes';
 import { usersRoutes } from '@modules/users/infra/http/routes/users.routes';
 import { userTokensRoutes } from '@modules/users/infra/http/routes/userTokens.routes';
 import { Router } from 'express';
@@ -30,5 +31,6 @@ routes.use('/exams', examsRoutes);
 routes.use('/teacher-classes', teacherClassesRoutes);
 routes.use('/students', studentsRoutes);
 routes.use('/teachers', teachersRoutes);
+routes.use('/terms', termsRoutes);
 
 export { routes };

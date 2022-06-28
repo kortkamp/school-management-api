@@ -1,0 +1,28 @@
+import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
+import { Router } from 'express';
+
+import { TermsController } from '../controllers/TermsController';
+import {
+  createTermValidate,
+  deleteTermValidate,
+  showTermValidate,
+  updateTermValidate,
+} from '../validations/terms.validation';
+
+const termsRoutes = Router();
+
+termsRoutes.use(authMiddleware);
+
+const termsController = new TermsController();
+
+termsRoutes.post('/', createTermValidate, termsController.create);
+
+termsRoutes.get('/', termsController.index);
+
+termsRoutes.delete('/:id', deleteTermValidate, termsController.delete);
+
+termsRoutes.put('/:id', updateTermValidate, termsController.update);
+
+termsRoutes.get('/:id', showTermValidate, termsController.show);
+
+export { termsRoutes };
