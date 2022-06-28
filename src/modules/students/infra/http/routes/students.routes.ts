@@ -11,12 +11,15 @@ import {
   updateStudentValidate,
 } from '../validations/students.validation';
 import { studentAllocationsRoutes } from './studentsAllocations.routes';
+import { studentsResultsRoutes } from './studentsResults.routes';
 
 const studentsRoutes = Router();
 
 studentsRoutes.use(authMiddleware);
 
 const studentsController = new StudentsController();
+
+studentsRoutes.use('/results', studentsResultsRoutes);
 
 studentsRoutes.use('/allocations', studentAllocationsRoutes);
 

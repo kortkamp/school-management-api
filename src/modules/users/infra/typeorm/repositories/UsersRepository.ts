@@ -60,6 +60,31 @@ class UsersRepository implements IUsersRepository {
 
     return result;
   }
+
+  public async listStudentsResults(
+    subject_id: string,
+    class_group_id: string,
+    student_id?: string,
+  ): Promise<User[]> {
+    const qb = this.ormRepository.createQueryBuilder('students');
+    qb.where({ class_group_id });
+
+    qb.select(['students.id', 'students.name', 'students.enroll_id'])
+      .leftJoin('students.results', 'results')
+      .addSelect(['results.exam_id', 'results.value'])
+      .leftJoin('results.exam', 'exam')
+      .addSelect('SUM(results.value)', 'total')
+      .groupBy('students.id, results.exam_id, results.student_id')
+
+      .andWhere('exam.subject_id = :subject_id', { subject_id });
+
+    if (student_id) {
+      qb.andWhere({ id: student_id });
+    }
+
+    return qb.getMany();
+  }
+
   public async listTeachers(query: IFilterQuery): Promise<[User[], number]> {
     const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'teacher');
 

@@ -51,3 +51,15 @@ export const updateStudentValidate = celebrate(
 export const listStudentsValidate = celebrate({
   [Segments.QUERY]: listWithFilterSchema,
 });
+
+export const listStudentsResultsValidate = celebrate(
+  {
+    [Segments.QUERY]: {
+      subject_id: Joi.string().uuid().required(),
+      class_group_id: Joi.string().uuid().required(),
+    },
+  },
+  {
+    abortEarly: false,
+  },
+);

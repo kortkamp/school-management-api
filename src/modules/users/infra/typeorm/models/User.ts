@@ -1,4 +1,5 @@
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
+import { ExamResult } from '@modules/exams/infra/typeorm/models/ExamResult';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
 import { Role } from '@modules/roles/infra/typeorm/models/Role';
 import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
@@ -15,6 +16,7 @@ import {
   JoinColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
@@ -74,6 +76,10 @@ class User implements IUser {
   @ManyToOne(() => Role, role => role)
   @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
   role: Role;
+
+  @OneToMany(type => ExamResult, results => results.student, {})
+  @JoinColumn({ name: 'id' })
+  results: ExamResult[];
 
   @ManyToMany(type => Subject, subject => subject.users)
   @JoinTable({

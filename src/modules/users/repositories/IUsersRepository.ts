@@ -8,6 +8,11 @@ interface IUsersRepository {
   getAll(query: IFilterQuery): Promise<[IUser[], number]>;
   listStudents(query: IFilterQuery): Promise<[IUser[], number]>;
   listTeachers(query: IFilterQuery): Promise<[IUser[], number]>;
+  listStudentsResults(
+    subject_id: string,
+    class_group_id: string,
+    student_id?: string,
+  ): Promise<IUser[]>;
   findById(userId: string, relations?: string[]): Promise<IUser | undefined>;
   findByEmail(email: string): Promise<IUser | undefined>;
   findByEnrollId(enroll_id: string): Promise<IUser | undefined>;
