@@ -23,7 +23,7 @@ class CreateTermService {
     const termExists = await this.termsRepository.findByName(data.name);
 
     if (termExists) {
-      throw new ErrorsApp('O período do ano já existe', 409);
+      throw new ErrorsApp('Este nome já existe', 409);
     }
 
     if (!auth_user.school_id) {
