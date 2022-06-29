@@ -7,6 +7,7 @@ export const createExamValidate = celebrate(
       type: Joi.string().required(),
       value: Joi.number().integer().required(),
       weight: Joi.number().integer().required(),
+      term_id: Joi.string().uuid().required(),
       subject_id: Joi.string().uuid().required(),
       class_id: Joi.string().uuid().required(),
       date: Joi.string().isoDate().required(),
@@ -37,6 +38,7 @@ export const updateExamValidate = celebrate(
     [Segments.BODY]: {
       type: Joi.string().required(),
       value: Joi.number().integer().required(),
+      term_id: Joi.string().uuid().required(),
       weight: Joi.number().integer().required(),
       date: Joi.string().isoDate().required(),
     },

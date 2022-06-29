@@ -34,6 +34,9 @@ class Exam implements IExam {
   weight: number;
 
   @Column()
+  term_id: string;
+
+  @Column()
   teacher_id: string;
 
   @ManyToOne(() => User, teacher => teacher)
