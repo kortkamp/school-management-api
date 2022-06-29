@@ -78,7 +78,7 @@ class CreateSessionService {
       name: userExists.name,
       email: userExists.email,
       avatar: userExists.avatar
-        ? `${process.env.AVATAR_URL}/${userExists.avatar}`
+        ? `${process.env.AVATAR_URL}${userExists.avatar}`
         : null,
       role: role.name,
       token,
