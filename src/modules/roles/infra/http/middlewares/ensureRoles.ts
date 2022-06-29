@@ -13,7 +13,7 @@ function ensureRoles(authorizedRoles: string[]) {
     const isRoleAuthorized = authorizedRoles.includes(role);
 
     if (!isRoleAuthorized) {
-      throw new ErrorsApp('User forbidden to access that resource', 403);
+      throw new ErrorsApp('Não permitido para este usuário', 403);
     }
     return next();
   };
