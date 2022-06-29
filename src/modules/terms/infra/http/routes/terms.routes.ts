@@ -1,3 +1,4 @@
+import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
@@ -15,14 +16,16 @@ termsRoutes.use(authMiddleware);
 
 const termsController = new TermsController();
 
-termsRoutes.post('/', createTermValidate, termsController.create);
-
 termsRoutes.get('/', termsController.index);
+
+termsRoutes.get('/:id', showTermValidate, termsController.show);
+
+termsRoutes.use(ensureRoles(['admin']));
+
+termsRoutes.post('/', createTermValidate, termsController.create);
 
 termsRoutes.delete('/:id', deleteTermValidate, termsController.delete);
 
 termsRoutes.put('/:id', updateTermValidate, termsController.update);
-
-termsRoutes.get('/:id', showTermValidate, termsController.show);
 
 export { termsRoutes };
