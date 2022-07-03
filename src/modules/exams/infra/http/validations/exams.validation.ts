@@ -43,7 +43,13 @@ export const updateExamValidate = celebrate(
       id: Joi.string().uuid().required(),
     },
     [Segments.BODY]: {
-      type: Joi.string().required(),
+      type: Joi.string()
+        .required()
+        .valid(...Object.values(examType)),
+      sub_type: Joi.string()
+        .required()
+        .valid(...Object.values(examSubType)),
+      reference_id: Joi.string().uuid().empty('').default(null).allow(null),
       value: Joi.number().integer().required(),
       term_id: Joi.string().uuid().required(),
       weight: Joi.number().integer().required(),
