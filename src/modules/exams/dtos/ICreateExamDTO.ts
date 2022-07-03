@@ -1,5 +1,11 @@
+import { examSubType, examType } from '../models/IExam';
+
 interface ICreateExamDTO {
-  type: string;
+  type: examType;
+
+  sub_type: examSubType;
+
+  reference_id?: string;
 
   value: number;
 

@@ -1,5 +1,10 @@
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
-import { examStatus, IExam } from '@modules/exams/models/IExam';
+import {
+  examStatus,
+  examSubType,
+  examType,
+  IExam,
+} from '@modules/exams/models/IExam';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import { Term } from '@modules/terms/infra/typeorm/models/Term';
 import { User } from '@modules/users/infra/typeorm/models/User';
@@ -22,8 +27,14 @@ class Exam implements IExam {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  type: string;
+  @Column('varchar')
+  type: examType;
+
+  @Column('varchar')
+  sub_type: examSubType;
+
+  @Column('uuid')
+  reference_id?: string;
 
   @Column('varchar')
   status: examStatus;

@@ -4,10 +4,27 @@ export enum examStatus {
   CLOSED = 'closed',
 }
 
-interface IExam {
+export enum examType {
+  EXAM = 'prova',
+  WORK = 'trabalho',
+  EXERCICE = 'exercício',
+}
+
+export enum examSubType {
+  ACCUMULATIVE = 'accumulative',
+  SUBSTITUTIVE = 'substitutive',
+  GREATER = 'greater',
+  MEAN = 'mean',
+}
+
+export interface IExam {
   id: string;
 
-  type: string;
+  type: examType;
+
+  sub_type: examSubType;
+
+  reference_id?: string;
 
   status: examStatus;
 
@@ -29,5 +46,3 @@ interface IExam {
 
   updated_at: Date;
 }
-
-export { IExam };
