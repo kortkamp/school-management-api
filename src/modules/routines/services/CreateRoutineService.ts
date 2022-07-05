@@ -26,7 +26,10 @@ class CreateRoutineService {
       );
     }
 
-    const routine = await this.routinesRepository.create(data);
+    const routine = await this.routinesRepository.create({
+      ...data,
+      school_id: auth_user.school_id,
+    });
 
     return routine;
   }
