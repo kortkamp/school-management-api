@@ -1,0 +1,49 @@
+import { ICreateRoutineSubjectDTO } from '@modules/routines/dtos/ICreateRoutineSubjectDTO';
+import { IRoutineSubject } from '@modules/routines/models/IRoutineSubject';
+import { IRoutineSubjectsRepository } from '@modules/routines/repositories/IRoutineSubjectsRepository';
+import { Repository } from 'typeorm';
+
+import { AppDataSource } from '@shared/infra/typeorm';
+
+import { RoutineSubject } from '../models/RoutineSubject';
+
+class RoutineSubjectsRepository implements IRoutineSubjectsRepository {
+  private ormRepository: Repository<RoutineSubject>;
+
+  constructor() {
+    this.ormRepository =
+      AppDataSource.getRepository<RoutineSubject>(RoutineSubject);
+  }
+
+  public async getAllByClassGroup(
+    class_group_id: string,
+  ): Promise<IRoutineSubject[]> {
+    return this.ormRepository.find({ where: { class_group_id } });
+  }
+
+  public async getAllBySubject(subject_id: string): Promise<IRoutineSubject[]> {
+    return this.ormRepository.find({ where: { subject_id } });
+  }
+
+  public async create(data: ICreateRoutineSubjectDTO): Promise<RoutineSubject> {
+    const newRoutineSubject = this.ormRepository.create(data);
+
+    await this.ormRepository.save(newRoutineSubject);
+
+    return newRoutineSubject;
+  }
+
+  public async save(data: RoutineSubject): Promise<void> {
+    await this.ormRepository.save(data);
+  }
+
+  public async findById(id: string): Promise<RoutineSubject | undefined> {
+    return this.ormRepository.findOne({ where: { id } });
+  }
+
+  public async delete(routineSubject: RoutineSubject): Promise<void> {
+    await this.ormRepository.remove(routineSubject);
+  }
+}
+
+export { RoutineSubjectsRepository };
