@@ -28,14 +28,8 @@ class RoutinesRepository implements IRoutinesRepository {
     return newRoutine;
   }
 
-  public async getAll(query: IFilterQuery): Promise<[Routine[], number]> {
-    const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'user');
-
-    const queryBuilder = filterQueryBuilder.build(query);
-
-    const result = await queryBuilder.getManyAndCount();
-
-    return result;
+  public async getAll(school_id: string): Promise<Routine[]> {
+    return this.ormRepository.find({ where: { school_id } });
   }
 
   public async save(data: Routine): Promise<void> {
