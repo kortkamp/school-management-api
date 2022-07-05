@@ -1,7 +1,4 @@
 import { inject, injectable } from 'tsyringe';
-import { IFilterQuery } from 'typeorm-dynamic-filters';
-
-import { IListResultInterface } from '@shared/dtos/IListResultDTO';
 
 import { IRoutine } from '../models/IRoutine';
 import { IRoutinesRepository } from '../repositories/IRoutinesRepository';

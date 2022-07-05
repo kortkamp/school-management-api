@@ -1,7 +1,6 @@
 import { ICreateRoutineDTO } from '@modules/routines/dtos/ICreateRoutineDTO';
 import { IRoutinesRepository } from '@modules/routines/repositories/IRoutinesRepository';
 import { Repository } from 'typeorm';
-import { FilterBuilder, IFilterQuery } from 'typeorm-dynamic-filters';
 
 import { AppDataSource } from '@shared/infra/typeorm';
 
