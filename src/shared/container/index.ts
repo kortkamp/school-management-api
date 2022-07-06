@@ -13,7 +13,9 @@ import { IGradesRepository } from '@modules/grades/repositories/IGradesRepositor
 import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/RolesRepository';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
 import { RoutinesRepository } from '@modules/routines/infra/typeorm/repositories/RoutinesRepository';
+import { RoutineSubjectsRepository } from '@modules/routines/infra/typeorm/repositories/RoutineSubjectsRepository';
 import { IRoutinesRepository } from '@modules/routines/repositories/IRoutinesRepository';
+import { IRoutineSubjectsRepository } from '@modules/routines/repositories/IRoutineSubjectsRepository';
 import { SchoolsRepository } from '@modules/schools/infra/typeorm/repositories/SchoolsRepository';
 import { ISchoolsRepository } from '@modules/schools/repositories/ISchoolsRepository';
 import { SegmentsRepository } from '@modules/segments/infra/typeorm/repositories/SegmentsRepository';
@@ -98,4 +100,9 @@ container.registerSingleton<ITermsRepository>(
 container.registerSingleton<IRoutinesRepository>(
   'RoutinesRepository',
   RoutinesRepository,
+);
+
+container.registerSingleton<IRoutineSubjectsRepository>(
+  'RoutineSubjectsRepository',
+  RoutineSubjectsRepository,
 );

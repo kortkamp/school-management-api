@@ -7,6 +7,7 @@ import { ExamResult } from '@modules/exams/infra/typeorm/models/ExamResult';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
 import { Role } from '@modules/roles/infra/typeorm/models/Role';
 import { Routine } from '@modules/routines/infra/typeorm/models/Routine';
+import { RoutineSubject } from '@modules/routines/infra/typeorm/models/RoutineSubject';
 import { School } from '@modules/schools/infra/typeorm/models/School';
 import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
@@ -37,6 +38,7 @@ const dataSourceOptions: DataSourceOptions = {
     ExamResult,
     Term,
     Routine,
+    RoutineSubject,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };

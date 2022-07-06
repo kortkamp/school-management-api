@@ -21,11 +21,15 @@ class RoutineSubjectsRepository implements IRoutineSubjectsRepository {
     return this.ormRepository.find({ where: { class_group_id } });
   }
 
-  public async getAllBySubject(subject_id: string): Promise<IRoutineSubject[]> {
-    return this.ormRepository.find({ where: { subject_id } });
+  public async getAllByTeacher(teacher_id: string): Promise<IRoutineSubject[]> {
+    const qb = this.ormRepository.createQueryBuilder('routine_subject');
+
+    return this.ormRepository.find();
   }
 
-  public async create(data: ICreateRoutineSubjectDTO): Promise<RoutineSubject> {
+  public async create(
+    data: ICreateRoutineSubjectDTO[],
+  ): Promise<RoutineSubject[]> {
     const newRoutineSubject = this.ormRepository.create(data);
 
     await this.ormRepository.save(newRoutineSubject);
