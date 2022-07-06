@@ -9,12 +9,15 @@ import {
   showRoutineValidate,
   updateRoutineValidate,
 } from '../validations/routines.validation';
+import { routineSubjectsRoutes } from './routineSubjects.routes';
 
 const routinesRoutes = Router();
 
 routinesRoutes.use(authMiddleware);
 
 const routinesController = new RoutinesController();
+
+routinesRoutes.use('/subjects', routineSubjectsRoutes);
 
 routinesRoutes.post(
   '/',
