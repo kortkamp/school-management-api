@@ -28,7 +28,10 @@ class RoutinesRepository implements IRoutinesRepository {
   }
 
   public async getAll(school_id: string): Promise<Routine[]> {
-    return this.ormRepository.find({ where: { school_id } });
+    return this.ormRepository.find({
+      where: { school_id },
+      order: { start_at: 'ASC' },
+    });
   }
 
   public async save(data: Routine): Promise<void> {
