@@ -1,5 +1,3 @@
-import { WeekDay } from '../models/IRoutineSubject';
-
 interface ICreateRoutineSubjectDTO {
   routine_id: string;
 
@@ -7,7 +5,7 @@ interface ICreateRoutineSubjectDTO {
 
   class_group_id: string;
 
-  week_day: WeekDay;
+  week_day: number;
 }
 
 export { ICreateRoutineSubjectDTO };
