@@ -1,12 +1,3 @@
-export enum WeekDay {
-  SUNDAY = 'domingo',
-  MONDAY = 'segunda-feira',
-  TUESDAY = 'terça-feira',
-  WEDNESDAY = 'quarta-feira',
-  THURSDAY = 'quinta-feira',
-  FRIDAY = 'sexta-feira',
-  SATURDAY = 'sábado',
-}
 interface IRoutineSubject {
   id: string;
 
@@ -16,11 +7,9 @@ interface IRoutineSubject {
 
   class_group_id: string;
 
-  week_day: WeekDay;
+  week_day: number;
 
   created_at: Date;
-
-  updated_at: Date;
 }
 
 export { IRoutineSubject };

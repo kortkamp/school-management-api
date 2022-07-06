@@ -1,7 +1,4 @@
-import {
-  IRoutineSubject,
-  WeekDay,
-} from '@modules/routines/models/IRoutineSubject';
+import { IRoutineSubject } from '@modules/routines/models/IRoutineSubject';
 import {
   Column,
   CreateDateColumn,
@@ -11,7 +8,7 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-@Entity('routineSubjects')
+@Entity('routine_subjects')
 class RoutineSubject implements IRoutineSubject {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -26,13 +23,10 @@ class RoutineSubject implements IRoutineSubject {
   class_group_id: string;
 
   @Column()
-  week_day: WeekDay;
+  week_day: number;
 
   @CreateDateColumn()
   created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
 
   constructor() {
     if (!this.id) {
