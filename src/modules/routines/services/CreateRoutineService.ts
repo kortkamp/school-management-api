@@ -9,7 +9,7 @@ interface IRequest {
   auth_user: {
     school_id?: string;
   };
-  data: ICreateRoutineDTO;
+  data: Omit<ICreateRoutineDTO, 'school_id'>;
 }
 @injectable()
 class CreateRoutineService {
