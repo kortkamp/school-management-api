@@ -1,6 +1,4 @@
 interface IRoutineSubject {
-  id: string;
-
   routine_id: string;
 
   subject_id: string;

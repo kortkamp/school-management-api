@@ -12,25 +12,24 @@ export class CreateRoutineSubjects1657116816789 implements MigrationInterface {
         name: 'routine_subjects',
         columns: [
           {
-            name: 'id',
+            name: 'routine_id',
             type: 'uuid',
             isPrimary: true,
           },
           {
-            name: 'routine_id',
-            type: 'uuid',
-          },
-          {
             name: 'subject_id',
             type: 'uuid',
+            isPrimary: true,
           },
           {
             name: 'class_group_id',
             type: 'uuid',
+            isPrimary: true,
           },
           {
             name: 'week_day',
             type: 'integer',
+            isPrimary: true,
           },
           {
             name: 'created_at',
