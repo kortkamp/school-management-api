@@ -1,5 +1,13 @@
+export enum DayTime {
+  MORNING = 'manhã',
+  AFTERNOON = 'tarde',
+  NIGHT = 'noite',
+}
+
 interface IRoutine {
   id: string;
+
+  day_time: DayTime;
 
   school_id: string;
 

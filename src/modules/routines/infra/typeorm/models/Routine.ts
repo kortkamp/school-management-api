@@ -1,4 +1,4 @@
-import { IRoutine } from '@modules/routines/models/IRoutine';
+import { DayTime, IRoutine } from '@modules/routines/models/IRoutine';
 import {
   Column,
   CreateDateColumn,
@@ -15,6 +15,9 @@ class Routine implements IRoutine {
 
   @Column()
   school_id: string;
+
+  @Column({ type: 'enum', enum: DayTime })
+  day_time: DayTime;
 
   @Column()
   start_at: string;

@@ -1,8 +1,12 @@
+import { DayTime } from '@modules/routines/models/IRoutine';
 import { celebrate, Joi, Segments } from 'celebrate';
 
 export const createRoutineValidate = celebrate(
   {
     [Segments.BODY]: {
+      day_time: Joi.string()
+        .valid(...Object.values(DayTime))
+        .required(),
       start_at: Joi.string().required(),
       end_at: Joi.string().required(),
     },
