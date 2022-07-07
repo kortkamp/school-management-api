@@ -19,7 +19,7 @@ export class CreateRoutineSubjects1657116816789 implements MigrationInterface {
           {
             name: 'subject_id',
             type: 'uuid',
-            isPrimary: true,
+            isNullable: true,
           },
           {
             name: 'class_group_id',
