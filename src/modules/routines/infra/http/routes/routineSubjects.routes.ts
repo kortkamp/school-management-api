@@ -6,8 +6,7 @@ import { RoutineSubjectsController } from '../controllers/RoutineSubjectsControl
 import {
   createRoutineSubjectValidate,
   deleteRoutineSubjectValidate,
-  showRoutineSubjectValidate,
-  updateRoutineSubjectValidate,
+  listRoutineSubjectValidate,
 } from '../validations/routineSubjects.validation';
 
 const routineSubjectsRoutes = Router();
@@ -18,11 +17,11 @@ const routineSubjectsController = new RoutineSubjectsController();
 
 routineSubjectsRoutes.get('/teacher', routineSubjectsController.indexByTeacher);
 
-// routineSubjectsRoutes.get(
-//   '/:id',
-//   showRoutineSubjectValidate,
-//   routineSubjectsController.show,
-// );
+routineSubjectsRoutes.get(
+  '/class-group/:id',
+  listRoutineSubjectValidate,
+  routineSubjectsController.indexByClassGroup,
+);
 
 routineSubjectsRoutes.use(ensureRoles(['admin']));
 

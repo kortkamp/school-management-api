@@ -18,7 +18,10 @@ class RoutineSubjectsRepository implements IRoutineSubjectsRepository {
   public async getAllByClassGroup(
     class_group_id: string,
   ): Promise<IRoutineSubject[]> {
-    return this.ormRepository.find({ where: { class_group_id } });
+    return this.ormRepository.find({
+      where: { class_group_id },
+      select: ['class_group_id', 'routine_id', 'subject_id', 'week_day'],
+    });
   }
 
   public async getAllByTeacher(teacher_id: string): Promise<IRoutineSubject[]> {
@@ -39,10 +42,6 @@ class RoutineSubjectsRepository implements IRoutineSubjectsRepository {
 
   public async save(data: RoutineSubject): Promise<void> {
     await this.ormRepository.save(data);
-  }
-
-  public async findById(id: string): Promise<RoutineSubject | undefined> {
-    return this.ormRepository.findOne({ where: { id } });
   }
 
   public async delete(routineSubject: RoutineSubject): Promise<void> {

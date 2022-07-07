@@ -1,4 +1,5 @@
 import { CreateRoutineSubjectService } from '@modules/routines/services/CreateRoutineSubjectService';
+import { ListRoutinesByClassGroup } from '@modules/routines/services/ListRoutinesByClassGroup';
 import { ListRoutinesByTeacherService } from '@modules/routines/services/ListRoutinesByTeacherService';
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
@@ -22,6 +23,23 @@ class RoutineSubjectsController {
       routineSubjects,
     });
   }
+  public async indexByClassGroup(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const listRoutines = container.resolve(ListRoutinesByClassGroup);
+
+    const class_group_id = request.params.id;
+
+    const routineSubjects = await listRoutines.execute({
+      class_group_id,
+    });
+
+    return response.json({
+      success: true,
+      routineSubjects,
+    });
+  }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const createRoutineSubjectService = container.resolve(
@@ -29,7 +47,7 @@ class RoutineSubjectsController {
     );
 
     const routineSubject = await createRoutineSubjectService.execute(
-      request.body.routineSubjects,
+      request.body.routine_subjects,
     );
 
     return response.status(201).json({
