@@ -1,7 +1,7 @@
 import { ICreateRoutineSubjectDTO } from '@modules/routines/dtos/ICreateRoutineSubjectDTO';
 import { IRoutineSubject } from '@modules/routines/models/IRoutineSubject';
 import { IRoutineSubjectsRepository } from '@modules/routines/repositories/IRoutineSubjectsRepository';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 import { AppDataSource } from '@shared/infra/typeorm';
 
@@ -30,10 +30,13 @@ class RoutineSubjectsRepository implements IRoutineSubjectsRepository {
     return this.ormRepository.find();
   }
 
-  public async create(
+  public async clearAndCreate(
+    class_group_id: string,
     data: ICreateRoutineSubjectDTO[],
   ): Promise<RoutineSubject[]> {
     const newRoutineSubject = this.ormRepository.create(data);
+
+    await this.ormRepository.delete({ class_group_id });
 
     await this.ormRepository.save(newRoutineSubject);
 

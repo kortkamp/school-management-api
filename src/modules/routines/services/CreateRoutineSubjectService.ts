@@ -11,7 +11,11 @@ class CreateRoutineSubjectService {
   ) {}
 
   public async execute(data: ICreateRoutineSubjectDTO[]) {
-    const routineSubject = await this.routineSubjectsRepository.create(data);
+    const { class_group_id } = data[0];
+    const routineSubject = await this.routineSubjectsRepository.clearAndCreate(
+      class_group_id,
+      data,
+    );
 
     return routineSubject;
   }
