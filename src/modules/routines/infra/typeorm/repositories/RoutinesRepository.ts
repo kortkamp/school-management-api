@@ -64,6 +64,8 @@ class RoutinesRepository implements IRoutinesRepository {
       'subject.id',
     ]);
 
+    qb.orderBy('routine.start_at', 'ASC');
+
     return qb.getMany();
   }
 
