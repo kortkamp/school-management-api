@@ -1,13 +1,12 @@
 import { CreateRoutineService } from '@modules/routines/services/CreateRoutineService';
 import { DeleteRoutineService } from '@modules/routines/services/DeleteRoutineService';
 import { ListByClassGroup } from '@modules/routines/services/ListByClassGroup';
+import { ListByTeacher } from '@modules/routines/services/ListByTeacher';
 import { ListRoutinesService } from '@modules/routines/services/ListRoutinesService';
 import { ShowRoutineService } from '@modules/routines/services/ShowRoutineService';
 import { UpdateRoutineService } from '@modules/routines/services/UpdateRoutineService';
-import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { parseQueryFilters } from 'typeorm-dynamic-filters';
 
 class RoutinesController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -33,6 +32,25 @@ class RoutinesController {
     const routines = await listRoutinesService.execute({
       auth_user,
       class_group_id,
+    });
+
+    return response.json({
+      success: true,
+      routines,
+    });
+  }
+
+  public async indexByTeacher(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const listRoutinesService = container.resolve(ListByTeacher);
+
+    const auth_user = request.user;
+    const teacher_id = request.params.id;
+    const routines = await listRoutinesService.execute({
+      auth_user,
+      teacher_id,
     });
 
     return response.json({

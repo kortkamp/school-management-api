@@ -29,6 +29,7 @@ routinesRoutes.post(
 routinesRoutes.get('/', routinesController.index);
 
 routinesRoutes.get('/class-group/:id', routinesController.indexByClassGroup);
+routinesRoutes.get('/teacher/:id', routinesController.indexByTeacher);
 
 routinesRoutes.delete('/:id', deleteRoutineValidate, routinesController.delete);
 

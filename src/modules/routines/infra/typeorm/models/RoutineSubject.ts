@@ -1,3 +1,4 @@
+import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { IRoutineSubject } from '@modules/routines/models/IRoutineSubject';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import {
@@ -31,6 +32,10 @@ class RoutineSubject implements IRoutineSubject {
   @ManyToOne(() => Subject, subject => subject)
   @JoinColumn({ name: 'subject_id', referencedColumnName: 'id' })
   subject: Subject;
+
+  @ManyToOne(() => ClassGroup, classGroup => classGroup)
+  @JoinColumn({ name: 'class_group_id', referencedColumnName: 'id' })
+  classGroup: ClassGroup;
 
   @CreateDateColumn()
   created_at: Date;
