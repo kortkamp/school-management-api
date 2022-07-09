@@ -15,6 +15,7 @@ interface IResponse {
   name: string;
   email: string;
   role: string;
+  class_group_id: string;
   avatar: string;
   token: string;
 }
@@ -81,6 +82,7 @@ class CreateSessionService {
         ? `${process.env.AVATAR_URL}${userExists.avatar}`
         : null,
       role: role.name,
+      class_group_id: userExists.class_group_id,
       token,
     };
   }
