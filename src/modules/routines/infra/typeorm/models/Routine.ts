@@ -3,10 +3,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
+import { RoutineSubject } from './RoutineSubject';
 
 @Entity('routines')
 class Routine implements IRoutine {
@@ -30,6 +34,14 @@ class Routine implements IRoutine {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(
+    type => RoutineSubject,
+    routineSubjects => routineSubjects.routine,
+    {},
+  )
+  @JoinColumn({ name: 'id' })
+  routineSubjects: RoutineSubject[];
 
   constructor() {
     if (!this.id) {
