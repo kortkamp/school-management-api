@@ -5,7 +5,6 @@ import { Router } from 'express';
 import { RoutineSubjectsController } from '../controllers/RoutineSubjectsController';
 import {
   createRoutineSubjectValidate,
-  deleteRoutineSubjectValidate,
   listRoutineSubjectValidate,
 } from '../validations/routineSubjects.validation';
 
@@ -14,8 +13,6 @@ const routineSubjectsRoutes = Router();
 routineSubjectsRoutes.use(authMiddleware);
 
 const routineSubjectsController = new RoutineSubjectsController();
-
-routineSubjectsRoutes.get('/teacher', routineSubjectsController.indexByTeacher);
 
 routineSubjectsRoutes.get(
   '/class-group/:id',

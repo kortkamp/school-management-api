@@ -1,28 +1,10 @@
 import { CreateRoutineSubjectService } from '@modules/routines/services/CreateRoutineSubjectService';
 import { ListRoutinesByClassGroup } from '@modules/routines/services/ListRoutinesByClassGroup';
-import { ListRoutinesByTeacherService } from '@modules/routines/services/ListRoutinesByTeacherService';
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 class RoutineSubjectsController {
-  public async indexByTeacher(
-    request: Request,
-    response: Response,
-  ): Promise<Response> {
-    const listRoutines = container.resolve(ListRoutinesByTeacherService);
-
-    const auth_user = request.user;
-
-    const routineSubjects = await listRoutines.execute({
-      teacher_id: auth_user.id,
-    });
-
-    return response.json({
-      success: true,
-      routineSubjects,
-    });
-  }
   public async indexByClassGroup(
     request: Request,
     response: Response,

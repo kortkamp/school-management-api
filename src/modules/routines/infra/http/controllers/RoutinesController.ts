@@ -1,7 +1,6 @@
 import { CreateRoutineService } from '@modules/routines/services/CreateRoutineService';
 import { DeleteRoutineService } from '@modules/routines/services/DeleteRoutineService';
-import { ListByClassGroup } from '@modules/routines/services/ListByClassGroup';
-import { ListByTeacher } from '@modules/routines/services/ListByTeacher';
+import { ListRoutinesByUserService } from '@modules/routines/services/ListRoutinesByUserService';
 import { ListRoutinesService } from '@modules/routines/services/ListRoutinesService';
 import { ShowRoutineService } from '@modules/routines/services/ShowRoutineService';
 import { UpdateRoutineService } from '@modules/routines/services/UpdateRoutineService';
@@ -21,36 +20,17 @@ class RoutinesController {
     });
   }
 
-  public async indexByClassGroup(
+  public async indexByUser(
     request: Request,
     response: Response,
   ): Promise<Response> {
-    const listRoutinesService = container.resolve(ListByClassGroup);
+    const listRoutinesService = container.resolve(ListRoutinesByUserService);
 
     const auth_user = request.user;
-    const class_group_id = request.params.id;
+    const user_id = request.params.id;
     const routines = await listRoutinesService.execute({
       auth_user,
-      class_group_id,
-    });
-
-    return response.json({
-      success: true,
-      routines,
-    });
-  }
-
-  public async indexByTeacher(
-    request: Request,
-    response: Response,
-  ): Promise<Response> {
-    const listRoutinesService = container.resolve(ListByTeacher);
-
-    const auth_user = request.user;
-    const teacher_id = request.params.id;
-    const routines = await listRoutinesService.execute({
-      auth_user,
-      teacher_id,
+      user_id,
     });
 
     return response.json({

@@ -1,4 +1,5 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
+import { ensureRolesOrSelf } from '@modules/roles/infra/http/middlewares/ensureRolesOrSelf';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
@@ -28,8 +29,11 @@ routinesRoutes.post(
 
 routinesRoutes.get('/', routinesController.index);
 
-routinesRoutes.get('/class-group/:id', routinesController.indexByClassGroup);
-routinesRoutes.get('/teacher/:id', routinesController.indexByTeacher);
+routinesRoutes.get(
+  '/teacher/:id',
+  ensureRolesOrSelf(['admin']),
+  routinesController.indexByUser,
+);
 
 routinesRoutes.delete('/:id', deleteRoutineValidate, routinesController.delete);
 
