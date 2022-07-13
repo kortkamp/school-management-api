@@ -2,6 +2,7 @@ import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup
 import { IRoutineSubject } from '@modules/routines/models/IRoutineSubject';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import {
+  Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
@@ -17,13 +18,16 @@ class RoutineSubject implements IRoutineSubject {
   routine_id: string;
 
   @PrimaryColumn()
-  subject_id: string;
-
-  @PrimaryColumn()
   class_group_id: string;
 
   @PrimaryColumn()
   week_day: number;
+
+  @Column()
+  subject_id: string;
+
+  @Column()
+  teacher_id: string;
 
   @ManyToOne(() => Routine, routine => routine)
   @JoinColumn({ name: 'routine_id', referencedColumnName: 'id' })

@@ -5,6 +5,8 @@ interface IRoutineSubject {
 
   class_group_id: string;
 
+  teacher_id: string;
+
   week_day: number;
 
   created_at: Date;

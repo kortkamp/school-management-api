@@ -8,6 +8,7 @@ export const createRoutineSubjectValidate = celebrate(
         .items({
           routine_id: Joi.string().uuid().required(),
           subject_id: Joi.string().uuid().empty('').default(null).allow(null),
+          teacher_id: Joi.string().uuid().empty('').default(null).allow(null),
           class_group_id: Joi.string().uuid().required(),
           week_day: Joi.number().integer().min(0).max(6).required(),
         })
