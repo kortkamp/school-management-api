@@ -48,7 +48,10 @@ class ListRoutinesByUserService {
         }
         return this.routinesRepository.getAllByClassGroup(user.class_group_id);
       default:
-        throw new ErrorsApp('Usuário nao autorizado a listar horários', 403);
+        throw new ErrorsApp(
+          `Usuário do tipo ${user.role} não possui horários`,
+          400,
+        );
     }
   }
 }

@@ -30,7 +30,7 @@ routinesRoutes.post(
 routinesRoutes.get('/', routinesController.index);
 
 routinesRoutes.get(
-  '/teacher/:id',
+  '/user/:id',
   ensureRolesOrSelf(['admin']),
   routinesController.indexByUser,
 );
