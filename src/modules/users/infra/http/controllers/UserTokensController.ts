@@ -1,6 +1,7 @@
 import { ConfirmUserService } from '@modules/users/services/ConfirmUserService';
 import { ForgotPasswordService } from '@modules/users/services/ForgotPasswordService';
 import { ResetPasswordService } from '@modules/users/services/ResetPasswordService';
+import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -13,11 +14,11 @@ class UserTokensController {
 
     const { token } = request.query;
 
-    await confirmUser.execute(token as string);
+    const user = await confirmUser.execute(token as string);
 
     return response
       .status(200)
-      .json({ success: true, message: 'User confirmed' });
+      .json({ success: true, user: instanceToInstance(user) });
   }
   public async forgotPassword(
     request: Request,
