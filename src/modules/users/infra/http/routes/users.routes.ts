@@ -25,6 +25,12 @@ const uploadAvatar = uploadConfig('avatar');
 
 const upload = multer(uploadAvatar.multer);
 
+usersRoutes.post(
+  '/initial-registration',
+  createUserValidate,
+  usersController.create,
+);
+
 usersRoutes.use(authMiddleware);
 
 usersRoutes.post('/', createUserValidate, usersController.create);
