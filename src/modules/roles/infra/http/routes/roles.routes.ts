@@ -11,13 +11,13 @@ import {
 
 const rolesRoutes = Router();
 
-rolesRoutes.use(authMiddleware);
-
 const rolesController = new RolesController();
 
-rolesRoutes.post('/', createRoleValidate, rolesController.create);
-
 rolesRoutes.get('/', rolesController.index);
+
+rolesRoutes.use(authMiddleware);
+
+rolesRoutes.post('/', createRoleValidate, rolesController.create);
 
 rolesRoutes.delete('/:id', deleteRoleValidate, rolesController.delete);
 
