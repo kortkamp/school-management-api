@@ -20,7 +20,7 @@ class ConfirmUserService {
     const foundToken = await this.userTokensRepository.findByToken(tokenId);
 
     if (!foundToken) {
-      throw new ErrorsApp('Token not found', 403);
+      throw new ErrorsApp('Token não encontrado', 403);
     }
 
     const tokenExpiration = addHours(
@@ -29,13 +29,13 @@ class ConfirmUserService {
     );
 
     if (isAfter(Date.now(), tokenExpiration)) {
-      throw new ErrorsApp('Token expired', 403);
+      throw new ErrorsApp('O Token expirou', 403);
     }
 
     const user = await this.usersRepository.findById(foundToken.user_id);
 
     if (!user) {
-      throw new ErrorsApp('User not found', 404);
+      throw new ErrorsApp('Usuário não encontrado', 404);
     }
 
     user.active = true;
