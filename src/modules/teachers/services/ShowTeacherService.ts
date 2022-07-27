@@ -10,7 +10,9 @@ class ShowTeacherService {
     private teachersRepository: IUsersRepository,
   ) {}
   public async execute(teacherId: string) {
-    const teacher = await this.teachersRepository.findById(teacherId);
+    const teacher = await this.teachersRepository.findById(teacherId, [
+      'address',
+    ]);
     if (!teacher) {
       throw new ErrorsApp('Teacher does not exists', 404);
     }

@@ -1,5 +1,5 @@
+import { IAddressesRepository } from '@modules/addresses/repositories/IAddressesRepository';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
-import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { IUser } from '@modules/users/models/IUser';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { IUserTokensRepository } from '@modules/users/repositories/IUserTokensRepository';
@@ -11,13 +11,15 @@ import { IMailProvider } from '@shared/container/providers/MailProvider/models/I
 import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
+import { ICreateTeacherDTO } from '../dtos/ICreateTeacherDTO';
+
 interface IRequest {
   auth_user: {
     id: string;
     role: string;
     school_id?: string;
   };
-  data: ICreateUserDTO;
+  data: ICreateTeacherDTO;
 }
 
 @injectable()
@@ -43,24 +45,21 @@ class CreateTeacherService {
   ) {}
 
   public async execute({ auth_user, data }: IRequest): Promise<IUser> {
-    if (data.email) {
-      const emailExists = await this.teachersRepository.findByEmail(data.email);
+    const emailExists = await this.teachersRepository.findByEmail(data.email);
 
-      if (emailExists) {
-        throw new ErrorsApp('O Email já está cadastrado', 409);
-      }
+    if (emailExists) {
+      throw new ErrorsApp('O Email já está cadastrado', 409);
     }
 
-    const teacherExists = this.teachersRepository.findByCPF(data.CPF);
-    if (teacherExists) {
+    const cpfExists = await this.teachersRepository.findByCPF(data.CPF);
+
+    if (cpfExists) {
       throw new ErrorsApp('O CPF já está cadastrado', 409);
     }
 
-    if (data.password) {
-      const hashedPassword = await this.hashProvider.create(data.password, 8);
+    const hashedPassword = await this.hashProvider.create(data.password, 8);
 
-      Object.assign(data, { password: hashedPassword, active: false });
-    }
+    Object.assign(data, { password: hashedPassword, active: false });
 
     if (!auth_user.school_id) {
       throw new ErrorsApp(
@@ -103,8 +102,8 @@ class CreateTeacherService {
 
       const message = {
         to: user.email,
-        from: 'Template API <no-reply@template.com>',
-        subject: 'Signup in Template API Confirmation',
+        from: 'Sistema de Gestão Escolar <no-reply@template.com>',
+        subject: 'Inscrição no Sistema de Gestão Escolar',
         html: templateHTML,
       };
 

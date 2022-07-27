@@ -1,3 +1,5 @@
+import { ICreateAddressDTO } from '@modules/addresses/dtos/ICreateAddressDTO';
+
 interface ICreateTeacherDTO {
   email: string;
   name: string;
@@ -8,6 +10,7 @@ interface ICreateTeacherDTO {
   role_id: string;
   password: string;
   active?: boolean;
+  address: ICreateAddressDTO;
 }
 
 export { ICreateTeacherDTO };
