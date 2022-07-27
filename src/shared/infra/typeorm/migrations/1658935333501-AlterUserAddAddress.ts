@@ -20,7 +20,7 @@ export class AlterUserAddAddress1658935333501 implements MigrationInterface {
         referencedTableName: 'addresses',
         referencedColumnNames: ['id'],
         columnNames: ['address_id'],
-        onDelete: 'CASCADE',
+        onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
       }),
     ]);
