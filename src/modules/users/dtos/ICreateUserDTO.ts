@@ -12,6 +12,7 @@ interface ICreateUserDTO {
   segment_id?: string;
   grade_id?: string;
   class_group_id?: string;
+  address_id?: string;
 }
 
 export { ICreateUserDTO };

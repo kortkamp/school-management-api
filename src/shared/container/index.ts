@@ -1,5 +1,7 @@
 import '@shared/container/providers';
 
+import { AddressesRepository } from '@modules/addresses/infra/typeorm/repositories/AddressesRepository';
+import { IAddressesRepository } from '@modules/addresses/repositories/IAddressesRepository';
 import { ClassGroupsRepository } from '@modules/classGroups/infra/typeorm/repositories/ClassGroupsRepository';
 import { TeacherClassesRepository } from '@modules/classGroups/infra/typeorm/repositories/TeacherClasssRepository';
 import { IClassGroupsRepository } from '@modules/classGroups/repositories/IClassGroupsRepository';
@@ -105,4 +107,9 @@ container.registerSingleton<IRoutinesRepository>(
 container.registerSingleton<IRoutineSubjectsRepository>(
   'RoutineSubjectsRepository',
   RoutineSubjectsRepository,
+);
+
+container.registerSingleton<IAddressesRepository>(
+  'AddressesRepository',
+  AddressesRepository,
 );

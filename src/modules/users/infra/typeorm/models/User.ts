@@ -1,3 +1,5 @@
+import { Address } from '@modules/addresses/infra/typeorm/models/Address';
+import { IAddress } from '@modules/addresses/models/IAddress';
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { ExamResult } from '@modules/exams/infra/typeorm/models/ExamResult';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
@@ -60,6 +62,15 @@ class User implements IUser {
 
   @Column('uuid')
   class_group_id?: string;
+
+  @Column('uuid')
+  address_id?: string;
+
+  @ManyToOne(() => Address, address => address, {
+    cascade: ['insert', 'update'],
+  })
+  @JoinColumn({ name: 'address_id', referencedColumnName: 'id' })
+  address?: Address;
 
   @ManyToOne(() => Segment, segment => segment)
   @JoinColumn({ name: 'segment_id', referencedColumnName: 'id' })

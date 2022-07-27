@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import 'reflect-metadata';
+import { Address } from '@modules/addresses/infra/typeorm/models/Address';
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { TeacherClass } from '@modules/classGroups/infra/typeorm/models/TeacherClass';
 import { Exam } from '@modules/exams/infra/typeorm/models/Exam';
@@ -39,6 +40,7 @@ const dataSourceOptions: DataSourceOptions = {
     Term,
     Routine,
     RoutineSubject,
+    Address,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };

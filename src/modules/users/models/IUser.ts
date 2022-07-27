@@ -1,3 +1,4 @@
+import { IAddress } from '@modules/addresses/models/IAddress';
 import { IRole } from '@modules/roles/models/IRole';
 import { ISubject } from '@modules/subjects/models/ISubject';
 
@@ -45,6 +46,10 @@ interface IUser {
   active: boolean;
 
   avatar?: string;
+
+  address_id?: string;
+
+  address?: IAddress;
 
   created_at: Date;
 
