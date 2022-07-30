@@ -9,6 +9,7 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules ./src/shared/infra/http/server.ts",
     "build": "yarn babel src --extensions \".js,.ts\" --out-dir dist/src --copy-files --no-copy-ignored",
     "test": "jest",
+    "seed:roles": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/roles.ts",
     "seed:admin": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/admin.ts",
     "seed:segments": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/segments.ts",
     "seed:students": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/students.ts",

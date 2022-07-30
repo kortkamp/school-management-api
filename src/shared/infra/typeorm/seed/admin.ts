@@ -13,14 +13,15 @@ async function create() {
   const usersRepository = new UsersRepository();
 
   const roleData: ICreateRoleDTO = {
-    name: 'admin',
+    name: 'system-admin',
+    display_name: 'System Admin',
   };
 
   const adminRole = await rolesRepository.create(roleData);
 
   const admin: ICreateUserDTO = {
-    email: 'admin@template.com',
-    name: 'Admin',
+    email: 'system-admin@template.com',
+    name: 'System Admin',
     active: true,
     birth: new Date(),
     sex: 'M',

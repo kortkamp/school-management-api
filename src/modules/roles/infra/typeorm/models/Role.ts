@@ -16,6 +16,9 @@ class Role implements IRole {
   @Column()
   name: string;
 
+  @Column()
+  display_name: string;
+
   @CreateDateColumn()
   created_at: Date;
 

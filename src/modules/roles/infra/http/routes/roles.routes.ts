@@ -2,6 +2,7 @@ import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMid
 import { Router } from 'express';
 
 import { RolesController } from '../controllers/RolesController';
+import { ensureRoles } from '../middlewares/ensureRoles';
 import {
   createRoleValidate,
   deleteRoleValidate,
@@ -13,16 +14,18 @@ const rolesRoutes = Router();
 
 const rolesController = new RolesController();
 
+rolesRoutes.use(authMiddleware);
+
 rolesRoutes.get('/', rolesController.index);
 
-rolesRoutes.use(authMiddleware);
+rolesRoutes.get('/:id', showRoleValidate, rolesController.show);
+
+rolesRoutes.use(ensureRoles(['super-admin']));
 
 rolesRoutes.post('/', createRoleValidate, rolesController.create);
 
 rolesRoutes.delete('/:id', deleteRoleValidate, rolesController.delete);
 
 rolesRoutes.put('/:id', updateRoleValidate, rolesController.update);
-
-rolesRoutes.get('/:id', showRoleValidate, rolesController.show);
 
 export { rolesRoutes };

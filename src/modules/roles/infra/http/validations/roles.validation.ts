@@ -4,6 +4,7 @@ export const createRoleValidate = celebrate(
   {
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
+      display_name: Joi.string().min(3).max(50).required(),
     },
   },
   {
@@ -29,7 +30,8 @@ export const updateRoleValidate = celebrate(
       id: Joi.string().uuid().required(),
     },
     [Segments.BODY]: {
-      name: Joi.string().min(3).max(100),
+      name: Joi.string().min(3).max(100).required(),
+      display_name: Joi.string().min(3).max(50).required(),
     },
   },
   {

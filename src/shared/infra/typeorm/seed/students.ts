@@ -2,6 +2,7 @@ import { ICreateClassGroupDTO } from '@modules/classGroups/dtos/ICreateClassGrou
 import { ClassGroupsRepository } from '@modules/classGroups/infra/typeorm/repositories/ClassGroupsRepository';
 import { ICreateGradeDTO } from '@modules/grades/dtos/ICreateGradeDTO';
 import { GradesRepository } from '@modules/grades/infra/typeorm/repositories/GradesRepository';
+import { DayTime } from '@modules/routines/models/IRoutine';
 import { ICreateSegmentDTO } from '@modules/segments/dtos/ICreateSegmentDTO';
 import { SegmentsRepository } from '@modules/segments/infra/typeorm/repositories/SegmentsRepository';
 import { ICreateStudentDTO } from '@modules/students/dtos/ICreateStudentDTO';
@@ -28,7 +29,7 @@ async function create() {
   await AppDataSource.initialize();
   const segmentsRepository = new SegmentsRepository();
   const gradesRepository = new GradesRepository();
-  const classGroupsRespository = new ClassGroupsRepository();
+  const classGroupsRepository = new ClassGroupsRepository();
   const studentsRepository = new UsersRepository();
 
   const seeds: ISeed[] = [
@@ -134,10 +135,11 @@ async function create() {
 
       const createClassGroups = classGroupsSufix.map(async sufix => {
         const classGroupName = grade.nick + sufix;
-        const classGroup = await classGroupsRespository.create({
+        const classGroup = await classGroupsRepository.create({
           grade_id: foundGrade.id,
           name: classGroupName,
           school_id,
+          day_time: DayTime.MORNING,
         });
         const createStudents = studentsSufix.map(async studentSufix => {
           const studentName = `Student_${classGroupName}_${studentSufix}`;
