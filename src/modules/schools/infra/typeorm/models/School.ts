@@ -1,8 +1,11 @@
+import { Address } from '@modules/addresses/infra/typeorm/models/Address';
 import { ISchool } from '@modules/schools/models/ISchool';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -15,6 +18,27 @@ class School implements ISchool {
 
   @Column()
   name: string;
+
+  @Column()
+  CNPJ: string;
+
+  @Column()
+  email: string;
+
+  @Column()
+  phone: string;
+
+  @Column()
+  mobile: string;
+
+  @Column()
+  address_id: string;
+
+  @ManyToOne(() => Address, address => address, {
+    cascade: ['insert', 'update'],
+  })
+  @JoinColumn({ name: 'address_id', referencedColumnName: 'id' })
+  address?: Address;
 
   @CreateDateColumn()
   created_at: Date;

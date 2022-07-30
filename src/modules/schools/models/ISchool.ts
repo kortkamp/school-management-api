@@ -3,6 +3,16 @@ interface ISchool {
 
   name: string;
 
+  CNPJ: string;
+
+  email: string;
+
+  phone: string;
+
+  mobile: string;
+
+  address_id: string;
+
   created_at: Date;
 
   updated_at: Date;
