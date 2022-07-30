@@ -20,8 +20,8 @@ class ShowUserService {
   ) {}
   public async execute({ userId }: IRequest): Promise<IUser> {
     const user = await this.usersRepository.findById(userId, [
-      'role',
       'subjects',
+      'userSchools',
       'grade',
       'segment',
       'classGroup',

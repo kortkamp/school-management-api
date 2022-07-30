@@ -2,6 +2,8 @@ import { IAddress } from '@modules/addresses/models/IAddress';
 import { IRole } from '@modules/roles/models/IRole';
 import { ISubject } from '@modules/subjects/models/ISubject';
 
+import { IUserSchool } from './IUserSchool';
+
 // TODO add an address table
 // TODO add an heath table
 // TODO add an OtherInfo Table like religion , gender , food preferences
@@ -25,10 +27,6 @@ interface IUser {
 
   //= =========
 
-  role_id: string;
-
-  school_id?: string;
-
   segment_id?: string;
 
   grade_id?: string;
@@ -37,7 +35,7 @@ interface IUser {
 
   subjects: ISubject[];
 
-  role?: IRole;
+  userSchools?: IUserSchool[];
 
   email: string;
 

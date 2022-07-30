@@ -1,9 +1,7 @@
 import { Address } from '@modules/addresses/infra/typeorm/models/Address';
-import { IAddress } from '@modules/addresses/models/IAddress';
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { ExamResult } from '@modules/exams/infra/typeorm/models/ExamResult';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
-import { Role } from '@modules/roles/infra/typeorm/models/Role';
 import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import { IUser } from '@modules/users/models/IUser';
@@ -21,6 +19,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
+import { UserSchool } from './UserSchool';
 
 @Entity('users')
 class User implements IUser {
@@ -47,12 +47,6 @@ class User implements IUser {
 
   @Column()
   birth: Date;
-
-  @Column('uuid')
-  role_id: string;
-
-  @Column('uuid')
-  school_id?: string;
 
   @Column('uuid')
   segment_id?: string;
@@ -83,10 +77,6 @@ class User implements IUser {
   @ManyToOne(() => ClassGroup, classGroup => classGroup)
   @JoinColumn({ name: 'class_group_id', referencedColumnName: 'id' })
   classGroup: ClassGroup;
-
-  @ManyToOne(() => Role, role => role)
-  @JoinColumn({ name: 'role_id', referencedColumnName: 'id' })
-  role: Role;
 
   @OneToMany(type => ExamResult, results => results.student, {})
   @JoinColumn({ name: 'id' })
@@ -119,6 +109,10 @@ class User implements IUser {
     },
   })
   teachingClasses: ClassGroup[];
+
+  @OneToMany(type => UserSchool, userSchool => userSchool.user, {})
+  @JoinColumn({ name: 'id' })
+  userSchools: UserSchool[];
 
   @Column('varchar')
   @Exclude()

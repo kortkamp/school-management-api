@@ -15,6 +15,7 @@ import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import { UserSubject } from '@modules/subjects/infra/typeorm/models/UserSubject';
 import { Term } from '@modules/terms/infra/typeorm/models/Term';
 import { User } from '@modules/users/infra/typeorm/models/User';
+import { UserSchool } from '@modules/users/infra/typeorm/models/UserSchool';
 import { UserToken } from '@modules/users/infra/typeorm/models/UserToken';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
@@ -41,6 +42,7 @@ const dataSourceOptions: DataSourceOptions = {
     Routine,
     RoutineSubject,
     Address,
+    UserSchool,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };
