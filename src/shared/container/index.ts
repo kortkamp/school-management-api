@@ -28,8 +28,10 @@ import { ISubjectsRepository } from '@modules/subjects/repositories/ISubjectsRep
 import { IUserSubjectsRepository } from '@modules/subjects/repositories/IUserSubjectsRepository';
 import { TermsRepository } from '@modules/terms/infra/typeorm/repositories/TermsRepository';
 import { ITermsRepository } from '@modules/terms/repositories/ITermsRepository';
+import { UserSchoolRoleRepositories } from '@modules/users/infra/typeorm/repositories/UserSchoolRoleRepositories';
 import { UsersRepository } from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import { UserTokensRepository } from '@modules/users/infra/typeorm/repositories/UserTokensRepository';
+import { IUserSchoolRoleRepositories } from '@modules/users/repositories/IUserSchoolRoleRepositories';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { IUserTokensRepository } from '@modules/users/repositories/IUserTokensRepository';
 import { container } from 'tsyringe';
@@ -112,4 +114,9 @@ container.registerSingleton<IRoutineSubjectsRepository>(
 container.registerSingleton<IAddressesRepository>(
   'AddressesRepository',
   AddressesRepository,
+);
+
+container.registerSingleton<IUserSchoolRoleRepositories>(
+  'UserSchoolRoleRepositories',
+  UserSchoolRoleRepositories,
 );

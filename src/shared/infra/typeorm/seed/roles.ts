@@ -1,5 +1,6 @@
 import { ICreateRoleDTO } from '@modules/roles/dtos/ICreateRoleDTO';
 import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/RolesRepository';
+import { RoleTypes } from '@modules/roles/models/IRole';
 
 import 'dotenv/config';
 import { AppDataSource } from '..';
@@ -10,32 +11,32 @@ async function create() {
 
   const rolesData: ICreateRoleDTO[] = [
     {
-      name: 'system-admin',
-      display_name: 'System Admin',
+      type: RoleTypes.SYSTEM_ADMIN,
+      name: 'System Admin',
     },
     {
-      name: 'admin',
-      display_name: 'Administrador',
+      type: RoleTypes.ADMIN,
+      name: 'Administrador',
     },
     {
-      name: 'principal',
-      display_name: 'Diretor(a)',
+      type: RoleTypes.PRINCIPAL,
+      name: 'Diretor(a)',
     },
     {
-      name: 'secretary',
-      display_name: 'Secretário(a)',
+      type: RoleTypes.SECRETARY,
+      name: 'Secretário(a)',
     },
     {
-      name: 'teacher',
-      display_name: 'Professor(a)',
+      type: RoleTypes.TEACHER,
+      name: 'Professor(a)',
     },
     {
-      name: 'student',
-      display_name: 'Aluno(a)',
+      type: RoleTypes.STUDENT,
+      name: 'Aluno(a)',
     },
     {
-      name: 'parent',
-      display_name: 'Responsável',
+      type: RoleTypes.PARENT,
+      name: 'Responsável',
     },
   ];
 

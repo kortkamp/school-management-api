@@ -3,7 +3,7 @@ import { ISchool } from '@modules/schools/models/ISchool';
 
 import { IUser } from './IUser';
 
-interface IUserSchool {
+interface IUserSchoolRole {
   user_id: string;
 
   school_id: string;
@@ -19,4 +19,4 @@ interface IUserSchool {
   created_at: Date;
 }
 
-export { IUserSchool };
+export { IUserSchoolRole };

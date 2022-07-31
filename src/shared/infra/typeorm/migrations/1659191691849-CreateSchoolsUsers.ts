@@ -9,7 +9,7 @@ export class CreateSchoolsUsers1659191691849 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users_schools',
+        name: 'user_school_roles',
         columns: [
           {
             name: 'user_id',
@@ -19,12 +19,12 @@ export class CreateSchoolsUsers1659191691849 implements MigrationInterface {
           {
             name: 'school_id',
             type: 'uuid',
-            isNullable: true,
+            isPrimary: true,
           },
           {
             name: 'role_id',
             type: 'uuid',
-            isNullable: true,
+            isPrimary: true,
           },
           {
             name: 'created_at',
@@ -34,7 +34,7 @@ export class CreateSchoolsUsers1659191691849 implements MigrationInterface {
         ],
         foreignKeys: [
           new TableForeignKey({
-            name: 'FKUserSchoolUser',
+            name: 'FKUserSchoolRoleUser',
             referencedTableName: 'users',
             referencedColumnNames: ['id'],
             columnNames: ['user_id'],
@@ -42,7 +42,7 @@ export class CreateSchoolsUsers1659191691849 implements MigrationInterface {
             onUpdate: 'CASCADE',
           }),
           new TableForeignKey({
-            name: 'FKUserSchoolSchool',
+            name: 'FKUserSchoolRoleSchool',
             referencedTableName: 'schools',
             referencedColumnNames: ['id'],
             columnNames: ['school_id'],
@@ -50,7 +50,7 @@ export class CreateSchoolsUsers1659191691849 implements MigrationInterface {
             onUpdate: 'CASCADE',
           }),
           new TableForeignKey({
-            name: 'FKUserSchoolRole',
+            name: 'FKUserSchoolRoleRole',
             referencedTableName: 'roles',
             referencedColumnNames: ['id'],
             columnNames: ['role_id'],
@@ -63,6 +63,6 @@ export class CreateSchoolsUsers1659191691849 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users_schools');
+    await queryRunner.dropTable('user_school_roles');
   }
 }

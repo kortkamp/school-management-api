@@ -20,7 +20,7 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-import { UserSchool } from './UserSchool';
+import { UserSchoolRole } from './UserSchoolRole';
 
 @Entity('users')
 class User implements IUser {
@@ -110,9 +110,9 @@ class User implements IUser {
   })
   teachingClasses: ClassGroup[];
 
-  @OneToMany(type => UserSchool, userSchool => userSchool.user, {})
+  @OneToMany(type => UserSchoolRole, userSchoolRole => userSchoolRole.user, {})
   @JoinColumn({ name: 'id' })
-  userSchools: UserSchool[];
+  userSchoolRoles: UserSchoolRole[];
 
   @Column('varchar')
   @Exclude()

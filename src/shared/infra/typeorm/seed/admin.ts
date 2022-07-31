@@ -1,5 +1,6 @@
 import { ICreateRoleDTO } from '@modules/roles/dtos/ICreateRoleDTO';
 import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/RolesRepository';
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { UsersRepository } from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import { hash } from 'bcryptjs';
@@ -13,8 +14,8 @@ async function create() {
   const usersRepository = new UsersRepository();
 
   const roleData: ICreateRoleDTO = {
-    name: 'system-admin',
-    display_name: 'System Admin',
+    type: RoleTypes.SYSTEM_ADMIN,
+    name: 'System Admin',
   };
 
   const adminRole = await rolesRepository.create(roleData);

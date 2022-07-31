@@ -1,4 +1,4 @@
-import { IRole } from '@modules/roles/models/IRole';
+import { IRole, RoleTypes } from '@modules/roles/models/IRole';
 import {
   Column,
   CreateDateColumn,
@@ -13,11 +13,11 @@ class Role implements IRole {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  name: string;
+  @Column({ type: 'enum', enum: RoleTypes })
+  type: RoleTypes;
 
   @Column()
-  display_name: string;
+  name: string;
 
   @CreateDateColumn()
   created_at: Date;

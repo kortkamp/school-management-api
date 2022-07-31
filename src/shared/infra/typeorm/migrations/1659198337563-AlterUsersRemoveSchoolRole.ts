@@ -12,10 +12,12 @@ export class AlterUsersRemoveSchoolRole1659198337563
       new TableColumn({
         name: 'school_id',
         type: 'uuid',
+        isNullable: true,
       }),
       new TableColumn({
         name: 'role_id',
         type: 'uuid',
+        isNullable: true,
       }),
     ]);
   }

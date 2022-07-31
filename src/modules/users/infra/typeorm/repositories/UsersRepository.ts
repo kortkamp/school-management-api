@@ -1,3 +1,4 @@
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { Repository } from 'typeorm';
@@ -85,35 +86,56 @@ class UsersRepository implements IUsersRepository {
     return qb.getMany();
   }
 
-  public async listTeachers(query: IFilterQuery): Promise<[User[], number]> {
+  public async listTeachersBySchool(
+    school_id: string,
+    query: IFilterQuery,
+  ): Promise<[User[], number]> {
     const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'teacher');
 
     const queryBuilder = filterQueryBuilder.build(query);
 
     queryBuilder
-      .select([
-        'teacher.id',
-        'teacher.name',
-        'teacher.enroll_id',
-        'teacher.phone',
-      ])
-      .leftJoin('teacher.segment', 'segment')
-      .addSelect(['segment.id', 'segment.name'])
-      .leftJoin('teacher.grade', 'grade')
-      .addSelect(['grade.id', 'grade.name'])
-      .leftJoin('teacher.classGroup', 'classGroup')
-      .addSelect(['classGroup.id', 'classGroup.name']);
+      .select(['teacher.id', 'teacher.name', 'teacher.phone'])
+      .leftJoin('teacher.userSchoolRoles', 'userSchoolRoles')
+      .where('userSchoolRoles.school_id = :school_id', { school_id })
+      .leftJoin('userSchoolRoles.role', 'role')
+      .andWhere('role.type = :role_type', { role_type: RoleTypes.TEACHER });
 
     const result = await queryBuilder.getManyAndCount();
 
     return result;
   }
 
-  public async findByEmail(email: string): Promise<User | undefined> {
+  public async findByEmail(
+    email: string,
+    relations?: string[],
+  ): Promise<User | undefined> {
     const user = await this.ormRepository.findOne({
       where: { email },
+      relations,
     });
 
+    return user;
+  }
+
+  public async findByEmailWithRoles(email: string): Promise<User | undefined> {
+    const qb = this.ormRepository.createQueryBuilder('user');
+
+    qb.where({ email })
+      .select([
+        'user.id',
+        'user.name',
+        'user.password',
+        'user.active',
+        'user.email',
+      ])
+      .leftJoinAndSelect('user.userSchoolRoles', 'userSchoolRoles')
+      .leftJoin('userSchoolRoles.school', 'school')
+      .addSelect(['school.id', 'school.name'])
+      .leftJoin('userSchoolRoles.role', 'role')
+      .addSelect(['role.id', 'role.name', 'role.type']);
+
+    const user = await qb.getOne();
     return user;
   }
 

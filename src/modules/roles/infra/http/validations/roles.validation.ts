@@ -1,10 +1,11 @@
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { celebrate, Joi, Segments } from 'celebrate';
 
 export const createRoleValidate = celebrate(
   {
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
-      display_name: Joi.string().min(3).max(50).required(),
+      type: Joi.string().valid(...Object.values(RoleTypes)),
     },
   },
   {
@@ -31,7 +32,7 @@ export const updateRoleValidate = celebrate(
     },
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
-      display_name: Joi.string().min(3).max(50).required(),
+      type: Joi.string().valid(...Object.values(RoleTypes)),
     },
   },
   {

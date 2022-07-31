@@ -1,6 +1,8 @@
+import { RoleTypes } from '../models/IRole';
+
 interface ICreateRoleDTO {
   name: string;
-  display_name: string;
+  type: RoleTypes;
 }
 
 export { ICreateRoleDTO };

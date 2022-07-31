@@ -1,6 +1,5 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
-import { userSubjectsRoutes } from '@modules/subjects/infra/http/routes/userSubjects.routes';
 import { Router } from 'express';
 
 import { TeachersController } from '../controllers/TeachersController';
@@ -19,14 +18,11 @@ teachersRoutes.use(authMiddleware);
 
 teachersRoutes.use('/subjects', teacherSubjectsRoutes);
 
+teachersRoutes.use(ensureRoles(['admin', 'principal']));
+
 const teachersController = new TeachersController();
 
-teachersRoutes.post(
-  '/',
-  ensureRoles(['admin']),
-  createTeacherValidate,
-  teachersController.create,
-);
+teachersRoutes.post('/', createTeacherValidate, teachersController.create);
 
 teachersRoutes.get('/', listTeachersValidate, teachersController.index);
 

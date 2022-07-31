@@ -6,6 +6,11 @@ import { IFilterQuery } from 'typeorm-dynamic-filters';
 import { IListResultInterface } from '@shared/dtos/IListResultDTO';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
+interface IRequest {
+  query: IFilterQuery;
+  school_id: string;
+}
+
 @injectable()
 class ListTeachersService {
   constructor(
@@ -15,28 +20,17 @@ class ListTeachersService {
     @inject('RolesRepository')
     private rolesRepository: IRolesRepository,
   ) {}
-  public async execute(query: IFilterQuery): Promise<IListResultInterface> {
+  public async execute({
+    school_id,
+    query,
+  }: IRequest): Promise<IListResultInterface> {
     const { page, per_page } = query;
 
-    const teacherRole = await this.rolesRepository.findByName('teacher');
-
-    if (!teacherRole) {
-      throw new ErrorsApp('Teacher Role does not exists', 404);
-    }
-
-    query.filterBy.push('role_id');
-    query.filterType.push('eq');
-    query.filterValue.push(teacherRole.id);
-
-    const [teachers, length] = await this.teachersRepository.listTeachers(
-      query,
-    );
-
-    const total = await this.teachersRepository.getTotal();
+    const [teachers, length] =
+      await this.teachersRepository.listTeachersBySchool(school_id, query);
 
     return {
       result: teachers,
-      total_registers: total,
       total_filtered: length,
       page,
       per_page,

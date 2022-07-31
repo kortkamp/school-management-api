@@ -1,8 +1,7 @@
 import { IAddress } from '@modules/addresses/models/IAddress';
-import { IRole } from '@modules/roles/models/IRole';
 import { ISubject } from '@modules/subjects/models/ISubject';
 
-import { IUserSchool } from './IUserSchool';
+import { IUserSchoolRole } from './IUserSchoolRole';
 
 // TODO add an address table
 // TODO add an heath table
@@ -35,7 +34,7 @@ interface IUser {
 
   subjects: ISubject[];
 
-  userSchools?: IUserSchool[];
+  userSchoolRoles?: IUserSchoolRole[];
 
   email: string;
 

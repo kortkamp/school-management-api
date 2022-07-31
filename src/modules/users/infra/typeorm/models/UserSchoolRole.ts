@@ -1,7 +1,7 @@
 import { Role } from '@modules/roles/infra/typeorm/models/Role';
 import { School } from '@modules/schools/infra/typeorm/models/School';
 import { User } from '@modules/users/infra/typeorm/models/User';
-import { IUserSchool } from '@modules/users/models/IUserSchool';
+import { IUserSchoolRole } from '@modules/users/models/IUserSchoolRole';
 import {
   Entity,
   CreateDateColumn,
@@ -10,8 +10,8 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 
-@Entity('users_schools')
-class UserSchool implements IUserSchool {
+@Entity('user_school_roles')
+class UserSchoolRole implements IUserSchoolRole {
   @PrimaryColumn()
   user_id: string;
 
@@ -37,4 +37,4 @@ class UserSchool implements IUserSchool {
   created_at: Date;
 }
 
-export { UserSchool };
+export { UserSchoolRole };
