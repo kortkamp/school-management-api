@@ -27,11 +27,11 @@ class TeachersController {
   public async create(request: Request, response: Response): Promise<Response> {
     const createTeacherService = container.resolve(CreateTeacherService);
 
-    const auth_user = request.user;
-
     const data = request.body;
 
-    const teacher = await createTeacherService.execute({ auth_user, data });
+    const school_id = request.school.id;
+
+    const teacher = await createTeacherService.execute({ school_id, data });
 
     return response
       .status(201)

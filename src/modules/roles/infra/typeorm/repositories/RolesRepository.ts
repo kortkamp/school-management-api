@@ -1,4 +1,5 @@
 import { ICreateRoleDTO } from '@modules/roles/dtos/ICreateRoleDTO';
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
 import { Repository } from 'typeorm';
 
@@ -49,9 +50,9 @@ class RolesRepository implements IRolesRepository {
     return role;
   }
 
-  public async findByName(name: string): Promise<Role | undefined> {
+  public async findByType(type: RoleTypes): Promise<Role | undefined> {
     const role = await this.ormRepository.findOne({
-      where: { name },
+      where: { type },
     });
 
     return role;

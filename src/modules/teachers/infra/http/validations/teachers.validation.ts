@@ -21,8 +21,6 @@ export const createTeacherValidate = celebrate(
 
       email: Joi.string().email().trim().lowercase().required(),
       phone: Joi.string().min(10).max(13),
-      password: Joi.string().required(),
-      password_confirmation: Joi.string().valid(Joi.ref('password')).required(),
     },
   },
   {

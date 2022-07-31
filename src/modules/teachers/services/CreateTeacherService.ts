@@ -1,4 +1,4 @@
-import { IAddressesRepository } from '@modules/addresses/repositories/IAddressesRepository';
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
 import { IUser } from '@modules/users/models/IUser';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
@@ -14,11 +14,7 @@ import ErrorsApp from '@shared/errors/ErrorsApp';
 import { ICreateTeacherDTO } from '../dtos/ICreateTeacherDTO';
 
 interface IRequest {
-  auth_user: {
-    id: string;
-    role: string;
-    school_id?: string;
-  };
+  school_id: string;
   data: ICreateTeacherDTO;
 }
 
@@ -37,14 +33,11 @@ class CreateTeacherService {
     @inject('MailTemplateProvider')
     private mailTemplateProvider: IMailTemplateProvider,
 
-    @inject('HashProvider')
-    private hashProvider: IHashProvider,
-
     @inject('RolesRepository')
     private rolesRepository: IRolesRepository,
   ) {}
 
-  public async execute({ auth_user, data }: IRequest): Promise<IUser> {
+  public async execute({ data, school_id }: IRequest): Promise<IUser> {
     const emailExists = await this.teachersRepository.findByEmail(data.email);
 
     if (emailExists) {
@@ -57,26 +50,24 @@ class CreateTeacherService {
       throw new ErrorsApp('O CPF já está cadastrado', 409);
     }
 
-    const hashedPassword = await this.hashProvider.create(data.password, 8);
-
-    Object.assign(data, { password: hashedPassword, active: false });
-
-    if (!auth_user.school_id) {
+    if (!school_id) {
       throw new ErrorsApp(
         'O Usuário precisa pertencer a uma escola para cadastrar um professor',
         403,
       );
     }
 
-    const teacherRole = await this.rolesRepository.findByName('teacher');
+    const teacherRole = await this.rolesRepository.findByType(
+      RoleTypes.TEACHER,
+    );
 
     if (!teacherRole) {
-      throw new ErrorsApp('Teacher Role does not exists', 404);
+      throw new ErrorsApp('A função professor não existe', 404);
     }
 
     Object.assign(data, {
-      school_id: auth_user.school_id,
-      role_id: teacherRole.id,
+      userSchoolRoles: [{ school_id, role_id: teacherRole.id }],
+      active: true,
     });
 
     const user = await this.teachersRepository.create(data);
@@ -90,20 +81,22 @@ class CreateTeacherService {
         '..',
         'users',
         'views',
-        'confirm_user.hbs',
+        'define_password.hbs',
       );
 
       const link = `${process.env.CONFIRM_USER_URL}${userToken.token}`;
 
+      const app_name = process.env.APP_NAME;
+
       const templateHTML = await this.mailTemplateProvider.parse({
         file: templateFile,
-        variables: { name: user.name, link },
+        variables: { name: user.name, link, app_name },
       });
 
       const message = {
         to: user.email,
-        from: 'Sistema de Gestão Escolar <no-reply@template.com>',
-        subject: 'Inscrição no Sistema de Gestão Escolar',
+        from: `${app_name} <no-reply@${process.env.DOMAIN}>`,
+        subject: `Inscrição no ${app_name}`,
         html: templateHTML,
       };
 

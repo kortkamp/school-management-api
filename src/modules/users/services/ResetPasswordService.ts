@@ -29,7 +29,7 @@ class ResetPasswordService {
     const foundToken = await this.userTokensRepository.findByToken(token);
 
     if (!foundToken) {
-      throw new ErrorsApp('Token not found', 400);
+      throw new ErrorsApp('Token não encontrado', 400);
     }
 
     const tokenExpiration = addHours(
@@ -38,13 +38,13 @@ class ResetPasswordService {
     );
 
     if (isAfter(Date.now(), tokenExpiration)) {
-      throw new ErrorsApp('Token expired', 401);
+      throw new ErrorsApp('Token expirado', 401);
     }
 
     const user = await this.usersRepository.findById(foundToken.user_id);
 
     if (!user) {
-      throw new ErrorsApp('User not found', 400);
+      throw new ErrorsApp('Usuário não encontrado', 400);
     }
 
     const hashedPassword = await this.hashProvider.create(password, 8);
