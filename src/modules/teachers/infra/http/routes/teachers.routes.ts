@@ -1,4 +1,5 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
@@ -18,7 +19,9 @@ teachersRoutes.use(authMiddleware);
 
 teachersRoutes.use('/subjects', teacherSubjectsRoutes);
 
-teachersRoutes.use(ensureRoles(['admin', 'principal']));
+teachersRoutes.use(
+  ensureRoles([RoleTypes.ADMIN, RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
+);
 
 const teachersController = new TeachersController();
 
@@ -26,19 +29,9 @@ teachersRoutes.post('/', createTeacherValidate, teachersController.create);
 
 teachersRoutes.get('/', listTeachersValidate, teachersController.index);
 
-teachersRoutes.delete(
-  '/:id',
-  ensureRoles(['admin']),
-  deleteTeacherValidate,
-  teachersController.delete,
-);
+teachersRoutes.delete('/:id', deleteTeacherValidate, teachersController.delete);
 
-teachersRoutes.put(
-  '/:id',
-  ensureRoles(['admin']),
-  updateTeacherValidate,
-  teachersController.update,
-);
+teachersRoutes.put('/:id', updateTeacherValidate, teachersController.update);
 
 teachersRoutes.get('/:id', showTeacherValidate, teachersController.show);
 

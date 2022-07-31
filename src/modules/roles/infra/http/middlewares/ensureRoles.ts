@@ -5,7 +5,7 @@ import { container } from 'tsyringe';
 
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
-function ensureRoles(authorizedRoles: string[]) {
+function ensureRoles(authorizedRoles: RoleTypes[]) {
   return async (
     request: Request,
     response: Response,
