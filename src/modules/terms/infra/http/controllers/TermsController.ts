@@ -11,9 +11,9 @@ class TermsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listTermsService = container.resolve(ListTermsService);
 
-    const auth_user = request.user;
+    const school_id = request.school.id;
 
-    const terms = await listTermsService.execute({ auth_user });
+    const terms = await listTermsService.execute({ school_id });
 
     return response.json({ success: true, terms: instanceToInstance(terms) });
   }
@@ -21,11 +21,11 @@ class TermsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const createTermService = container.resolve(CreateTermService);
 
-    const auth_user = request.user;
+    const school_id = request.school.id;
 
     const term = await createTermService.execute({
       data: request.body,
-      auth_user,
+      school_id,
     });
 
     return response
@@ -50,9 +50,9 @@ class TermsController {
 
     const data = request.body;
 
-    const auth_user = request.user;
+    const school_id = request.school.id;
 
-    const term = await updateTermService.execute({ termId, data, auth_user });
+    const term = await updateTermService.execute({ termId, data, school_id });
 
     return response.status(200).json({ success: true, term });
   }

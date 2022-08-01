@@ -6,7 +6,7 @@ import { ICreateTermDTO } from '../dtos/ICreateTermDTO';
 import { ITermsRepository } from '../repositories/ITermsRepository';
 
 interface IRequest {
-  auth_user: { school_id?: string };
+  school_id: string;
   termId: string;
   data: Partial<ICreateTermDTO>;
 }
@@ -17,18 +17,15 @@ class UpdateTermService {
     @inject('TermsRepository')
     private termsRepository: ITermsRepository,
   ) {}
-  public async execute({ termId, data, auth_user }: IRequest) {
-    if (!auth_user.school_id) {
+  public async execute({ termId, data, school_id }: IRequest) {
+    if (!school_id) {
       throw new ErrorsApp(
         'O usuário precisa pertencer a uma escola para criar um período do ano',
         403,
       );
     }
 
-    const term = await this.termsRepository.findById(
-      termId,
-      auth_user.school_id,
-    );
+    const term = await this.termsRepository.findById(termId, school_id);
 
     if (!term) {
       throw new ErrorsApp('Term not found', 404);

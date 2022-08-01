@@ -5,9 +5,7 @@ import ErrorsApp from '@shared/errors/ErrorsApp';
 import { ITermsRepository } from '../repositories/ITermsRepository';
 
 interface IRequest {
-  auth_user: {
-    school_id?: string;
-  };
+  school_id?: string;
 }
 @injectable()
 class ListTermsService {
@@ -15,14 +13,14 @@ class ListTermsService {
     @inject('TermsRepository')
     private termsRepository: ITermsRepository,
   ) {}
-  public async execute({ auth_user }: IRequest) {
-    if (!auth_user.school_id) {
+  public async execute({ school_id }: IRequest) {
+    if (!school_id) {
       throw new ErrorsApp(
-        'O usuário precisa pertencer a uma escola para criar um período do ano',
+        'O usuário precisa pertencer a uma escola para listar os períodos do ano',
         403,
       );
     }
-    const terms = await this.termsRepository.getAll(auth_user.school_id);
+    const terms = await this.termsRepository.getAll(school_id);
 
     return terms;
   }

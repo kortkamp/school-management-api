@@ -7,9 +7,8 @@ import { ITermsRepository } from '../repositories/ITermsRepository';
 
 interface IRequest {
   data: Omit<ICreateTermDTO, 'school_id'>;
-  auth_user: {
-    school_id?: string;
-  };
+
+  school_id: string;
 }
 
 @injectable()
@@ -19,14 +18,14 @@ class CreateTermService {
     private termsRepository: ITermsRepository,
   ) {}
 
-  public async execute({ data, auth_user }: IRequest) {
+  public async execute({ data, school_id }: IRequest) {
     const termExists = await this.termsRepository.findByName(data.name);
 
     if (termExists) {
       throw new ErrorsApp('Este nome já existe', 409);
     }
 
-    if (!auth_user.school_id) {
+    if (!school_id) {
       throw new ErrorsApp(
         'O usuário precisa pertencer a uma escola para criar um período do ano',
         403,
@@ -35,7 +34,7 @@ class CreateTermService {
 
     const term = await this.termsRepository.create({
       ...data,
-      school_id: auth_user.school_id,
+      school_id,
     });
 
     return term;
