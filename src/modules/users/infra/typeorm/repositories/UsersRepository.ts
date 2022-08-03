@@ -134,7 +134,8 @@ class UsersRepository implements IUsersRepository {
       .leftJoin('userSchoolRoles.school', 'school')
       .addSelect(['school.id', 'school.name'])
       .leftJoin('userSchoolRoles.role', 'role')
-      .addSelect(['role.id', 'role.name', 'role.type']);
+      .addSelect(['role.id', 'role.name', 'role.type'])
+      .orderBy('school.name', 'ASC');
 
     const user = await qb.getOne();
     return user;
