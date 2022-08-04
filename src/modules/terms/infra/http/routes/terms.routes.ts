@@ -1,4 +1,5 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
@@ -20,7 +21,7 @@ termsRoutes.get('/', termsController.index);
 
 termsRoutes.get('/:id', showTermValidate, termsController.show);
 
-termsRoutes.use(ensureRoles(['admin']));
+termsRoutes.use(ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]));
 
 termsRoutes.post('/', createTermValidate, termsController.create);
 
