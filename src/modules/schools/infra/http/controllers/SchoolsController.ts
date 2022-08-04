@@ -22,7 +22,11 @@ class SchoolsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const createSchoolService = container.resolve(CreateSchoolService);
 
-    const school = await createSchoolService.execute(request.body);
+    const authUserId = request.user.id;
+    const school = await createSchoolService.execute({
+      data: request.body,
+      authUserId,
+    });
 
     return response
       .status(201)
