@@ -24,7 +24,7 @@ class TermsController {
     const school_id = request.school.id;
 
     const term = await createTermService.execute({
-      data: request.body,
+      data: request.body.terms,
       school_id,
     });
 

@@ -1,4 +1,4 @@
-import { ITerm } from '@modules/terms/models/ITerm';
+import { ITerm, TermType } from '@modules/terms/models/ITerm';
 import {
   Column,
   CreateDateColumn,
@@ -16,8 +16,8 @@ class Term implements ITerm {
   @Column()
   name: string;
 
-  @Column()
-  year: string;
+  @Column({ type: 'enum', enum: TermType })
+  type: TermType;
 
   @Column()
   school_id: string;

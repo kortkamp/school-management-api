@@ -21,12 +21,12 @@ class TermsRepository implements ITermsRepository {
     return result[0].total;
   }
 
-  public async create(data: ICreateTermDTO): Promise<Term> {
-    const newTerm = this.ormRepository.create(data);
+  public async create(data: ICreateTermDTO[]): Promise<Term[]> {
+    const terms = this.ormRepository.create(data);
 
-    await this.ormRepository.save(newTerm);
+    await this.ormRepository.save(terms);
 
-    return newTerm;
+    return terms;
   }
 
   public async getAll(school_id: string): Promise<Term[]> {
