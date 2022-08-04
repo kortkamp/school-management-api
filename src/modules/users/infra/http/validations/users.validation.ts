@@ -6,12 +6,10 @@ export const createUserValidate = celebrate(
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
       email: Joi.string().email().trim().lowercase().required(),
-      enroll_id: Joi.string().min(3),
       CPF: Joi.string().min(11).max(14),
       phone: Joi.string().min(10).max(13),
       sex: Joi.string().valid('M', 'F').required(),
       birth: Joi.string().isoDate().required(),
-      role_id: Joi.string().uuid().required(),
       school_id: Joi.string().uuid(),
       segment_id: Joi.string().uuid(),
       grade_id: Joi.string().uuid(),
