@@ -7,15 +7,15 @@ async function getSchoolMiddleware(
   response: Response,
   next: NextFunction,
 ): Promise<void> {
-  const { school } = request.params;
+  const { school_id } = request.params;
 
-  if (!school) {
+  if (!school_id) {
     throw new ErrorsApp('Instituição nao informada', 400);
   }
   // should validate school exists
 
   request.school = {
-    id: school,
+    id: school_id,
   };
 
   next();
