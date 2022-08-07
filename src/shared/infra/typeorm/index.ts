@@ -6,6 +6,7 @@ import { TeacherClass } from '@modules/classGroups/infra/typeorm/models/TeacherC
 import { Exam } from '@modules/exams/infra/typeorm/models/Exam';
 import { ExamResult } from '@modules/exams/infra/typeorm/models/ExamResult';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
+import { Message } from '@modules/messages/infra/typeorm/models/Message';
 import { Role } from '@modules/roles/infra/typeorm/models/Role';
 import { Routine } from '@modules/routines/infra/typeorm/models/Routine';
 import { RoutineSubject } from '@modules/routines/infra/typeorm/models/RoutineSubject';
@@ -43,6 +44,7 @@ const dataSourceOptions: DataSourceOptions = {
     RoutineSubject,
     Address,
     UserSchoolRole,
+    Message,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };
