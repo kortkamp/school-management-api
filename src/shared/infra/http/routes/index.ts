@@ -1,3 +1,4 @@
+import { messagesRoutes } from '@modules/messages/infra/http/routes/messages.routes';
 import { rolesRoutes } from '@modules/roles/infra/http/routes/roles.routes';
 import { getSchoolMiddleware } from '@modules/schools/infra/http/middlewares/getSchoolMiddleware';
 import { schoolsRoutes } from '@modules/schools/infra/http/routes/schools.routes';
@@ -16,8 +17,9 @@ routes.use('/users', usersRoutes);
 routes.use('/sessions', sessionsRoutes);
 routes.use('/schools', schoolsRoutes);
 routes.use('/roles', rolesRoutes);
+routes.use('/messages', messagesRoutes);
 
 // school specific routes
-routes.use('/:school', getSchoolMiddleware, tenantRoutes);
+routes.use('/:school_id', getSchoolMiddleware, tenantRoutes);
 
 export { routes };
