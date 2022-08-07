@@ -12,6 +12,8 @@ import { IExamResultsRepository } from '@modules/exams/repositories/IExamResults
 import { IExamsRepository } from '@modules/exams/repositories/IExamsRepository';
 import { GradesRepository } from '@modules/grades/infra/typeorm/repositories/GradesRepository';
 import { IGradesRepository } from '@modules/grades/repositories/IGradesRepository';
+import { MessagesRepository } from '@modules/messages/infra/typeorm/repositories/MessagesRepository';
+import { IMessagesRepository } from '@modules/messages/repositories/IMessagesRepository';
 import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/RolesRepository';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
 import { RoutinesRepository } from '@modules/routines/infra/typeorm/repositories/RoutinesRepository';
@@ -119,4 +121,9 @@ container.registerSingleton<IAddressesRepository>(
 container.registerSingleton<IUserSchoolRoleRepositories>(
   'UserSchoolRoleRepositories',
   UserSchoolRoleRepositories,
+);
+
+container.registerSingleton<IMessagesRepository>(
+  'MessagesRepository',
+  MessagesRepository,
 );
