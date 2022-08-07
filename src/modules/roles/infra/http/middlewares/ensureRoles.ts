@@ -19,7 +19,7 @@ function ensureRoles(authorizedRoles: RoleTypes[]) {
       throw new ErrorsApp('Usuário não autenticado', 401);
     }
 
-    const school_id = request.school.id;
+    const school_id = request.school?.id || request.params?.school_id;
 
     if (!school_id) {
       throw new ErrorsApp('Instituição nao informada', 400);
