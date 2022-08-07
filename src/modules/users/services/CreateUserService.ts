@@ -54,9 +54,11 @@ class CreateUserService {
 
     const link = `${process.env.CONFIRM_USER_URL}${userToken.token}`;
 
+    const app_name = process.env.APP_NAME;
+
     const templateHTML = await this.mailTemplateProvider.parse({
       file: templateFile,
-      variables: { name: user.name, link },
+      variables: { name: user.name, link, app_name },
     });
 
     const message = {
