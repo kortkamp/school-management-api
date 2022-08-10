@@ -20,7 +20,9 @@ import { RoutinesRepository } from '@modules/routines/infra/typeorm/repositories
 import { RoutineSubjectsRepository } from '@modules/routines/infra/typeorm/repositories/RoutineSubjectsRepository';
 import { IRoutinesRepository } from '@modules/routines/repositories/IRoutinesRepository';
 import { IRoutineSubjectsRepository } from '@modules/routines/repositories/IRoutineSubjectsRepository';
+import { SchoolParametersRepository } from '@modules/schools/infra/typeorm/repositories/SchoolParametersRepository';
 import { SchoolsRepository } from '@modules/schools/infra/typeorm/repositories/SchoolsRepository';
+import { ISchoolParametersRepository } from '@modules/schools/repositories/ISchoolParametersRepository';
 import { ISchoolsRepository } from '@modules/schools/repositories/ISchoolsRepository';
 import { SegmentsRepository } from '@modules/segments/infra/typeorm/repositories/SegmentsRepository';
 import { ISegmentsRepository } from '@modules/segments/repositories/ISegmentsRepository';
@@ -126,4 +128,9 @@ container.registerSingleton<IUserSchoolRoleRepositories>(
 container.registerSingleton<IMessagesRepository>(
   'MessagesRepository',
   MessagesRepository,
+);
+
+container.registerSingleton<ISchoolParametersRepository>(
+  'SchoolParametersRepository',
+  SchoolParametersRepository,
 );
