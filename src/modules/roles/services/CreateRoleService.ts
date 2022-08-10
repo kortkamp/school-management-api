@@ -13,12 +13,6 @@ class CreateRoleService {
   ) {}
 
   public async execute(data: ICreateRoleDTO) {
-    const roleExists = await this.rolesRepository.findByName(data.name);
-
-    if (roleExists) {
-      throw new ErrorsApp('Role already exists', 409);
-    }
-
     const role = await this.rolesRepository.create(data);
 
     return role;

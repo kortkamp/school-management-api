@@ -20,7 +20,7 @@ rolesRoutes.get('/', rolesController.index);
 
 rolesRoutes.get('/:id', showRoleValidate, rolesController.show);
 
-rolesRoutes.use(ensureRoles(['super-admin']));
+// rolesRoutes.use(ensureRoles(['super-admin']));
 
 rolesRoutes.post('/', createRoleValidate, rolesController.create);
 

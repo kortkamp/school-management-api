@@ -5,7 +5,9 @@ export const createRoleValidate = celebrate(
   {
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
-      type: Joi.string().valid(...Object.values(RoleTypes)),
+      type: Joi.string()
+        .valid(...Object.values(RoleTypes))
+        .required(),
     },
   },
   {

@@ -3,6 +3,8 @@ export enum RoleTypes {
 
   ADMIN = 'admin',
 
+  NEW_USER = 'new-user',
+
   PRINCIPAL = 'principal',
 
   SECRETARY = 'secretary',
@@ -26,4 +28,4 @@ interface IRole {
   updated_at: Date;
 }
 
-export { IRole };
+export type { IRole };
