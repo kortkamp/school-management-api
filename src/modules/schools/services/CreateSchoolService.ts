@@ -23,7 +23,7 @@ class CreateSchoolService {
 
   public async execute({ data, authUserId }: IRequest) {
     const teacherRole = await this.rolesRepository.findByType(
-      RoleTypes.PRINCIPAL,
+      RoleTypes.NEW_USER,
     );
 
     if (!teacherRole) {
