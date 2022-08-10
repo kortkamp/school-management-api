@@ -18,6 +18,14 @@ export class CreateSchoolParameters1660144865743 implements MigrationInterface {
             isPrimary: true,
           },
           {
+            name: 'passing_result',
+            type: 'NUMERIC(7,2)',
+          },
+          {
+            name: 'minimum_attendance',
+            type: 'NUMERIC(5,2)',
+          },
+          {
             name: 'result_calculation',
             type: 'enum',
             enumName: 'resultCalculation',
