@@ -5,7 +5,7 @@ import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
 import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import { IUser } from '@modules/users/models/IUser';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import {
   Entity,
   Column,
@@ -125,6 +125,15 @@ class User implements IUser {
 
   @Column('varchar')
   avatar?: string;
+
+  @Expose({ name: 'avatar_url' })
+  getAvatarUrl(): string | null {
+    if (!this.avatar) {
+      return null;
+    }
+    const avatarURL = process.env.AVATAR_URL;
+    return avatarURL + this.avatar;
+  }
 
   @CreateDateColumn()
   created_at: Date;
