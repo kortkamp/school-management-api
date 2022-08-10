@@ -8,6 +8,10 @@ import {
 interface ICreateSchoolParameterDTO {
   school_id: string;
 
+  passing_result: number;
+
+  minimum_attendance: number;
+
   result_calculation: ResultCalculation;
 
   term_period: TermPeriod;

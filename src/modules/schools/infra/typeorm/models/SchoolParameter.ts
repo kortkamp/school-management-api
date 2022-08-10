@@ -22,6 +22,12 @@ class SchoolParameter implements ISchoolParameter {
   @PrimaryGeneratedColumn('uuid')
   school_id: string;
 
+  @Column()
+  passing_result: number;
+
+  @Column()
+  minimum_attendance: number;
+
   @OneToOne(() => School, school => school)
   @JoinColumn({ name: 'school_id', referencedColumnName: 'id' })
   school: School;

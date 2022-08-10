@@ -31,6 +31,10 @@ interface ISchoolParameter {
 
   result_calculation: ResultCalculation;
 
+  passing_result: number;
+
+  minimum_attendance: number;
+
   term_period: TermPeriod;
 
   term_number: number;

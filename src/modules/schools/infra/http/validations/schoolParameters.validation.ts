@@ -9,6 +9,8 @@ import { celebrate, Joi, Segments } from 'celebrate';
 export const createSchoolParameterValidate = celebrate(
   {
     [Segments.BODY]: {
+      passing_result: Joi.number().positive().required(),
+      minimum_attendance: Joi.number().positive().required(),
       result_calculation: Joi.string()
         .valid(...Object.values(ResultCalculation))
         .required(),
