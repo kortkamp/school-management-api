@@ -43,7 +43,8 @@ class MessagesRepository implements IMessagesRepository {
         'message.link',
       ])
       .leftJoin('message.sender', 'sender')
-      .addSelect(['sender.id', 'sender.name']);
+      .addSelect(['sender.id', 'sender.name', 'sender.avatar'])
+      .orderBy('message.created_at', 'DESC');
 
     const result = await queryBuilder.getManyAndCount();
 
