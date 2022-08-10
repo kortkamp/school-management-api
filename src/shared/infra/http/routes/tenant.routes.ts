@@ -3,6 +3,7 @@ import { teacherClassesRoutes } from '@modules/classGroups/infra/http/routes/tea
 import { examsRoutes } from '@modules/exams/infra/http/routes/exams.routes';
 import { gradesRoutes } from '@modules/grades/infra/http/routes/grades.routes';
 import { routinesRoutes } from '@modules/routines/infra/http/routes/routines.routes';
+import { schoolParametersRoutes } from '@modules/schools/infra/http/routes/schoolParameters.routes';
 import { segmentsRoutes } from '@modules/segments/infra/http/routes/segments.routes';
 import { studentsRoutes } from '@modules/students/infra/http/routes/students.routes';
 import { subjectsRoutes } from '@modules/subjects/infra/http/routes/subjects.routes';
@@ -24,5 +25,6 @@ tenantRoutes.use('/students', studentsRoutes);
 tenantRoutes.use('/teachers', teachersRoutes);
 tenantRoutes.use('/terms', termsRoutes);
 tenantRoutes.use('/routines', routinesRoutes);
+tenantRoutes.use('/parameters', schoolParametersRoutes);
 
 export { tenantRoutes };
