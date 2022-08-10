@@ -49,7 +49,6 @@ class SchoolParametersController {
       ShowSchoolParameterService,
     );
 
-    console.log(request.school);
     const schoolParameterId = request.school.id;
 
     const schoolParameter = await showSchoolParameterService.execute(
