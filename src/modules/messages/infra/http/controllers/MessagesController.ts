@@ -24,7 +24,7 @@ class MessagesController {
 
     return response.json({
       success: true,
-      messages: instanceToInstance(messages),
+      ...instanceToInstance(messages),
     });
   }
 
@@ -36,8 +36,6 @@ class MessagesController {
 
     const schoolId = request.params.school_id;
 
-    console.log(schoolId);
-
     const messages = await listMessagesService.execute({
       query: parseQueryFilters(request.query),
       schoolId,
@@ -45,7 +43,7 @@ class MessagesController {
 
     return response.json({
       success: true,
-      messages: instanceToInstance(messages),
+      ...instanceToInstance(messages),
     });
   }
 
