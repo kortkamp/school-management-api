@@ -15,8 +15,8 @@ class SchoolParametersRepository implements ISchoolParametersRepository {
   }
 
   public async create(
-    data: ICreateSchoolParameterDTO[],
-  ): Promise<SchoolParameter[]> {
+    data: ICreateSchoolParameterDTO,
+  ): Promise<SchoolParameter> {
     const schoolParameters = this.ormRepository.create(data);
 
     await this.ormRepository.save(schoolParameters);
