@@ -8,10 +8,13 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
+import { SchoolParameter } from './SchoolParameter';
 
 @Entity('schools')
 class School implements ISchool {
@@ -47,6 +50,9 @@ class School implements ISchool {
   })
   @JoinColumn({ name: 'id' })
   userSchoolRoles: UserSchoolRole[];
+
+  @OneToOne(() => SchoolParameter, schoolParameter => schoolParameter.school)
+  parameters: SchoolParameter;
 
   @CreateDateColumn()
   created_at: Date;
