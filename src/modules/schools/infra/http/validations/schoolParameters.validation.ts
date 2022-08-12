@@ -1,6 +1,5 @@
 import {
   ResultCalculation,
-  RecoveringPeriod,
   RecoveringType,
   TermPeriod,
 } from '@modules/schools/models/ISchoolParameter';
@@ -18,9 +17,7 @@ export const createSchoolParameterValidate = celebrate(
         .valid(...Object.values(TermPeriod))
         .required(),
       term_number: Joi.number().integer().positive().required(),
-      recovering_period: Joi.string()
-        .valid(...Object.values(RecoveringPeriod))
-        .required(),
+      recovering_coverage: Joi.number().integer().required().required(),
       recovering_type: Joi.string()
         .valid(...Object.values(RecoveringType))
         .required(),
@@ -56,9 +53,7 @@ export const updateSchoolParameterValidate = celebrate(
         .valid(...Object.values(TermPeriod))
         .required(),
       term_number: Joi.number().integer().positive().required(),
-      recovering_period: Joi.string()
-        .valid(...Object.values(RecoveringPeriod))
-        .required(),
+      recovering_coverage: Joi.number().integer().required().required(),
       recovering_type: Joi.string()
         .valid(...Object.values(RecoveringType))
         .required(),

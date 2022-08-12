@@ -39,16 +39,8 @@ export class CreateSchoolParameters1660144865743 implements MigrationInterface {
           },
           { name: 'term_number', type: 'integer' },
           {
-            name: 'recovering_period',
-            type: 'enum',
-            enumName: 'RecoveringPeriod',
-            enum: [
-              'bimestral',
-              'trimestral',
-              'quadrimestral',
-              'semestral',
-              'anual',
-            ],
+            name: 'recovering_coverage',
+            type: 'integer',
           },
           {
             name: 'recovering_type',

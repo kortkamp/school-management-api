@@ -6,14 +6,6 @@ export enum TermPeriod {
   YEAR = 'ano',
 }
 
-export enum RecoveringPeriod {
-  BIMESTER = 'bimestral',
-  TRIMESTER = 'trimestral',
-  QUADMESTER = 'quadrimestral',
-  SEMESTER = 'semestral',
-  YEAR = 'anual',
-}
-
 export enum RecoveringType {
   SUM = 'soma',
   MEAN = 'média',
@@ -39,7 +31,7 @@ interface ISchoolParameter {
 
   term_number: number;
 
-  recovering_period: RecoveringPeriod;
+  recovering_coverage: number;
 
   recovering_type: RecoveringType;
 

@@ -1,6 +1,5 @@
 import {
   ISchoolParameter,
-  RecoveringPeriod,
   RecoveringType,
   ResultCalculation,
   TermPeriod,
@@ -41,8 +40,8 @@ class SchoolParameter implements ISchoolParameter {
   @Column()
   term_number: number;
 
-  @Column({ type: 'enum', enum: RecoveringPeriod })
-  recovering_period: RecoveringPeriod;
+  @Column()
+  recovering_coverage: number;
 
   @Column({ type: 'enum', enum: RecoveringType })
   recovering_type: RecoveringType;
