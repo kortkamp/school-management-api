@@ -11,7 +11,9 @@ class ShowSchoolService {
     private schoolsRepository: ISchoolsRepository,
   ) {}
   public async execute(SchoolId: string) {
-    const school = await this.schoolsRepository.findById(SchoolId, ['address']);
+    const school = await this.schoolsRepository.findById(SchoolId, [
+      'parameters',
+    ]);
     if (!school) {
       throw new ErrorsApp('School does not exists', 404);
     }

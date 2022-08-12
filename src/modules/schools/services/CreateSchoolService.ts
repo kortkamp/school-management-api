@@ -27,7 +27,7 @@ class CreateSchoolService {
     );
 
     if (!teacherRole) {
-      throw new ErrorsApp('A função diretor não existe', 404);
+      throw new ErrorsApp('A função de cadastro de escola não existe', 404);
     }
     Object.assign(data, {
       userSchoolRoles: [{ role_id: teacherRole.id, user_id: authUserId }],

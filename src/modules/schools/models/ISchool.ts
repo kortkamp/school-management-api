@@ -11,7 +11,19 @@ interface ISchool {
 
   mobile: string;
 
-  address_id: string;
+  street: string;
+
+  number: string;
+
+  complement: string;
+
+  district: string;
+
+  city: string;
+
+  state: string;
+
+  CEP: string;
 
   created_at: Date;
 

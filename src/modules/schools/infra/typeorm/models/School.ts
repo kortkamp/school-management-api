@@ -37,13 +37,25 @@ class School implements ISchool {
   mobile: string;
 
   @Column()
-  address_id: string;
+  street: string;
 
-  @ManyToOne(() => Address, address => address, {
-    cascade: ['insert', 'update'],
-  })
-  @JoinColumn({ name: 'address_id', referencedColumnName: 'id' })
-  address?: Address;
+  @Column()
+  number: string;
+
+  @Column()
+  complement: string;
+
+  @Column()
+  district: string;
+
+  @Column()
+  city: string;
+
+  @Column()
+  state: string;
+
+  @Column()
+  CEP: string;
 
   @OneToMany(type => UserSchoolRole, userSchoolRole => userSchoolRole.school, {
     cascade: ['insert'],

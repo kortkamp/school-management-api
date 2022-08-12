@@ -1,3 +1,6 @@
+import { RoleTypes } from '@modules/roles/models/IRole';
+import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
+import { ISchoolsRepository } from '@modules/schools/repositories/ISchoolsRepository';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import path from 'path';
 import { injectable, inject } from 'tsyringe';
@@ -20,6 +23,12 @@ class CreateUserService {
     @inject('UserTokensRepository')
     private userTokensRepository: IUserTokensRepository,
 
+    @inject('SchoolsRepository')
+    private schoolsRepository: ISchoolsRepository,
+
+    @inject('RolesRepository')
+    private rolesRepository: IRolesRepository,
+
     @inject('MailProvider')
     private mailProvider: IMailProvider,
 
@@ -34,7 +43,7 @@ class CreateUserService {
     const emailExists = await this.usersRepository.findByEmail(data.email);
 
     if (emailExists) {
-      throw new ErrorsApp('Email already registered', 409);
+      throw new ErrorsApp('Este e-mail já está registrado no sistema', 409);
     }
 
     const hashedPassword = await this.hashProvider.create(data.password, 8);
@@ -44,6 +53,22 @@ class CreateUserService {
     const user = await this.usersRepository.create(data);
 
     const userToken = await this.userTokensRepository.generate(user.id);
+
+    const newUserRole = await this.rolesRepository.findByType(
+      RoleTypes.NEW_USER,
+    );
+
+    if (!newUserRole) {
+      throw new ErrorsApp('A função cadastro de escola não existe', 404);
+    }
+
+    const schoolData = { name: '' };
+
+    Object.assign(schoolData, {
+      userSchoolRoles: [{ role_id: newUserRole.id, user_id: user.id }],
+    });
+
+    await this.schoolsRepository.create(schoolData);
 
     const templateFile = path.resolve(
       __dirname,
