@@ -41,12 +41,14 @@ export class CreateSchoolParameters1660144865743 implements MigrationInterface {
           {
             name: 'recovering_coverage',
             type: 'integer',
+            isNullable: true,
           },
           {
             name: 'recovering_type',
             type: 'enum',
             enumName: 'RecoveringType',
             enum: ['soma', 'média', 'substitutiva', 'maior nota'],
+            isNullable: true,
           },
           {
             name: 'final_recovering',
@@ -87,7 +89,6 @@ export class CreateSchoolParameters1660144865743 implements MigrationInterface {
     await queryRunner.dropTable('school_parameters');
     await queryRunner.query('drop type "resultCalculation"');
     await queryRunner.query('drop type "termPeriods"');
-    await queryRunner.query('drop type "RecoveringPeriod"');
     await queryRunner.query('drop type "RecoveringType"');
   }
 }

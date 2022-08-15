@@ -50,6 +50,30 @@ class CreateSchoolParameterService {
         end_at: new Date(),
       };
       termsData.push(term);
+      if (schoolParameters.recovering_coverage > 0) {
+        const isLastTermOfAbrangence =
+          i % schoolParameters.recovering_coverage === 0;
+        const recoveringTerm: ICreateTermDTO = {
+          school_id,
+          name: `Recuperação`,
+          type: TermType.RECOVERING,
+          start_at: new Date(),
+          end_at: new Date(),
+        };
+        if (isLastTermOfAbrangence) {
+          termsData.push(recoveringTerm);
+        }
+      }
+    }
+    if (schoolParameters.final_recovering) {
+      const recoveringTerm: ICreateTermDTO = {
+        school_id,
+        name: `Recuperação Final`,
+        type: TermType.RECOVERING,
+        start_at: new Date(),
+        end_at: new Date(),
+      };
+      termsData.push(recoveringTerm);
     }
 
     await this.termsRepository.create(termsData);

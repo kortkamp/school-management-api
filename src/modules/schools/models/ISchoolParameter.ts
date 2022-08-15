@@ -31,9 +31,9 @@ interface ISchoolParameter {
 
   term_number: number;
 
-  recovering_coverage: number;
+  recovering_coverage?: number;
 
-  recovering_type: RecoveringType;
+  recovering_type?: RecoveringType;
 
   final_recovering?: RecoveringType;
 

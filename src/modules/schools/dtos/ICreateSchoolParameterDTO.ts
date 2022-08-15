@@ -1,5 +1,4 @@
 import {
-  RecoveringPeriod,
   RecoveringType,
   ResultCalculation,
   TermPeriod,
@@ -18,9 +17,9 @@ interface ICreateSchoolParameterDTO {
 
   term_number: number;
 
-  recovering_period: RecoveringPeriod;
+  recovering_coverage?: number;
 
-  recovering_type: RecoveringType;
+  recovering_type?: RecoveringType;
 
   final_recovering?: RecoveringType;
 

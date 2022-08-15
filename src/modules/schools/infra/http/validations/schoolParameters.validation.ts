@@ -17,15 +17,15 @@ export const createSchoolParameterValidate = celebrate(
         .valid(...Object.values(TermPeriod))
         .required(),
       term_number: Joi.number().integer().positive().required(),
-      recovering_coverage: Joi.number().integer().required().required(),
+      recovering_coverage: Joi.number().integer().empty('').default(null),
       recovering_type: Joi.string()
         .valid(...Object.values(RecoveringType))
-        .required(),
+        .empty('')
+        .default(null),
       final_recovering: Joi.string()
         .valid(...Object.values(RecoveringType))
         .empty('')
-        .default(null)
-        .allow(null),
+        .default(null),
       class_length: Joi.number().integer().positive().required(),
     },
   },
@@ -46,6 +46,8 @@ export const updateSchoolParameterValidate = celebrate(
       id: Joi.string().uuid().required(),
     },
     [Segments.BODY]: {
+      passing_result: Joi.number().positive().required(),
+      minimum_attendance: Joi.number().positive().required(),
       result_calculation: Joi.string()
         .valid(...Object.values(ResultCalculation))
         .required(),
@@ -53,15 +55,15 @@ export const updateSchoolParameterValidate = celebrate(
         .valid(...Object.values(TermPeriod))
         .required(),
       term_number: Joi.number().integer().positive().required(),
-      recovering_coverage: Joi.number().integer().required().required(),
+      recovering_coverage: Joi.number().integer().empty('').default(null),
       recovering_type: Joi.string()
         .valid(...Object.values(RecoveringType))
-        .required(),
+        .empty('')
+        .default(null),
       final_recovering: Joi.string()
         .valid(...Object.values(RecoveringType))
         .empty('')
-        .default(null)
-        .allow(null),
+        .default(null),
       class_length: Joi.number().integer().positive().required(),
     },
   },
