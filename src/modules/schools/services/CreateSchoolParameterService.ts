@@ -46,8 +46,6 @@ class CreateSchoolParameterService {
         school_id,
         name: `${i}º ${schoolParameters.term_period}`,
         type: TermType.STANDARD,
-        start_at: new Date(),
-        end_at: new Date(),
       };
       termsData.push(term);
       if (schoolParameters.recovering_coverage > 0) {
@@ -57,8 +55,6 @@ class CreateSchoolParameterService {
           school_id,
           name: `Recuperação`,
           type: TermType.RECOVERING,
-          start_at: new Date(),
-          end_at: new Date(),
         };
         if (isLastTermOfAbrangence) {
           termsData.push(recoveringTerm);
@@ -70,8 +66,6 @@ class CreateSchoolParameterService {
         school_id,
         name: `Recuperação Final`,
         type: TermType.RECOVERING,
-        start_at: new Date(),
-        end_at: new Date(),
       };
       termsData.push(recoveringTerm);
     }
