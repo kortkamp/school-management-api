@@ -16,8 +16,10 @@ import { MessagesRepository } from '@modules/messages/infra/typeorm/repositories
 import { IMessagesRepository } from '@modules/messages/repositories/IMessagesRepository';
 import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/RolesRepository';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
+import { RoutineGroupsRepository } from '@modules/routines/infra/typeorm/repositories/RoutineGroupsRepository';
 import { RoutinesRepository } from '@modules/routines/infra/typeorm/repositories/RoutinesRepository';
 import { RoutineSubjectsRepository } from '@modules/routines/infra/typeorm/repositories/RoutineSubjectsRepository';
+import { IRoutineGroupsRepository } from '@modules/routines/repositories/IRoutineGroupsRepository';
 import { IRoutinesRepository } from '@modules/routines/repositories/IRoutinesRepository';
 import { IRoutineSubjectsRepository } from '@modules/routines/repositories/IRoutineSubjectsRepository';
 import { SchoolParametersRepository } from '@modules/schools/infra/typeorm/repositories/SchoolParametersRepository';
@@ -133,4 +135,9 @@ container.registerSingleton<IMessagesRepository>(
 container.registerSingleton<ISchoolParametersRepository>(
   'SchoolParametersRepository',
   SchoolParametersRepository,
+);
+
+container.registerSingleton<IRoutineGroupsRepository>(
+  'RoutineGroupsRepository',
+  RoutineGroupsRepository,
 );
