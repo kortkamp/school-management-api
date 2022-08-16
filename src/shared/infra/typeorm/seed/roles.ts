@@ -19,8 +19,8 @@ async function create() {
       name: 'Administrador',
     },
     {
-      type: RoleTypes.NEW_USER,
-      name: 'Novo Usuário',
+      type: RoleTypes.REGISTER,
+      name: 'Registro',
     },
     {
       type: RoleTypes.PRINCIPAL,

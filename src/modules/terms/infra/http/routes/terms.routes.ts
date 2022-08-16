@@ -21,7 +21,9 @@ termsRoutes.get('/', termsController.index);
 
 termsRoutes.get('/:id', showTermValidate, termsController.show);
 
-termsRoutes.use(ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]));
+termsRoutes.use(
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY, RoleTypes.REGISTER]),
+);
 
 termsRoutes.post('/', createTermValidate, termsController.create);
 

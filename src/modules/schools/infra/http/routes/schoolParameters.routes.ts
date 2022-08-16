@@ -18,7 +18,7 @@ const schoolParametersController = new SchoolParametersController();
 schoolParametersRoutes.get('/', schoolParametersController.show);
 
 schoolParametersRoutes.use(
-  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY, RoleTypes.NEW_USER]),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY, RoleTypes.REGISTER]),
 );
 
 schoolParametersRoutes.post(

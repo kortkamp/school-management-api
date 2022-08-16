@@ -3,7 +3,7 @@ export enum RoleTypes {
 
   ADMIN = 'admin',
 
-  NEW_USER = 'new-user',
+  REGISTER = 'register',
 
   PRINCIPAL = 'principal',
 

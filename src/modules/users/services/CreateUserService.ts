@@ -55,7 +55,7 @@ class CreateUserService {
     const userToken = await this.userTokensRepository.generate(user.id);
 
     const newUserRole = await this.rolesRepository.findByType(
-      RoleTypes.NEW_USER,
+      RoleTypes.REGISTER,
     );
 
     if (!newUserRole) {
