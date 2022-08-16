@@ -3,10 +3,11 @@ import { inject, injectable } from 'tsyringe';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
 import { ICreateTermDTO } from '../dtos/ICreateTermDTO';
+import { TermType } from '../models/ITerm';
 import { ITermsRepository } from '../repositories/ITermsRepository';
 
 interface IRequest {
-  data: Omit<ICreateTermDTO, 'school_id'>[];
+  data: Omit<ICreateTermDTO, 'school_id'>;
 
   school_id: string;
 }
@@ -26,9 +27,9 @@ class CreateTermService {
       );
     }
 
-    const terms = await this.termsRepository.create(
-      data.map(term => ({ ...term, school_id })),
-    );
+    const { name = '', type = TermType.STANDARD } = data;
+
+    const terms = await this.termsRepository.create({ name, type, school_id });
 
     return terms;
   }

@@ -24,7 +24,7 @@ class TermsController {
     const school_id = request.school.id;
 
     const term = await createTermService.execute({
-      data: request.body.terms,
+      data: request.body,
       school_id,
     });
 
@@ -40,7 +40,7 @@ class TermsController {
 
     await deleteTermService.execute(termId);
 
-    return response.status(204).json({ success: true });
+    return response.status(200).json({ success: true });
   }
 
   public async update(request: Request, response: Response): Promise<Response> {

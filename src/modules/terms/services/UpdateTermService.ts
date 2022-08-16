@@ -31,14 +31,6 @@ class UpdateTermService {
       throw new ErrorsApp('Term not found', 404);
     }
 
-    if (data.name && data.name !== term.name) {
-      const termExists = await this.termsRepository.findByName(data.name);
-
-      if (termExists) {
-        throw new ErrorsApp('Term name already exists', 409);
-      }
-    }
-
     Object.assign(term, data);
 
     await this.termsRepository.save(term);

@@ -21,7 +21,7 @@ class TermsRepository implements ITermsRepository {
     return result[0].total;
   }
 
-  public async create(data: ICreateTermDTO[]): Promise<Term[]> {
+  public async create(data: ICreateTermDTO): Promise<Term> {
     const terms = this.ormRepository.create(data);
 
     await this.ormRepository.save(terms);

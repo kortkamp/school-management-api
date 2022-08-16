@@ -9,7 +9,7 @@ export class AlterTermsAddTypeDropYear1659649124715
         name: 'type',
         type: 'enum',
         enumName: 'termTypes',
-        enum: ['padrão', 'extra', 'recuperação', 'final'],
+        enum: ['padrão', 'extra', 'recuperação', 'final', 'recuperação final'],
       }),
     ]);
     await queryRunner.dropColumn('terms', 'year');
