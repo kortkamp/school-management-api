@@ -2,6 +2,7 @@ import { classGroupsRoutes } from '@modules/classGroups/infra/http/routes/classG
 import { teacherClassesRoutes } from '@modules/classGroups/infra/http/routes/teacherClasses.routes';
 import { examsRoutes } from '@modules/exams/infra/http/routes/exams.routes';
 import { gradesRoutes } from '@modules/grades/infra/http/routes/grades.routes';
+import { routineGroupsRoutes } from '@modules/routines/infra/http/routes/routineGroups.routes';
 import { routinesRoutes } from '@modules/routines/infra/http/routes/routines.routes';
 import { schoolParametersRoutes } from '@modules/schools/infra/http/routes/schoolParameters.routes';
 import { segmentsRoutes } from '@modules/segments/infra/http/routes/segments.routes';
@@ -25,6 +26,8 @@ tenantRoutes.use('/students', studentsRoutes);
 tenantRoutes.use('/teachers', teachersRoutes);
 tenantRoutes.use('/terms', termsRoutes);
 tenantRoutes.use('/routines', routinesRoutes);
+tenantRoutes.use('/routine-groups', routineGroupsRoutes);
+
 tenantRoutes.use('/parameters', schoolParametersRoutes);
 
 export { tenantRoutes };
