@@ -1,15 +1,17 @@
-import { DayTime, IRoutine } from '@modules/routines/models/IRoutine';
+import { IRoutine } from '@modules/routines/models/IRoutine';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
+import { RoutineGroup } from './RoutineGroup';
 import { RoutineSubject } from './RoutineSubject';
 
 @Entity('routines')
@@ -18,10 +20,11 @@ class Routine implements IRoutine {
   id: string;
 
   @Column()
-  school_id: string;
+  routine_group_id: string;
 
-  @Column({ type: 'enum', enum: DayTime })
-  day_time: DayTime;
+  @ManyToOne(() => RoutineGroup, routineGroup => routineGroup)
+  @JoinColumn({ name: 'routine_group_id', referencedColumnName: 'id' })
+  routineGroup: RoutineGroup;
 
   @Column()
   start_at: string;

@@ -6,11 +6,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-@Entity('routineGroups')
+import { Routine } from './Routine';
+
+@Entity('routine_groups')
 class RoutineGroup implements IRoutineGroup {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -25,11 +28,11 @@ class RoutineGroup implements IRoutineGroup {
   @JoinColumn({ name: 'school_id', referencedColumnName: 'id' })
   school: School;
 
-  // @OneToMany(type => UserSchoolRole, userSchoolRole => userSchoolRole.school, {
-  //   cascade: ['insert'],
-  // })
-  // @JoinColumn({ name: 'id' })
-  // userSchoolRoles: UserSchoolRole[];
+  @OneToMany(type => Routine, routine => routine.routineGroup, {
+    cascade: ['insert', 'update'],
+  })
+  @JoinColumn({ name: 'id' })
+  routines: Routine[];
 
   @CreateDateColumn()
   created_at: Date;

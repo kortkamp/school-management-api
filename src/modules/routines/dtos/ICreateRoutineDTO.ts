@@ -1,11 +1,7 @@
-import { DayTime } from '../models/IRoutine';
-
 interface ICreateRoutineDTO {
   type: string;
 
-  school_id: string;
-
-  day_time: DayTime;
+  routine_group_id: string;
 
   start_at: string;
 

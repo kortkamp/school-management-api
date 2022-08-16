@@ -23,7 +23,14 @@ class RoutineGroupsRepository implements IRoutineGroupsRepository {
   }
 
   public async getAll(school_id: string): Promise<RoutineGroup[]> {
-    return this.ormRepository.find({ where: { school_id } });
+    const qb = this.ormRepository.createQueryBuilder('routineGroup');
+
+    qb.where({ school_id })
+      .select(['routineGroup.id', 'routineGroup.name'])
+      .leftJoin('routineGroup.routines', 'routines')
+      .addSelect(['routines.id', 'routines.start_at', 'routines.end_at']);
+
+    return qb.getMany();
   }
 
   public async save(data: RoutineGroup): Promise<void> {
