@@ -1,5 +1,3 @@
-import { DayTime } from '@modules/routines/models/IRoutine';
-
 interface IClassGroup {
   id: string;
 
@@ -7,9 +5,7 @@ interface IClassGroup {
 
   grade_id: string;
 
-  day_time: DayTime;
-
-  school_id: string;
+  routine_group_id: string;
 
   created_at: Date;
 

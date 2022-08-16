@@ -1,6 +1,5 @@
 import { IClassGroup } from '@modules/classGroups/models/IClassGroup';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
-import { DayTime } from '@modules/routines/models/IRoutine';
 import { User } from '@modules/users/infra/typeorm/models/User';
 import {
   Column,
@@ -28,11 +27,8 @@ class ClassGroup implements IClassGroup {
   @Column()
   grade_id: string;
 
-  @Column({ type: 'enum', enum: DayTime })
-  day_time: DayTime;
-
   @Column()
-  school_id: string;
+  routine_group_id: string;
 
   @OneToMany(type => User, users => users.classGroup, {})
   @JoinColumn({ name: 'id' })

@@ -9,6 +9,7 @@ import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
 import { Message } from '@modules/messages/infra/typeorm/models/Message';
 import { Role } from '@modules/roles/infra/typeorm/models/Role';
 import { Routine } from '@modules/routines/infra/typeorm/models/Routine';
+import { RoutineGroup } from '@modules/routines/infra/typeorm/models/RoutineGroup';
 import { RoutineSubject } from '@modules/routines/infra/typeorm/models/RoutineSubject';
 import { School } from '@modules/schools/infra/typeorm/models/School';
 import { SchoolParameter } from '@modules/schools/infra/typeorm/models/SchoolParameter';
@@ -47,6 +48,7 @@ const dataSourceOptions: DataSourceOptions = {
     UserSchoolRole,
     Message,
     SchoolParameter,
+    RoutineGroup,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };
