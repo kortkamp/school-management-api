@@ -1,5 +1,6 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
 import { ensureRolesOrSelf } from '@modules/roles/infra/http/middlewares/ensureRolesOrSelf';
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
@@ -22,7 +23,7 @@ routinesRoutes.use('/subjects', routineSubjectsRoutes);
 
 routinesRoutes.post(
   '/',
-  ensureRoles(['admin']),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY, RoleTypes.REGISTER]),
   createRoutineValidate,
   routinesController.create,
 );
