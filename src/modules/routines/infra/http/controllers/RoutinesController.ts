@@ -42,11 +42,9 @@ class RoutinesController {
   public async create(request: Request, response: Response): Promise<Response> {
     const createRoutineService = container.resolve(CreateRoutineService);
 
-    const auth_user = request.user;
-
     const data = request.body;
 
-    const routine = await createRoutineService.execute({ auth_user, data });
+    const routine = await createRoutineService.execute({ data });
 
     return response.status(201).json({ success: true, routine });
   }
@@ -58,7 +56,7 @@ class RoutinesController {
 
     await deleteRoutineService.execute(routineId);
 
-    return response.status(204).json({ success: true });
+    return response.status(200).json({ success: true });
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
