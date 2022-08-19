@@ -3,7 +3,7 @@ import { celebrate, Joi, Segments } from 'celebrate';
 export const createRoutineGroupValidate = celebrate(
   {
     [Segments.BODY]: {
-      name: Joi.string().min(1).max(100).required(),
+      name: Joi.string().max(100).required().allow(''),
       routines: Joi.array().items({
         start_at: Joi.string().required(),
         end_at: Joi.string().required(),
