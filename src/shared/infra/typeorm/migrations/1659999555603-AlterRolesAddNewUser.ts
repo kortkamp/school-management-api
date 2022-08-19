@@ -3,7 +3,6 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class AlterRolesAddNewUser1659999555603 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      // eslint-disable-next-line no-useless-concat
       `ALTER TYPE "roleTypes" ADD VALUE IF NOT EXISTS 'register'`,
     );
   }
