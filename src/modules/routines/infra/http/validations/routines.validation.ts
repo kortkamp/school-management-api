@@ -4,8 +4,8 @@ export const createRoutineValidate = celebrate(
   {
     [Segments.BODY]: {
       routine_group_id: Joi.string().uuid().required(),
-      start_at: Joi.string().required(),
-      end_at: Joi.string().required(),
+      start_at: Joi.string(),
+      end_at: Joi.string(),
     },
   },
   {
