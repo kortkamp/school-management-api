@@ -51,11 +51,11 @@ class SchoolParametersController {
 
     const schoolParameterId = request.school.id;
 
-    const schoolParameter = await showSchoolParameterService.execute(
+    const schoolParameters = await showSchoolParameterService.execute(
       schoolParameterId,
     );
 
-    return response.status(200).json({ success: true, schoolParameter });
+    return response.status(200).json({ success: true, schoolParameters });
   }
 }
 
