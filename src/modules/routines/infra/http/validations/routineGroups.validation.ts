@@ -1,3 +1,4 @@
+import { RoutineType } from '@modules/routines/models/IRoutine';
 import { celebrate, Joi, Segments } from 'celebrate';
 
 export const createRoutineGroupValidate = celebrate(
@@ -6,7 +7,10 @@ export const createRoutineGroupValidate = celebrate(
       name: Joi.string().max(100).required().allow(''),
       routines: Joi.array().items({
         start_at: Joi.string().required(),
-        end_at: Joi.string().required(),
+        duration: Joi.string().required(),
+        type: Joi.string()
+          .valid(...Object.values(RoutineType))
+          .required(),
       }),
     },
   },
@@ -37,7 +41,10 @@ export const updateRoutineGroupValidate = celebrate(
       routines: Joi.array().items({
         id: Joi.string().uuid().required(),
         start_at: Joi.string().required(),
-        end_at: Joi.string().required(),
+        duration: Joi.string().required(),
+        type: Joi.string()
+          .valid(...Object.values(RoutineType))
+          .required(),
       }),
     },
   },

@@ -1,4 +1,4 @@
-import { IRoutine } from '@modules/routines/models/IRoutine';
+import { IRoutine, RoutineType } from '@modules/routines/models/IRoutine';
 import {
   Column,
   CreateDateColumn,
@@ -22,7 +22,12 @@ class Routine implements IRoutine {
   @Column()
   routine_group_id: string;
 
-  @ManyToOne(() => RoutineGroup, routineGroup => routineGroup)
+  @Column({ type: 'enum', enum: RoutineType })
+  type: RoutineType;
+
+  @ManyToOne(() => RoutineGroup, routineGroup => routineGroup, {
+    orphanedRowAction: 'delete',
+  })
   @JoinColumn({ name: 'routine_group_id', referencedColumnName: 'id' })
   routineGroup: RoutineGroup;
 
@@ -30,7 +35,7 @@ class Routine implements IRoutine {
   start_at: string;
 
   @Column()
-  end_at: string;
+  duration: string;
 
   @CreateDateColumn()
   created_at: Date;

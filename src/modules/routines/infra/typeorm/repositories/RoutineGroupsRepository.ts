@@ -28,7 +28,12 @@ class RoutineGroupsRepository implements IRoutineGroupsRepository {
     qb.where({ school_id })
       .select(['routineGroup.id', 'routineGroup.name'])
       .leftJoin('routineGroup.routines', 'routines')
-      .addSelect(['routines.id', 'routines.start_at', 'routines.end_at']);
+      .addSelect([
+        'routines.id',
+        'routines.start_at',
+        'routines.duration',
+        'routines.type',
+      ]);
 
     return qb.getMany();
   }
