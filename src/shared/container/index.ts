@@ -26,6 +26,8 @@ import { SchoolParametersRepository } from '@modules/schools/infra/typeorm/repos
 import { SchoolsRepository } from '@modules/schools/infra/typeorm/repositories/SchoolsRepository';
 import { ISchoolParametersRepository } from '@modules/schools/repositories/ISchoolParametersRepository';
 import { ISchoolsRepository } from '@modules/schools/repositories/ISchoolsRepository';
+import { SchoolYearsRepository } from '@modules/schoolYears/infra/typeorm/repositories/SchoolYearsRepository';
+import { ISchoolYearsRepository } from '@modules/schoolYears/repositories/ISchoolYearsRepository';
 import { SegmentsRepository } from '@modules/segments/infra/typeorm/repositories/SegmentsRepository';
 import { ISegmentsRepository } from '@modules/segments/repositories/ISegmentsRepository';
 import { SubjectsRepository } from '@modules/subjects/infra/typeorm/repositories/SubjectsRepository';
@@ -140,4 +142,9 @@ container.registerSingleton<ISchoolParametersRepository>(
 container.registerSingleton<IRoutineGroupsRepository>(
   'RoutineGroupsRepository',
   RoutineGroupsRepository,
+);
+
+container.registerSingleton<ISchoolYearsRepository>(
+  'SchoolYearsRepository',
+  SchoolYearsRepository,
 );

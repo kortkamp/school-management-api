@@ -13,6 +13,7 @@ import { RoutineGroup } from '@modules/routines/infra/typeorm/models/RoutineGrou
 import { RoutineSubject } from '@modules/routines/infra/typeorm/models/RoutineSubject';
 import { School } from '@modules/schools/infra/typeorm/models/School';
 import { SchoolParameter } from '@modules/schools/infra/typeorm/models/SchoolParameter';
+import { SchoolYear } from '@modules/schoolYears/infra/typeorm/models/SchoolYear';
 import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import { UserSubject } from '@modules/subjects/infra/typeorm/models/UserSubject';
@@ -49,6 +50,7 @@ const dataSourceOptions: DataSourceOptions = {
     Message,
     SchoolParameter,
     RoutineGroup,
+    SchoolYear,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };
