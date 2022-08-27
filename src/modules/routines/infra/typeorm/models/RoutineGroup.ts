@@ -29,7 +29,7 @@ class RoutineGroup implements IRoutineGroup {
   school: School;
 
   @OneToMany(type => Routine, routine => routine.routineGroup, {
-    cascade: true,
+    cascade: ['insert', 'update'],
   })
   @JoinColumn({ name: 'id' })
   routines: Routine[];

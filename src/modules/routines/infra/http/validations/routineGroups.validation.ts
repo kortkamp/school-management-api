@@ -39,7 +39,7 @@ export const updateRoutineGroupValidate = celebrate(
     [Segments.BODY]: {
       name: Joi.string().min(1).max(100).required(),
       routines: Joi.array().items({
-        id: Joi.string().uuid().required(),
+        id: Joi.string().uuid(),
         start_at: Joi.string().required(),
         duration: Joi.string().required(),
         type: Joi.string()

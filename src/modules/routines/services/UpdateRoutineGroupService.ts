@@ -27,9 +27,7 @@ class UpdateRoutineGroupService {
 
     Object.assign(routineGroup, data);
 
-    await this.routineGroupsRepository.save(routineGroup);
-
-    return routineGroup;
+    return this.routineGroupsRepository.create(routineGroup);
   }
 }
 
