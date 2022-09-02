@@ -1,11 +1,13 @@
 import { School } from '@modules/schools/infra/typeorm/models/School';
 import { ISchoolYear } from '@modules/schoolYears/models/ISchoolYear';
+import { Term } from '@modules/terms/infra/typeorm/models/Term';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -34,6 +36,10 @@ class SchoolYear implements ISchoolYear {
   @ManyToOne(() => School, school => school)
   @JoinColumn({ name: 'school_id', referencedColumnName: 'id' })
   school: School;
+
+  @OneToMany(type => Term, term => term.schoolYear)
+  @JoinColumn({ name: 'id' })
+  terms: Term[];
 
   @CreateDateColumn()
   created_at: Date;

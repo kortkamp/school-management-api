@@ -18,7 +18,7 @@ interface ITerm {
 
   end_at: Date;
 
-  school_id: string;
+  school_year_id: string;
 
   created_at: Date;
 

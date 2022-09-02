@@ -5,7 +5,7 @@ interface ICreateTermDTO {
   type: TermType;
   start_at?: Date;
   end_at?: Date;
-  school_id: string;
+  school_year_id: string;
 }
 
 export { ICreateTermDTO };

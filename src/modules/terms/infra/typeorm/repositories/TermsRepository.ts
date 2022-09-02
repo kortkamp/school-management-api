@@ -29,8 +29,8 @@ class TermsRepository implements ITermsRepository {
     return terms;
   }
 
-  public async getAll(school_id: string): Promise<Term[]> {
-    return this.ormRepository.find({ where: { school_id } });
+  public async getAll(school_year_id: string): Promise<Term[]> {
+    return this.ormRepository.find({ where: { school_year_id } });
   }
 
   public async save(data: Term): Promise<void> {
@@ -39,10 +39,10 @@ class TermsRepository implements ITermsRepository {
 
   public async findById(
     id: string,
-    school_id: string,
+    school_year_id: string,
   ): Promise<Term | undefined> {
     const term = await this.ormRepository.findOne({
-      where: { id, school_id },
+      where: { id, school_year_id },
     });
 
     return term;

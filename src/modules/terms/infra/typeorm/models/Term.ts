@@ -1,8 +1,11 @@
+import { SchoolYear } from '@modules/schoolYears/infra/typeorm/models/SchoolYear';
 import { ITerm, TermType } from '@modules/terms/models/ITerm';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -20,7 +23,11 @@ class Term implements ITerm {
   type: TermType;
 
   @Column()
-  school_id: string;
+  school_year_id: string;
+
+  @ManyToOne(() => SchoolYear, schoolYear => schoolYear)
+  @JoinColumn({ name: 'school_year_id', referencedColumnName: 'id' })
+  schoolYear: SchoolYear;
 
   @Column()
   start_at: Date;
