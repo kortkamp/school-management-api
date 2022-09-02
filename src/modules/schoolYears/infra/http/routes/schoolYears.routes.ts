@@ -3,6 +3,7 @@ import { Router } from 'express';
 
 import { SchoolYearsController } from '../controllers/SchoolYearsController';
 import {
+  closeSchoolYearValidate,
   createSchoolYearValidate,
   deleteSchoolYearValidate,
   showSchoolYearValidate,
@@ -15,14 +16,36 @@ schoolYearsRoutes.use(authMiddleware);
 
 const schoolYearsController = new SchoolYearsController();
 
-schoolYearsRoutes.post('/', createSchoolYearValidate, schoolYearsController.create);
+schoolYearsRoutes.post(
+  '/',
+  createSchoolYearValidate,
+  schoolYearsController.create,
+);
+
+schoolYearsRoutes.patch(
+  '/close/:id',
+  closeSchoolYearValidate,
+  schoolYearsController.close,
+);
 
 schoolYearsRoutes.get('/', schoolYearsController.index);
 
-schoolYearsRoutes.delete('/:id', deleteSchoolYearValidate, schoolYearsController.delete);
+schoolYearsRoutes.delete(
+  '/:id',
+  deleteSchoolYearValidate,
+  schoolYearsController.delete,
+);
 
-schoolYearsRoutes.put('/:id', updateSchoolYearValidate, schoolYearsController.update);
+schoolYearsRoutes.put(
+  '/:id',
+  updateSchoolYearValidate,
+  schoolYearsController.update,
+);
 
-schoolYearsRoutes.get('/:id', showSchoolYearValidate, schoolYearsController.show);
+schoolYearsRoutes.get(
+  '/:id',
+  showSchoolYearValidate,
+  schoolYearsController.show,
+);
 
 export { schoolYearsRoutes };

@@ -19,6 +19,12 @@ export const deleteSchoolYearValidate = celebrate({
   },
 });
 
+export const closeSchoolYearValidate = celebrate({
+  [Segments.PARAMS]: {
+    id: Joi.string().uuid().required(),
+  },
+});
+
 export const showSchoolYearValidate = celebrate({
   [Segments.PARAMS]: {
     id: Joi.string().uuid().required(),

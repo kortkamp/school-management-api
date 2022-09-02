@@ -1,3 +1,4 @@
+import { CloseSchoolYearService } from '@modules/schoolYears/services/CloseSchoolYearService';
 import { CreateSchoolYearService } from '@modules/schoolYears/services/CreateSchoolYearService';
 import { DeleteSchoolYearService } from '@modules/schoolYears/services/DeleteSchoolYearService';
 import { ListSchoolYearsService } from '@modules/schoolYears/services/ListSchoolYearsService';
@@ -36,6 +37,21 @@ class SchoolYearsController {
       .json({ success: true, schoolYear: instanceToInstance(schoolYear) });
   }
 
+  public async close(request: Request, response: Response): Promise<Response> {
+    const closeSchoolYearService = container.resolve(CloseSchoolYearService);
+    const school_id = request.school.id;
+    const school_year_id = request.params.id;
+
+    const schoolYear = await closeSchoolYearService.execute({
+      school_year_id,
+      school_id,
+    });
+
+    return response
+      .status(200)
+      .json({ success: true, schoolYear: instanceToInstance(schoolYear) });
+  }
+
   public async delete(request: Request, response: Response): Promise<Response> {
     const deleteSchoolYearService = container.resolve(DeleteSchoolYearService);
 
@@ -53,10 +69,13 @@ class SchoolYearsController {
 
     const schoolYearId = request.params.id;
 
+    const school_id = request.school.id;
+
     const data = request.body;
 
     const schoolYear = await updateSchoolYearService.execute({
       schoolYearId,
+      school_id,
       data,
     });
 
