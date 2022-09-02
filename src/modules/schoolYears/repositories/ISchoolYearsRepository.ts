@@ -5,7 +5,7 @@ interface ISchoolYearsRepository {
   create(data: ICreateSchoolYearDTO): Promise<ISchoolYear>;
   getAll(school_id: string): Promise<ISchoolYear[]>;
   findById(
-    userId: string,
+    id: string,
     school_id: string,
     relations?: string[],
   ): Promise<ISchoolYear | undefined>;
