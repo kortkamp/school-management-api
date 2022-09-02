@@ -1,5 +1,6 @@
 import { Address } from '@modules/addresses/infra/typeorm/models/Address';
 import { ISchool } from '@modules/schools/models/ISchool';
+import { SchoolYear } from '@modules/schoolYears/infra/typeorm/models/SchoolYear';
 import { UserSchoolRole } from '@modules/users/infra/typeorm/models/UserSchoolRole';
 import {
   Column,
@@ -56,6 +57,13 @@ class School implements ISchool {
 
   @Column()
   CEP: string;
+
+  @Column()
+  active_year_id: string;
+
+  @OneToOne(() => SchoolYear, schoolYear => schoolYear)
+  @JoinColumn({ name: 'active_year_id', referencedColumnName: 'id' })
+  school_year: SchoolYear;
 
   @OneToMany(type => UserSchoolRole, userSchoolRole => userSchoolRole.school, {
     cascade: ['insert'],

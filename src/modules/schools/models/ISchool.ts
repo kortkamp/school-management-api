@@ -25,6 +25,8 @@ interface ISchool {
 
   CEP: string;
 
+  active_year_id: string;
+
   created_at: Date;
 
   updated_at: Date;
