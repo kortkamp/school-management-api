@@ -42,10 +42,6 @@ schoolYearsRoutes.put(
   schoolYearsController.update,
 );
 
-schoolYearsRoutes.get(
-  '/:id',
-  showSchoolYearValidate,
-  schoolYearsController.show,
-);
+schoolYearsRoutes.get('/current', schoolYearsController.showBySchool);
 
 export { schoolYearsRoutes };

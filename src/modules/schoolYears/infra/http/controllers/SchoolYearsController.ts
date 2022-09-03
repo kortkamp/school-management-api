@@ -2,7 +2,7 @@ import { CloseSchoolYearService } from '@modules/schoolYears/services/CloseSchoo
 import { CreateSchoolYearService } from '@modules/schoolYears/services/CreateSchoolYearService';
 import { DeleteSchoolYearService } from '@modules/schoolYears/services/DeleteSchoolYearService';
 import { ListSchoolYearsService } from '@modules/schoolYears/services/ListSchoolYearsService';
-import { ShowSchoolYearService } from '@modules/schoolYears/services/ShowSchoolYearService';
+import { ShowCurrentSchoolYearService } from '@modules/schoolYears/services/ShowCurrentSchoolYearService';
 import { UpdateSchoolYearService } from '@modules/schoolYears/services/UpdateSchoolYearService';
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
@@ -82,16 +82,18 @@ class SchoolYearsController {
     return response.status(200).json({ success: true, schoolYear });
   }
 
-  public async show(request: Request, response: Response): Promise<Response> {
-    const showSchoolYearService = container.resolve(ShowSchoolYearService);
-
-    const schoolYearId = request.params.id;
+  public async showBySchool(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const showSchoolYearService = container.resolve(
+      ShowCurrentSchoolYearService,
+    );
 
     const schoolId = request.school.id;
 
     const schoolYear = await showSchoolYearService.execute({
       schoolId,
-      schoolYearId,
     });
 
     return response.status(200).json({ success: true, schoolYear });
