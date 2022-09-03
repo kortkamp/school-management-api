@@ -37,7 +37,9 @@ class SchoolYear implements ISchoolYear {
   @JoinColumn({ name: 'school_id', referencedColumnName: 'id' })
   school: School;
 
-  @OneToMany(type => Term, term => term.schoolYear)
+  @OneToMany(type => Term, term => term.schoolYear, {
+    cascade: ['insert', 'update'],
+  })
   @JoinColumn({ name: 'id' })
   terms: Term[];
 

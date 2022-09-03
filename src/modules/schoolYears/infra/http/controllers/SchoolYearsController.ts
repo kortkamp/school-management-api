@@ -87,7 +87,12 @@ class SchoolYearsController {
 
     const schoolYearId = request.params.id;
 
-    const schoolYear = await showSchoolYearService.execute(schoolYearId);
+    const schoolId = request.school.id;
+
+    const schoolYear = await showSchoolYearService.execute({
+      schoolId,
+      schoolYearId,
+    });
 
     return response.status(200).json({ success: true, schoolYear });
   }

@@ -40,9 +40,7 @@ class UpdateSchoolYearService {
 
     Object.assign(schoolYear, data);
 
-    await this.schoolYearsRepository.save(schoolYear);
-
-    return schoolYear;
+    return this.schoolYearsRepository.create(schoolYear);
   }
 }
 

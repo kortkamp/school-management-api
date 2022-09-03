@@ -25,7 +25,9 @@ class Term implements ITerm {
   @Column()
   school_year_id: string;
 
-  @ManyToOne(() => SchoolYear, schoolYear => schoolYear)
+  @ManyToOne(() => SchoolYear, schoolYear => schoolYear, {
+    orphanedRowAction: 'delete',
+  })
   @JoinColumn({ name: 'school_year_id', referencedColumnName: 'id' })
   schoolYear: SchoolYear;
 
