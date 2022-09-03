@@ -1,4 +1,9 @@
-import { MigrationInterface, QueryRunner, TableColumn } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  TableColumn,
+  TableForeignKey,
+} from 'typeorm';
 
 export class AlterSchoolAddActiveYear1662135522885
   implements MigrationInterface
@@ -9,6 +14,16 @@ export class AlterSchoolAddActiveYear1662135522885
         name: 'active_year_id',
         type: 'uuid',
         isNullable: true,
+      }),
+    ]);
+    await queryRunner.createForeignKeys('schools', [
+      new TableForeignKey({
+        name: 'FKSchoolActiveYear',
+        referencedTableName: 'school_years',
+        referencedColumnNames: ['id'],
+        columnNames: ['active_year_id'],
+        onDelete: 'SET NULL',
+        onUpdate: 'SET NULL',
       }),
     ]);
   }
