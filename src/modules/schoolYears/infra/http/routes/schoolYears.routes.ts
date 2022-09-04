@@ -22,7 +22,7 @@ schoolYearsRoutes.post(
   schoolYearsController.create,
 );
 
-schoolYearsRoutes.patch(
+schoolYearsRoutes.post(
   '/close/:id',
   closeSchoolYearValidate,
   schoolYearsController.close,
