@@ -14,7 +14,7 @@ class ShowSchoolParameterService {
     const schoolParameter =
       await this.schoolParametersRepository.findBySchoolId(schoolParameterId);
     if (!schoolParameter) {
-      throw new ErrorsApp('SchoolParameter does not exists', 404);
+      throw new ErrorsApp('Parâmetros de funcionamento não cadastrados', 404);
     }
 
     return schoolParameter;
