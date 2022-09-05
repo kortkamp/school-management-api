@@ -1,6 +1,3 @@
-import { ICreateTermDTO } from '@modules/terms/dtos/ICreateTermDTO';
-import { TermType } from '@modules/terms/models/ITerm';
-import { ITermsRepository } from '@modules/terms/repositories/ITermsRepository';
 import { inject, injectable } from 'tsyringe';
 
 import ErrorsApp from '@shared/errors/ErrorsApp';
@@ -19,9 +16,6 @@ class CreateSchoolParameterService {
   constructor(
     @inject('SchoolParametersRepository')
     private schoolParametersRepository: ISchoolParametersRepository,
-
-    @inject('TermsRepository')
-    private termsRepository: ITermsRepository,
   ) {}
 
   public async execute({ data, school_id }: IRequest) {
@@ -37,40 +31,6 @@ class CreateSchoolParameterService {
     const schoolParameters = await this.schoolParametersRepository.create(
       schoolParameterData,
     );
-
-    // create terms
-    const termsData: ICreateTermDTO[] = [];
-
-    for (let i = 1; i <= schoolParameters.term_number; i += 1) {
-      const term: ICreateTermDTO = {
-        school_id,
-        name: `${i}º ${schoolParameters.term_period}`,
-        type: TermType.STANDARD,
-      };
-      termsData.push(term);
-      if (schoolParameters.recovering_coverage > 0) {
-        const isLastTermOfAbrangence =
-          i % schoolParameters.recovering_coverage === 0;
-        const recoveringTerm: ICreateTermDTO = {
-          school_id,
-          name: `Recuperação`,
-          type: TermType.RECOVERING,
-        };
-        if (isLastTermOfAbrangence) {
-          termsData.push(recoveringTerm);
-        }
-      }
-    }
-    if (schoolParameters.final_recovering) {
-      const recoveringTerm: ICreateTermDTO = {
-        school_id,
-        name: `Recuperação Final`,
-        type: TermType.RECOVERING,
-      };
-      termsData.push(recoveringTerm);
-    }
-
-    await this.termsRepository.create(termsData);
 
     return schoolParameters;
   }
