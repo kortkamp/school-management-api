@@ -3,6 +3,8 @@ interface ISchool {
 
   name: string;
 
+  full_name: string;
+
   CNPJ: string;
 
   email: string;

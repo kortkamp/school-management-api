@@ -26,6 +26,9 @@ class School implements ISchool {
   name: string;
 
   @Column()
+  full_name: string;
+
+  @Column()
   CNPJ: string;
 
   @Column()
