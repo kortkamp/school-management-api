@@ -19,11 +19,11 @@ export const createSchoolParameterValidate = celebrate(
       term_number: Joi.number().integer().positive().required(),
       recovering_coverage: Joi.number().integer().empty('').default(null),
       recovering_type: Joi.string()
-        .valid(...Object.values(RecoveringType))
+        .valid(...Object.values(RecoveringType), null)
         .empty('')
         .default(null),
       final_recovering: Joi.string()
-        .valid(...Object.values(RecoveringType))
+        .valid(...Object.values(RecoveringType), null)
         .empty('')
         .default(null),
       class_length: Joi.number().integer().positive().required(),
