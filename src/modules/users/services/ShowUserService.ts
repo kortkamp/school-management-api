@@ -9,7 +9,6 @@ interface IRequest {
   userId: string;
   authUser: {
     id: string;
-    role: string;
   };
 }
 @injectable()
