@@ -111,7 +111,7 @@ class User implements IUser {
   teachingClasses: ClassGroup[];
 
   @OneToMany(type => UserSchoolRole, userSchoolRole => userSchoolRole.user, {
-    cascade: ['insert'],
+    cascade: ['insert', 'update'],
   })
   @JoinColumn({ name: 'id' })
   userSchoolRoles: UserSchoolRole[];

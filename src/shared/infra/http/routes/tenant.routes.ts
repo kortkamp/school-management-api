@@ -1,5 +1,6 @@
 import { classGroupsRoutes } from '@modules/classGroups/infra/http/routes/classGroups.routes';
 import { teacherClassesRoutes } from '@modules/classGroups/infra/http/routes/teacherClasses.routes';
+import { employeesRoutes } from '@modules/employees/infra/http/routes/employees.routes';
 import { examsRoutes } from '@modules/exams/infra/http/routes/exams.routes';
 import { gradesRoutes } from '@modules/grades/infra/http/routes/grades.routes';
 import { routineGroupsRoutes } from '@modules/routines/infra/http/routes/routineGroups.routes';
@@ -31,5 +32,7 @@ tenantRoutes.use('/routine-groups', routineGroupsRoutes);
 
 tenantRoutes.use('/parameters', schoolParametersRoutes);
 tenantRoutes.use('/school-years', schoolYearsRoutes);
+
+tenantRoutes.use('/employees', employeesRoutes);
 
 export { tenantRoutes };

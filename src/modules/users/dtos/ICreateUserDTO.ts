@@ -6,7 +6,6 @@ interface ICreateUserDTO {
   phone?: string;
   sex: 'M' | 'F';
   birth: Date;
-  role_id: string;
   password?: string;
   active?: boolean;
   segment_id?: string;
