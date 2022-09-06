@@ -23,6 +23,12 @@ export const createUserValidate = celebrate(
   },
 );
 
+export const findByCPFValidate = celebrate({
+  [Segments.PARAMS]: {
+    CPF: Joi.string().trim().length(11).required(),
+  },
+});
+
 export const confirmUserValidate = celebrate({
   [Segments.QUERY]: {
     token: Joi.string().uuid().required(),

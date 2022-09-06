@@ -1,5 +1,6 @@
 import { CreateUserService } from '@modules/users/services/CreateUserService';
 import { DeleteUserService } from '@modules/users/services/DeleteUserService';
+import { FindByCPFService } from '@modules/users/services/FindByCPFService';
 import { ListUsersService } from '@modules/users/services/ListUsersService';
 import { ShowUserService } from '@modules/users/services/ShowUserService';
 import { UpdateUserService } from '@modules/users/services/UpdateUserService';
@@ -24,6 +25,19 @@ class UsersController {
     const authUser = request.user;
 
     const user = await showUserService.execute({ authUser, userId });
+
+    return response.json({ success: true, user: instanceToInstance(user) });
+  }
+
+  public async findByCPF(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const findByCPFService = container.resolve(FindByCPFService);
+
+    const userCPF = request.params.CPF;
+
+    const user = await findByCPFService.execute({ userCPF });
 
     return response.json({ success: true, user: instanceToInstance(user) });
   }
