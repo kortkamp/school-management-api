@@ -30,11 +30,17 @@ export const createEmployeeValidate = celebrate(
   },
 );
 
-export const deleteEmployeeValidate = celebrate({
-  [Segments.PARAMS]: {
-    id: Joi.string().uuid().required(),
+export const deleteEmployeeValidate = celebrate(
+  {
+    [Segments.BODY]: {
+      role_id: Joi.string().uuid().required(),
+      user_id: Joi.string().uuid().required(),
+    },
   },
-});
+  {
+    abortEarly: false,
+  },
+);
 
 export const showEmployeeValidate = celebrate({
   [Segments.PARAMS]: {
@@ -59,6 +65,7 @@ export const createEmployeeRoleValidate = celebrate(
     [Segments.BODY]: {
       employee_id: Joi.string().uuid().required(),
       role_id: Joi.string().uuid().required(),
+      prev_role_id: Joi.string().uuid().empty('').default(null).allow(null),
     },
   },
   {

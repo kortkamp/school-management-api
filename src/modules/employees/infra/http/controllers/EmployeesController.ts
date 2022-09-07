@@ -2,8 +2,6 @@ import { CreateEmployeeRoleService } from '@modules/employees/services/CreateEmp
 import { CreateEmployeeService } from '@modules/employees/services/CreateEmployeeService';
 import { DeleteEmployeeService } from '@modules/employees/services/DeleteEmployeeService';
 import { ListEmployeesService } from '@modules/employees/services/ListEmployeesService';
-import { ShowEmployeeService } from '@modules/employees/services/ShowEmployeeService';
-import { UpdateEmployeeService } from '@modules/employees/services/UpdateEmployeeService';
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
@@ -51,7 +49,10 @@ class EmployeesController {
 
     const school_id = request.school.id;
 
+    const authUserId = request.user.id;
+
     const employee = await createEmployeeRoleService.execute({
+      authUserId,
       school_id,
       data,
     });
@@ -64,33 +65,13 @@ class EmployeesController {
   public async delete(request: Request, response: Response): Promise<Response> {
     const deleteEmployeeService = container.resolve(DeleteEmployeeService);
 
-    const employeeId = request.params.id;
+    const { user_id, role_id } = request.body;
 
-    await deleteEmployeeService.execute(employeeId);
+    const school_id = request.school.id;
 
-    return response.status(204).json({ success: true });
-  }
+    await deleteEmployeeService.execute({ user_id, role_id, school_id });
 
-  public async update(request: Request, response: Response): Promise<Response> {
-    const updateEmployeeService = container.resolve(UpdateEmployeeService);
-
-    const employeeId = request.params.id;
-
-    const data = request.body;
-
-    const employee = await updateEmployeeService.execute({ employeeId, data });
-
-    return response.status(200).json({ success: true, employee });
-  }
-
-  public async show(request: Request, response: Response): Promise<Response> {
-    const showEmployeeService = container.resolve(ShowEmployeeService);
-
-    const employeeId = request.params.id;
-
-    const employee = await showEmployeeService.execute(employeeId);
-
-    return response.status(200).json({ success: true, employee });
+    return response.status(200).json({ success: true });
   }
 }
 

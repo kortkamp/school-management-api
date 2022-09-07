@@ -1,5 +1,6 @@
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
-import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
+import { IUserSchoolRole } from '@modules/users/models/IUserSchoolRole';
+import { IUserSchoolRoleRepositories } from '@modules/users/repositories/IUserSchoolRoleRepositories';
 import { inject, injectable } from 'tsyringe';
 import { IFilterQuery } from 'typeorm-dynamic-filters';
 
@@ -7,18 +8,15 @@ import { IListResultInterface } from '@shared/dtos/IListResultDTO';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
 interface IRequest {
-  query: IFilterQuery;
   school_id: string;
+  query: IFilterQuery;
 }
 
 @injectable()
 class ListEmployeesService {
   constructor(
-    @inject('UsersRepository')
-    private employeesRepository: IUsersRepository,
-
-    @inject('RolesRepository')
-    private rolesRepository: IRolesRepository,
+    @inject('UserSchoolRoleRepositories')
+    private userSchoolRoleRepositories: IUserSchoolRoleRepositories,
   ) {}
   public async execute({
     school_id,
@@ -26,11 +24,21 @@ class ListEmployeesService {
   }: IRequest): Promise<IListResultInterface> {
     const { page, per_page } = query;
 
-    const [employees, length] =
-      await this.employeesRepository.listEmployeesBySchool(school_id, query);
+    if (!school_id) {
+      throw new ErrorsApp('Nenhuma escola associada', 400);
+    }
+    const [roles, length] =
+      await this.userSchoolRoleRepositories.listSchoolRoles(school_id, query);
+
+    const normalized = roles.map(role => ({
+      id: role.user_id,
+      name: role.user.name,
+      role: role.role.name,
+      role_id: role.role_id,
+    }));
 
     return {
-      result: employees,
+      result: normalized,
       total_filtered: length,
       page,
       per_page,

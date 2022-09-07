@@ -38,14 +38,6 @@ employeesRoutes.post('/', createEmployeeValidate, employeesController.create);
 
 employeesRoutes.get('/', listEmployeesValidate, employeesController.index);
 
-employeesRoutes.delete(
-  '/:id',
-  deleteEmployeeValidate,
-  employeesController.delete,
-);
-
-employeesRoutes.put('/:id', updateEmployeeValidate, employeesController.update);
-
-employeesRoutes.get('/:id', showEmployeeValidate, employeesController.show);
+employeesRoutes.delete('/', deleteEmployeeValidate, employeesController.delete);
 
 export { employeesRoutes };
