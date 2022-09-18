@@ -1,5 +1,6 @@
 import { CreateSchoolService } from '@modules/schools/services/CreateSchoolService';
 import { DeleteSchoolService } from '@modules/schools/services/DeleteSchoolService';
+import { FinishSchoolRegisterService } from '@modules/schools/services/FinishSchoolRegisterService';
 import { ListSchoolsService } from '@modules/schools/services/ListSchoolsService';
 import { ShowSchoolService } from '@modules/schools/services/ShowSchoolService';
 import { UpdateSchoolService } from '@modules/schools/services/UpdateSchoolService';
@@ -63,6 +64,27 @@ class SchoolsController {
     const school = await showSchoolService.execute(schoolId);
 
     return response.status(200).json({ success: true, school });
+  }
+
+  public async finishRegistration(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const finishSchoolRegisterService = container.resolve(
+      FinishSchoolRegisterService,
+    );
+
+    const authUserId = request.user.id;
+    const schoolId = request.school.id;
+
+    const school = await finishSchoolRegisterService.execute({
+      schoolId,
+      authUserId,
+    });
+
+    return response
+      .status(201)
+      .json({ success: true, school: instanceToInstance(school) });
   }
 }
 

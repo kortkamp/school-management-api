@@ -6,6 +6,7 @@ import { gradesRoutes } from '@modules/grades/infra/http/routes/grades.routes';
 import { routineGroupsRoutes } from '@modules/routines/infra/http/routes/routineGroups.routes';
 import { routinesRoutes } from '@modules/routines/infra/http/routes/routines.routes';
 import { schoolParametersRoutes } from '@modules/schools/infra/http/routes/schoolParameters.routes';
+import { schoolRegistrationRoutes } from '@modules/schools/infra/http/routes/schoolRegistration.routes';
 import { schoolYearsRoutes } from '@modules/schoolYears/infra/http/routes/schoolYears.routes';
 import { segmentsRoutes } from '@modules/segments/infra/http/routes/segments.routes';
 import { studentsRoutes } from '@modules/students/infra/http/routes/students.routes';
@@ -34,5 +35,6 @@ tenantRoutes.use('/parameters', schoolParametersRoutes);
 tenantRoutes.use('/school-years', schoolYearsRoutes);
 
 tenantRoutes.use('/employees', employeesRoutes);
+tenantRoutes.use('/registration', schoolRegistrationRoutes);
 
 export { tenantRoutes };
