@@ -20,6 +20,15 @@ class Segment implements ISegment {
   @Column()
   name: string;
 
+  @Column()
+  phases_number: number;
+
+  @Column()
+  phase_name: string;
+
+  @Column()
+  starting_phase: number;
+
   @CreateDateColumn()
   created_at: Date;
 
