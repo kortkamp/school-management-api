@@ -1,5 +1,5 @@
+import { Course } from '@modules/courses/infra/typeorm/models/Course';
 import { IGrade } from '@modules/grades/models/IGrade';
-import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
 import {
   Column,
   CreateDateColumn,
@@ -20,11 +20,17 @@ class Grade implements IGrade {
   name: string;
 
   @Column()
-  segment_id: string;
+  course_id: string;
 
-  @ManyToOne(() => Segment, segment => segment)
-  @JoinColumn({ name: 'segment_id', referencedColumnName: 'id' })
-  segment: Segment;
+  @Column()
+  total_hours: number;
+
+  @Column()
+  days: number;
+
+  @ManyToOne(() => Course, course => course, { orphanedRowAction: 'delete' })
+  @JoinColumn({ name: 'course_id', referencedColumnName: 'id' })
+  course: Course;
 
   @CreateDateColumn()
   created_at: Date;

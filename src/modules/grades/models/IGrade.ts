@@ -3,7 +3,11 @@ interface IGrade {
 
   name: string;
 
-  segment_id: string;
+  course_id: string;
+
+  total_hours: number;
+
+  days: number;
 
   created_at: Date;
 
