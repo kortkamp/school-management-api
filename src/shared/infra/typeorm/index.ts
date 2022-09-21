@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { Address } from '@modules/addresses/infra/typeorm/models/Address';
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { TeacherClass } from '@modules/classGroups/infra/typeorm/models/TeacherClass';
+import { Course } from '@modules/courses/infra/typeorm/models/Course';
 import { Exam } from '@modules/exams/infra/typeorm/models/Exam';
 import { ExamResult } from '@modules/exams/infra/typeorm/models/ExamResult';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
@@ -51,6 +52,7 @@ const dataSourceOptions: DataSourceOptions = {
     SchoolParameter,
     RoutineGroup,
     SchoolYear,
+    Course,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };

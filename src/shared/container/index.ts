@@ -6,6 +6,8 @@ import { ClassGroupsRepository } from '@modules/classGroups/infra/typeorm/reposi
 import { TeacherClassesRepository } from '@modules/classGroups/infra/typeorm/repositories/TeacherClasssRepository';
 import { IClassGroupsRepository } from '@modules/classGroups/repositories/IClassGroupsRepository';
 import { ITeacherClassesRepository } from '@modules/classGroups/repositories/ITeacherClassesRepository';
+import { CoursesRepository } from '@modules/courses/infra/typeorm/repositories/CoursesRepository';
+import { ICoursesRepository } from '@modules/courses/repositories/ICoursesRepository';
 import { ExamResultsRepository } from '@modules/exams/infra/typeorm/repositories/ExamResultsRepository';
 import { ExamsRepository } from '@modules/exams/infra/typeorm/repositories/ExamsRepository';
 import { IExamResultsRepository } from '@modules/exams/repositories/IExamResultsRepository';
@@ -147,4 +149,9 @@ container.registerSingleton<IRoutineGroupsRepository>(
 container.registerSingleton<ISchoolYearsRepository>(
   'SchoolYearsRepository',
   SchoolYearsRepository,
+);
+
+container.registerSingleton<ICoursesRepository>(
+  'CoursesRepository',
+  CoursesRepository,
 );
