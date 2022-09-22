@@ -1,3 +1,5 @@
+import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
+
 interface IGrade {
   id: string;
 
@@ -8,6 +10,8 @@ interface IGrade {
   total_hours: number;
 
   days: number;
+
+  class_groups: ClassGroup[];
 
   created_at: Date;
 

@@ -35,7 +35,7 @@ class CoursesRepository implements ICoursesRepository {
       'courses.phases_number',
       'courses.segment_id',
     ]);
-    qb.where('school_id = :school_id', { school_id });
+    qb.where('courses.school_id = :school_id', { school_id });
     qb.leftJoin('courses.grades', 'grades')
       .addSelect([
         'grades.id',
@@ -43,7 +43,10 @@ class CoursesRepository implements ICoursesRepository {
         'grades.days',
         'grades.total_hours',
       ])
-      .orderBy('grades.name', 'ASC');
+      .leftJoin('grades.class_groups', 'class_groups')
+      .addSelect(['class_groups.id', 'class_groups.name'])
+      .orderBy('grades.name', 'ASC')
+      .orderBy('courses.created_at', 'ASC');
     // return this.ormRepository.find({ where: { school_id }, relations });
     return qb.getMany();
   }

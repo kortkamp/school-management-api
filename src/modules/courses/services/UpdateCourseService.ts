@@ -35,6 +35,19 @@ class UpdateCourseService {
       }
     }
 
+    data.grades?.forEach(grade => {
+      grade.class_groups?.forEach(class_group => {
+        Object.assign(class_group, { school_id });
+      });
+    });
+
+    // data.grades.forEach(grade => {
+    //   grade.class_groups.forEach(class_group => {
+    //     console.log(class_group);
+    //   });
+    //   console.log(grade);
+    // });
+
     Object.assign(course, data);
 
     return this.coursesRepository.create(course);

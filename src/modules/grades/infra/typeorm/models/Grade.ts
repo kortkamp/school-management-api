@@ -1,3 +1,4 @@
+import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { Course } from '@modules/courses/infra/typeorm/models/Course';
 import { IGrade } from '@modules/grades/models/IGrade';
 import {
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,6 +33,12 @@ class Grade implements IGrade {
   @ManyToOne(() => Course, course => course, { orphanedRowAction: 'delete' })
   @JoinColumn({ name: 'course_id', referencedColumnName: 'id' })
   course: Course;
+
+  @OneToMany(type => ClassGroup, classGroups => classGroups.grade, {
+    cascade: ['insert', 'update', 'remove'],
+  })
+  @JoinColumn({ name: 'id' })
+  class_groups: ClassGroup[];
 
   @CreateDateColumn()
   created_at: Date;

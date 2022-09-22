@@ -5,6 +5,8 @@ interface IClassGroup {
 
   grade_id: string;
 
+  school_id: string;
+
   routine_group_id: string;
 
   created_at: Date;

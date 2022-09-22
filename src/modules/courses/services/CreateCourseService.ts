@@ -27,6 +27,12 @@ class CreateCourseService {
       throw new ErrorsApp('Ja existe um curso com este nome', 409);
     }
 
+    data.grades.forEach(grade => {
+      grade.class_groups.forEach(class_group => {
+        Object.assign(class_group, { school_id });
+      });
+    });
+
     const course = await this.coursesRepository.create({ ...data, school_id });
 
     return course;

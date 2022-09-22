@@ -1,5 +1,6 @@
 import { IClassGroup } from '@modules/classGroups/models/IClassGroup';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
+import { School } from '@modules/schools/infra/typeorm/models/School';
 import { User } from '@modules/users/infra/typeorm/models/User';
 import {
   Column,
@@ -30,6 +31,16 @@ class ClassGroup implements IClassGroup {
   @Column()
   routine_group_id: string;
 
+  @Column()
+  school_id: string;
+
+  @ManyToOne(() => School, school => school)
+  @JoinColumn({
+    name: 'school_id',
+    referencedColumnName: 'id',
+  })
+  school: School;
+
   @OneToMany(type => User, users => users.classGroup, {})
   @JoinColumn({ name: 'id' })
   students: User[];
@@ -45,8 +56,11 @@ class ClassGroup implements IClassGroup {
   @ManyToMany(type => User, user => user.teachingClasses)
   teachers: User[];
 
-  @ManyToOne(() => Grade, grade => grade)
-  @JoinColumn({ name: 'grade_id', referencedColumnName: 'id' })
+  @ManyToOne(() => Grade, grade => grade, { orphanedRowAction: 'nullify' })
+  @JoinColumn({
+    name: 'grade_id',
+    referencedColumnName: 'id',
+  })
   grade: Grade;
 
   @CreateDateColumn()
