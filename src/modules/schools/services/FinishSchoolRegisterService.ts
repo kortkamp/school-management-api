@@ -10,6 +10,7 @@ import { ISchoolsRepository } from '../repositories/ISchoolsRepository';
 interface IRequest {
   schoolId: string;
   authUserId: string;
+  newRoleId: string;
 }
 @injectable()
 class FinishSchoolRegisterService {
@@ -24,15 +25,7 @@ class FinishSchoolRegisterService {
     private userSchoolRoleRepositories: IUserSchoolRoleRepositories,
   ) {}
 
-  public async execute({ schoolId, authUserId }: IRequest) {
-    const principalRole = await this.rolesRepository.findByType(
-      RoleTypes.PRINCIPAL,
-    );
-
-    if (!principalRole) {
-      throw new ErrorsApp('A função de diretor não existe', 404);
-    }
-
+  public async execute({ schoolId, authUserId, newRoleId }: IRequest) {
     const registerRole = await this.rolesRepository.findByType(
       RoleTypes.REGISTER,
     );
@@ -47,21 +40,37 @@ class FinishSchoolRegisterService {
       throw new ErrorsApp('A escola não existe', 404);
     }
 
-    throw new ErrorsApp('em teste', 400);
-
     const registerUserSchoolRole = await this.userSchoolRoleRepositories.find(
       schoolId,
       authUserId,
       registerRole.id,
     );
 
+    const newRole = await this.rolesRepository.findById(newRoleId);
+    if (!newRole) {
+      throw new ErrorsApp('Função não encontrada', 404);
+    }
+
     await this.userSchoolRoleRepositories.delete(registerUserSchoolRole);
 
     Object.assign(school, {
-      userSchoolRoles: [{ role_id: principalRole.id, user_id: authUserId }],
+      userSchoolRoles: [{ role_id: newRoleId, user_id: authUserId }],
     });
 
-    return school;
+    await this.userSchoolRoleRepositories.create({
+      role_id: newRoleId,
+      school_id: schoolId,
+      user_id: authUserId,
+    });
+
+    const response = {
+      id: school.id,
+      name: school.name,
+      role: newRole.type,
+      role_name: newRole.name,
+    };
+
+    return response;
   }
 }
 

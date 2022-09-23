@@ -76,15 +76,15 @@ class SchoolsController {
 
     const authUserId = request.user.id;
     const schoolId = request.school.id;
+    const { newRoleId } = request.body;
 
-    const school = await finishSchoolRegisterService.execute({
+    const newSchoolRole = await finishSchoolRegisterService.execute({
       schoolId,
       authUserId,
+      newRoleId,
     });
 
-    return response
-      .status(201)
-      .json({ success: true, school: instanceToInstance(school) });
+    return response.status(201).json({ success: true, newSchoolRole });
   }
 }
 
