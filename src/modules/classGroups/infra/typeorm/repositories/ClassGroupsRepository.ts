@@ -29,9 +29,13 @@ class ClassGroupsRepository implements IClassGroupsRepository {
     return newClassGroup;
   }
 
-  public async getAll(relations: string[] = []): Promise<ClassGroup[]> {
+  public async getAll(
+    school_id: string,
+    relations: string[] = [],
+  ): Promise<ClassGroup[]> {
     const qb = this.ormRepository.createQueryBuilder('classGroup');
-    qb.leftJoin('classGroup.grade', 'grade')
+    qb.where('classGroup.school_id = :school_id', { school_id })
+      .leftJoin('classGroup.grade', 'grade')
       .addSelect(['grade.id', 'grade.name'])
       .leftJoin('grade.segment', 'segment')
       .addSelect(['segment.id', 'segment.name'])
@@ -43,6 +47,12 @@ class ClassGroupsRepository implements IClassGroupsRepository {
       );
 
     return qb.getMany();
+  }
+
+  public async listClassGroups(school_id: string): Promise<ClassGroup[]> {
+    const classGroups = await this.ormRepository.find({ where: { school_id } });
+
+    return classGroups;
   }
 
   public async getAllByTeacher(teacher_id: string): Promise<ClassGroup[]> {
