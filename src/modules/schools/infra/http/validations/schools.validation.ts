@@ -72,3 +72,9 @@ export const updateSchoolValidate = celebrate(
     abortEarly: false,
   },
 );
+
+export const finishRegistrationValidate = celebrate({
+  [Segments.BODY]: {
+    newRoleId: Joi.string().uuid().required(),
+  },
+});

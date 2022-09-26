@@ -4,6 +4,7 @@ import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMid
 import { Router } from 'express';
 
 import { SchoolsController } from '../controllers/SchoolsController';
+import { finishRegistrationValidate } from '../validations/schools.validation';
 
 const schoolRegistrationRoutes = Router();
 
@@ -13,6 +14,10 @@ const schoolsController = new SchoolsController();
 
 schoolRegistrationRoutes.use(ensureRoles([RoleTypes.REGISTER]));
 
-schoolRegistrationRoutes.post('/finish/', schoolsController.finishRegistration);
+schoolRegistrationRoutes.post(
+  '/finish/',
+  finishRegistrationValidate,
+  schoolsController.finishRegistration,
+);
 
 export { schoolRegistrationRoutes };
