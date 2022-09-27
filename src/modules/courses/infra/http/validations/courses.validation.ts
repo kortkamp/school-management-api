@@ -14,10 +14,12 @@ export const createCourseValidate = celebrate(
           name: Joi.string().required(),
           total_hours: Joi.number().integer().positive().required(),
           days: Joi.number().integer().positive().required(),
-          class_groups: Joi.array().items({
-            id: Joi.string(),
-            name: Joi.string().required(),
-          }),
+          class_groups: Joi.array()
+            .items({
+              id: Joi.string(),
+              name: Joi.string().required(),
+            })
+            .required(),
         })
         .required(),
     },
@@ -55,10 +57,12 @@ export const updateCourseValidate = celebrate(
         name: Joi.string().required(),
         total_hours: Joi.number().integer().positive().required(),
         days: Joi.number().integer().positive().required(),
-        class_groups: Joi.array().items({
-          id: Joi.string(),
-          name: Joi.string().required(),
-        }),
+        class_groups: Joi.array()
+          .items({
+            id: Joi.string(),
+            name: Joi.string().required(),
+          })
+          .required(),
       }),
     },
   },
