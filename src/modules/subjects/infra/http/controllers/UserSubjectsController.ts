@@ -39,7 +39,7 @@ class UserSubjectsController {
 
     await deleteUserSubjectService.execute({ user_id, subject_id });
 
-    return response.status(204).json({ success: true });
+    return response.status(200).json({ success: true });
   }
 }
 
