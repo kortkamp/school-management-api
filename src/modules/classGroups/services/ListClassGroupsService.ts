@@ -8,8 +8,8 @@ class ListClassGroupsService {
     @inject('ClassGroupsRepository')
     private classGroupsRepository: IClassGroupsRepository,
   ) {}
-  public async execute() {
-    const classGroups = await this.classGroupsRepository.getAll();
+  public async execute(school_id: string) {
+    const classGroups = await this.classGroupsRepository.getAll(school_id);
 
     return classGroups;
   }

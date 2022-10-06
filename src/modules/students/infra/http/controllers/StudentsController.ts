@@ -12,7 +12,10 @@ class StudentsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listStudentsService = container.resolve(ListStudentsService);
 
+    const school_id = request.school.id;
+
     const students = await listStudentsService.execute(
+      school_id,
       parseQueryFilters(request.query),
     );
 
@@ -25,11 +28,14 @@ class StudentsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const createStudentService = container.resolve(CreateStudentService);
 
-    const auth_user = request.user;
+    const school_id = request.school.id;
 
     const data = request.body;
 
-    const student = await createStudentService.execute({ auth_user, data });
+    const student = await createStudentService.execute({
+      data,
+      school_id,
+    });
 
     return response
       .status(201)

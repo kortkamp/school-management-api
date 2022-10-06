@@ -30,13 +30,11 @@ class SubjectsRepository implements ISubjectsRepository {
   }
 
   public async getAll(): Promise<Subject[]> {
-    const qb = this.ormRepository.createQueryBuilder('subject');
+    const subjects = await this.ormRepository.find({
+      select: ['id', 'name', 'segment_id'],
+    });
 
-    qb.select(['subject.id', 'subject.name'])
-      .leftJoin('subject.segment', 'segment')
-      .addSelect(['segment.id', 'segment.name']);
-
-    return qb.getMany();
+    return subjects;
   }
 
   public async getAllByTeacher(teacher_id: string): Promise<Subject[]> {

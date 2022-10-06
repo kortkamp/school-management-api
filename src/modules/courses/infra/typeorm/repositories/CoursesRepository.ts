@@ -46,7 +46,8 @@ class CoursesRepository implements ICoursesRepository {
       .leftJoin('grades.class_groups', 'class_groups')
       .addSelect(['class_groups.id', 'class_groups.name'])
       .orderBy('grades.name', 'ASC')
-      .orderBy('courses.created_at', 'ASC');
+      .addOrderBy('courses.created_at', 'ASC')
+      .addOrderBy('class_groups.name', 'ASC');
     // return this.ormRepository.find({ where: { school_id }, relations });
     return qb.getMany();
   }

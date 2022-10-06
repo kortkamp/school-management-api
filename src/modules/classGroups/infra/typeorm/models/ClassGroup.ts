@@ -1,5 +1,6 @@
 import { IClassGroup } from '@modules/classGroups/models/IClassGroup';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
+import { RoutineGroup } from '@modules/routines/infra/typeorm/models/RoutineGroup';
 import { School } from '@modules/schools/infra/typeorm/models/School';
 import { User } from '@modules/users/infra/typeorm/models/User';
 import {
@@ -62,6 +63,12 @@ class ClassGroup implements IClassGroup {
     referencedColumnName: 'id',
   })
   grade: Grade;
+
+  @ManyToOne(() => RoutineGroup, routineGroup => routineGroup, {
+    orphanedRowAction: 'delete',
+  })
+  @JoinColumn({ name: 'routine_group_id', referencedColumnName: 'id' })
+  routineGroup: RoutineGroup;
 
   @CreateDateColumn()
   created_at: Date;

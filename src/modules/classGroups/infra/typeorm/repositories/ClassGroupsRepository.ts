@@ -35,16 +35,19 @@ class ClassGroupsRepository implements IClassGroupsRepository {
   ): Promise<ClassGroup[]> {
     const qb = this.ormRepository.createQueryBuilder('classGroup');
     qb.where('classGroup.school_id = :school_id', { school_id })
+      .select(['classGroup.id', 'classGroup.name'])
       .leftJoin('classGroup.grade', 'grade')
       .addSelect(['grade.id', 'grade.name'])
-      .leftJoin('grade.segment', 'segment')
-      .addSelect(['segment.id', 'segment.name'])
-      // .leftJoin('classGroup.users', 'users')
-      // .addSelect(['users.id', 'users.name'])
-      .loadRelationCountAndMap(
-        'classGroup.students_count',
-        'classGroup.students',
-      );
+      .leftJoin('grade.course', 'course')
+      .addSelect(['course.id', 'course.name'])
+      .leftJoin('classGroup.routineGroup', 'routineGroup')
+      .addSelect(['routineGroup.id', 'routineGroup.name']);
+    // // .leftJoin('classGroup.users', 'users')
+    // // .addSelect(['users.id', 'users.name'])
+    // .loadRelationCountAndMap(
+    //   'classGroup.students_count',
+    //   'classGroup.students',
+    // );
 
     return qb.getMany();
   }
@@ -79,14 +82,30 @@ class ClassGroupsRepository implements IClassGroupsRepository {
 
   public async findById(
     id: string,
-    relations?: string[],
+    school_id: string,
   ): Promise<ClassGroup | undefined> {
-    const classGroup = await this.ormRepository.findOne({
-      where: { id },
-      relations,
-    });
+    const qb = this.ormRepository.createQueryBuilder('classGroup');
+    qb.where('classGroup.id = :id AND classGroup.school_id = :school_id ', {
+      id,
+      school_id,
+    })
+      .select(['classGroup.id', 'classGroup.name'])
+      .leftJoin('classGroup.grade', 'grade')
+      .addSelect(['grade.id', 'grade.name'])
+      .leftJoin('grade.course', 'course')
+      .addSelect(['course.id', 'course.name'])
+      .leftJoin('classGroup.routineGroup', 'routineGroup')
+      .addSelect(['routineGroup.id', 'routineGroup.name'])
+      .leftJoinAndSelect('classGroup.students', 'students')
+      .leftJoinAndSelect('classGroup.teachers', 'teachers');
+    // // .leftJoin('classGroup.users', 'users')
+    // // .addSelect(['users.id', 'users.name'])
+    // .loadRelationCountAndMap(
+    //   'classGroup.students_count',
+    //   'classGroup.students',
+    // );
 
-    return classGroup;
+    return qb.getOne();
   }
 
   public async findByName(name: string): Promise<ClassGroup | undefined> {

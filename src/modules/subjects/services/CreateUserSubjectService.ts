@@ -25,10 +25,8 @@ class CreateUserSubjectService {
     const user = await this.usersRepository.findById(data.user_id);
 
     if (!user) {
-      throw new ErrorsApp('User not found', 404);
+      throw new ErrorsApp('Usuário não encontrado', 404);
     }
-
-    const role = await this.rolesRepository.findById(user.role_id);
 
     const userSubjectExists = await this.userSubjectsRepository.findByIds(data);
 
@@ -36,17 +34,9 @@ class CreateUserSubjectService {
       throw new ErrorsApp('Relation already exists', 409);
     }
 
-    if (
-      !Object.values(IUserSubjectType).includes(role.name as IUserSubjectType)
-    ) {
-      throw new ErrorsApp(
-        `Role: ${role.name} not authorized to be associate to a Subject`,
-        409,
-      );
-    }
     const userSubject = await this.userSubjectsRepository.create({
       ...data,
-      type: role.name as IUserSubjectType,
+      type: IUserSubjectType.TEACHER,
     });
 
     return userSubject;

@@ -6,7 +6,10 @@ import { IUser } from '../models/IUser';
 interface IUsersRepository {
   create(data: ICreateUserDTO): Promise<IUser>;
   getAll(query: IFilterQuery): Promise<[IUser[], number]>;
-  listStudents(query: IFilterQuery): Promise<[IUser[], number]>;
+  listStudents(
+    school_id: string,
+    query: IFilterQuery,
+  ): Promise<[IUser[], number]>;
   listTeachersBySchool(
     school_id: string,
     query: IFilterQuery,

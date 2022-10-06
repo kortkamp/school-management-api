@@ -19,14 +19,7 @@ class ListSubjectsService {
     private subjectsRepository: ISubjectsRepository,
   ) {}
   public async execute({ user }: IRequest) {
-    switch (user.role) {
-      case 'admin':
-        return this.subjectsRepository.getAll();
-      case 'teacher':
-        return this.subjectsRepository.getAllByTeacher(user.id);
-      default:
-        throw new ErrorsApp('Não autorizado', 403);
-    }
+    return this.subjectsRepository.getAll();
   }
 }
 

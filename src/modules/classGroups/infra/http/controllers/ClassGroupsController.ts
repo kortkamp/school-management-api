@@ -11,7 +11,9 @@ class ClassGroupsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listClassGroupsService = container.resolve(ListClassGroupsService);
 
-    const classGroups = await listClassGroupsService.execute();
+    const school_id = request.school.id;
+
+    const classGroups = await listClassGroupsService.execute(school_id);
 
     return response.json({
       success: true,
@@ -22,7 +24,7 @@ class ClassGroupsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const createClassGroupService = container.resolve(CreateClassGroupService);
 
-    const { school_id } = request.user;
+    const school_id = request.school.id;
 
     const { name, grade_id } = request.body;
 
@@ -67,7 +69,12 @@ class ClassGroupsController {
 
     const classGroupId = request.params.id;
 
-    const classGroup = await showClassGroupService.execute(classGroupId);
+    const school_id = request.school.id;
+
+    const classGroup = await showClassGroupService.execute(
+      classGroupId,
+      school_id,
+    );
 
     return response.status(200).json({ success: true, classGroup });
   }

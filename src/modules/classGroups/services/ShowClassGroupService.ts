@@ -10,14 +10,13 @@ class ShowClassGroupService {
     @inject('ClassGroupsRepository')
     private classGroupsRepository: IClassGroupsRepository,
   ) {}
-  public async execute(classGroupId: string) {
-    const classGroup = await this.classGroupsRepository.findById(classGroupId, [
-      'students',
-      'teachers',
-      'grade',
-    ]);
+  public async execute(classGroupId: string, school_id: string) {
+    const classGroup = await this.classGroupsRepository.findById(
+      classGroupId,
+      school_id,
+    );
     if (!classGroup) {
-      throw new ErrorsApp('ClassGroup does not exists', 404);
+      throw new ErrorsApp('Turma não encontrada', 404);
     }
 
     return classGroup;

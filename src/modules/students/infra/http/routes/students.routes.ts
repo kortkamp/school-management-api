@@ -1,4 +1,5 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
@@ -25,7 +26,7 @@ studentsRoutes.use('/allocations', studentAllocationsRoutes);
 
 studentsRoutes.post(
   '/',
-  ensureRoles(['admin']),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
   createStudentValidate,
   studentsController.create,
 );
@@ -34,14 +35,14 @@ studentsRoutes.get('/', listStudentsValidate, studentsController.index);
 
 studentsRoutes.delete(
   '/:id',
-  ensureRoles(['admin']),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
   deleteStudentValidate,
   studentsController.delete,
 );
 
 studentsRoutes.put(
   '/:id',
-  ensureRoles(['admin']),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
   updateStudentValidate,
   studentsController.update,
 );

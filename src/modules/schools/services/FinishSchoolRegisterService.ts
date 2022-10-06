@@ -51,7 +51,7 @@ class FinishSchoolRegisterService {
       throw new ErrorsApp('Função não encontrada', 404);
     }
 
-    await this.userSchoolRoleRepositories.delete(registerUserSchoolRole);
+    // await this.userSchoolRoleRepositories.delete(registerUserSchoolRole);
 
     Object.assign(school, {
       userSchoolRoles: [{ role_id: newRoleId, user_id: authUserId }],

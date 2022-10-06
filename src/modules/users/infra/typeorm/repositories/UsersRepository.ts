@@ -38,7 +38,10 @@ class UsersRepository implements IUsersRepository {
 
     return result;
   }
-  public async listStudents(query: IFilterQuery): Promise<[User[], number]> {
+  public async listStudents(
+    school_id: string,
+    query: IFilterQuery,
+  ): Promise<[User[], number]> {
     const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'student');
 
     const queryBuilder = filterQueryBuilder.build(query);
@@ -50,12 +53,10 @@ class UsersRepository implements IUsersRepository {
         'student.enroll_id',
         'student.phone',
       ])
-      .leftJoin('student.segment', 'segment')
-      .addSelect(['segment.id', 'segment.name'])
-      .leftJoin('student.grade', 'grade')
-      .addSelect(['grade.id', 'grade.name'])
-      .leftJoin('student.classGroup', 'classGroup')
-      .addSelect(['classGroup.id', 'classGroup.name']);
+      .leftJoin('student.userSchoolRoles', 'userSchoolRoles')
+      .where('userSchoolRoles.school_id = :school_id', { school_id })
+      .leftJoin('userSchoolRoles.role', 'role')
+      .andWhere('role.type = :role_type', { role_type: RoleTypes.STUDENT });
 
     const result = await queryBuilder.getManyAndCount();
 
