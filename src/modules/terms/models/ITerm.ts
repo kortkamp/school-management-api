@@ -5,8 +5,6 @@ export enum TermType {
   FINAL = 'recuperação final',
 }
 
-// TODO adicionar recuperacao bimestral, trimestral, semestral para calcularmos a notas de acordo com o tipo de recuperacao
-
 interface ITerm {
   id: string;
 

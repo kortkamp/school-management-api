@@ -130,7 +130,6 @@ async function create() {
     const segment = await segmentsRepository.findByName(seed.segment.name);
 
     const createGrades = seed.grades.map(async grade => {
-      // TODO add where segment_id
       const foundGrade = await gradesRepository.findByName(grade.name);
 
       const createClassGroups = classGroupsSufix.map(async sufix => {

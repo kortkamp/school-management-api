@@ -3,10 +3,6 @@ import { ISubject } from '@modules/subjects/models/ISubject';
 
 import { IUserSchoolRole } from './IUserSchoolRole';
 
-// TODO add an address table
-// TODO add an heath table
-// TODO add an OtherInfo Table like religion , gender , food preferences
-
 interface IUser {
   id: string;
 
