@@ -27,7 +27,10 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 const dataSourceOptions: DataSourceOptions = {
   name: process.env.POSTGRES_DB_NAME,
   type: 'postgres',
-  url: process.env.DATABASE_URL,
+  url:
+    process.env.MIGRATION === 'TRUE'
+      ? process.env.DATABASE_ROOT_URL
+      : process.env.DATABASE_URL,
   ssl:
     process.env.ENVIRONMENT === 'prod' ? { rejectUnauthorized: false } : false,
   entities: [
