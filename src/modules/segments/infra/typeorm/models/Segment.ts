@@ -35,10 +35,6 @@ class Segment implements ISegment {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(type => Grade, grade => grade.segment, {})
-  @JoinColumn({ name: 'id' })
-  grades: Grade[];
-
   @OneToMany(type => Subject, subject => subject.segment, {})
   @JoinColumn({ name: 'id' })
   subjects: Subject[];
