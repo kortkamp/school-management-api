@@ -66,7 +66,7 @@ class CreateSessionService {
       name: userSchoolRole.school.name,
     }));
 
-    const token = sign({}, authConfig.jwt.secret, {
+    const token = sign({ tenant_id: user.tenant_id }, authConfig.jwt.secret, {
       subject: user.id,
       expiresIn: authConfig.jwt.expiresIn,
     });

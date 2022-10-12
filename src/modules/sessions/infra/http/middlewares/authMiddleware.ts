@@ -8,6 +8,7 @@ interface ITokenResponse {
   iat: number;
   exp: number;
   sub: string;
+  tenant_id: string;
 }
 
 async function authMiddleware(
@@ -30,6 +31,7 @@ async function authMiddleware(
 
     request.user = {
       id: check.sub,
+      tenant_id: check.tenant_id,
     };
 
     next();

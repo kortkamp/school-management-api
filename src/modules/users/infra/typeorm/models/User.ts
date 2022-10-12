@@ -134,6 +134,8 @@ class User implements IUser {
     const avatarURL = process.env.AVATAR_URL;
     return avatarURL + this.avatar;
   }
+  @Column('uuid')
+  tenant_id: string;
 
   @CreateDateColumn()
   created_at: Date;

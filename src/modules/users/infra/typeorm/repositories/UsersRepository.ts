@@ -130,6 +130,7 @@ class UsersRepository implements IUsersRepository {
         'user.active',
         'user.avatar',
         'user.email',
+        'user.tenant_id',
       ])
       .leftJoinAndSelect('user.userSchoolRoles', 'userSchoolRoles')
       .leftJoin('userSchoolRoles.school', 'school')

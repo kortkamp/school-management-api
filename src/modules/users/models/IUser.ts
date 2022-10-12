@@ -44,6 +44,8 @@ interface IUser {
 
   address?: IAddress;
 
+  tenant_id: string;
+
   created_at: Date;
 
   updated_at: Date;
