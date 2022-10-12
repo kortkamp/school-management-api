@@ -12,6 +12,13 @@ async function create() {
     `,
   );
 
+  await AppDataSource.query(
+    `ALTER DEFAULT PRIVILEGES 
+    FOR USER root
+    IN SCHEMA public
+    GRANT All ON TABLES TO ${process.env.DATABASE_USER};`,
+  );
+
   await AppDataSource.destroy();
 }
 
