@@ -36,6 +36,8 @@ import { SubjectsRepository } from '@modules/subjects/infra/typeorm/repositories
 import { UserSubjectsRepository } from '@modules/subjects/infra/typeorm/repositories/UserSubjectsRepository';
 import { ISubjectsRepository } from '@modules/subjects/repositories/ISubjectsRepository';
 import { IUserSubjectsRepository } from '@modules/subjects/repositories/IUserSubjectsRepository';
+import { TenantsRepository } from '@modules/tenants/infra/typeorm/repositories/TenantsRepository';
+import { ITenantsRepository } from '@modules/tenants/repositories/ITenantsRepository';
 import { TermsRepository } from '@modules/terms/infra/typeorm/repositories/TermsRepository';
 import { ITermsRepository } from '@modules/terms/repositories/ITermsRepository';
 import { UserSchoolRoleRepositories } from '@modules/users/infra/typeorm/repositories/UserSchoolRoleRepositories';
@@ -154,4 +156,9 @@ container.registerSingleton<ISchoolYearsRepository>(
 container.registerSingleton<ICoursesRepository>(
   'CoursesRepository',
   CoursesRepository,
+);
+
+container.registerSingleton<ITenantsRepository>(
+  'TenantsRepository',
+  TenantsRepository,
 );

@@ -18,6 +18,7 @@ import { SchoolYear } from '@modules/schoolYears/infra/typeorm/models/SchoolYear
 import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import { UserSubject } from '@modules/subjects/infra/typeorm/models/UserSubject';
+import { Tenant } from '@modules/tenants/infra/typeorm/models/Tenant';
 import { Term } from '@modules/terms/infra/typeorm/models/Term';
 import { User } from '@modules/users/infra/typeorm/models/User';
 import { UserSchoolRole } from '@modules/users/infra/typeorm/models/UserSchoolRole';
@@ -56,6 +57,7 @@ const dataSourceOptions: DataSourceOptions = {
     RoutineGroup,
     SchoolYear,
     Course,
+    Tenant,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };
