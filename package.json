@@ -11,7 +11,7 @@
     "build": "yarn babel src --extensions \".js,.ts\" --out-dir dist/src --copy-files --no-copy-ignored",
     "test": "jest",
     "seed:roles": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/roles.ts",
-    "prepareDB": "MIGRATION=TRUE ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/createUserDB",
+    "setupDB": "MIGRATION=TRUE ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/setupDB",
     "seed:admin": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/admin.ts",
     "seed:segments": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/segments.ts",
     "seed:students": "ts-node-dev -r tsconfig-paths/register ./src/shared/infra/typeorm/seed/students.ts",
