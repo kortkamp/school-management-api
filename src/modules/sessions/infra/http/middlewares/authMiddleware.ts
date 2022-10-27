@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 
 import ErrorsApp from '@shared/errors/ErrorsApp';
+import { tenantStorage } from '@shared/infra/tenantContext/tenantStorage';
 
 interface ITokenResponse {
   iat: number;
@@ -33,11 +34,10 @@ async function authMiddleware(
       id: check.sub,
       tenant_id: check.tenant_id,
     };
-
-    next();
   } catch (error) {
     throw new ErrorsApp('Invalid token', 401);
   }
+  tenantStorage.wrapper(request.user.tenant_id, () => next());
 }
 
 export { authMiddleware };
