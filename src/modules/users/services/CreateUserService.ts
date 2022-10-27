@@ -1,6 +1,7 @@
 import { RoleTypes } from '@modules/roles/models/IRole';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
 import { ISchoolsRepository } from '@modules/schools/repositories/ISchoolsRepository';
+import { ITenantsRepository } from '@modules/tenants/repositories/ITenantsRepository';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import path from 'path';
 import { injectable, inject } from 'tsyringe';
@@ -19,6 +20,9 @@ class CreateUserService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('TenantsRepository')
+    private tenantsRepository: ITenantsRepository,
 
     @inject('UserTokensRepository')
     private userTokensRepository: IUserTokensRepository,
@@ -49,6 +53,12 @@ class CreateUserService {
     const hashedPassword = await this.hashProvider.create(data.password, 8);
 
     Object.assign(data, { password: hashedPassword, active: false });
+
+    const tenant = await this.tenantsRepository.create({
+      name: `tenant ${data.name}`,
+    });
+
+    Object.assign(data, { tenant_id: tenant.id });
 
     const user = await this.usersRepository.create(data);
 
