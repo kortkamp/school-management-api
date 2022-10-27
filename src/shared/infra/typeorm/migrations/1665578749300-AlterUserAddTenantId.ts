@@ -17,7 +17,7 @@ export class AlterUserAddTenantId1665578749300 implements MigrationInterface {
     await queryRunner.createForeignKeys('users', [
       new TableForeignKey({
         name: 'FKUserTenant',
-        referencedTableName: 'tenants',
+        referencedTableName: 'smsystem.tenants',
         referencedColumnNames: ['id'],
         columnNames: ['tenant_id'],
         onDelete: 'RESTRICT',
