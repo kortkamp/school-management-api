@@ -4,7 +4,7 @@ export class CreateTenant1665518231569 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'tenants',
+        name: 'smsystem.tenants',
         columns: [
           {
             name: 'id',
@@ -30,15 +30,22 @@ export class CreateTenant1665518231569 implements MigrationInterface {
       }),
     );
     await queryRunner.query(
-      `CREATE POLICY tenant_isolation_policy ON tenants USING (id = current_setting('smsystem.current_tenant')::uuid);`,
+      `CREATE POLICY tenant_isolation_policy ON smsystem.tenants USING (id = current_setting('smsystem.current_tenant')::uuid);`,
     );
-    await queryRunner.query(`ALTER TABLE tenants ENABLE ROW LEVEL SECURITY;`);
-    await queryRunner.query(`ALTER TABLE tenants FORCE ROW LEVEL SECURITY;`);
+    await queryRunner.query(
+      `ALTER TABLE smsystem.tenants ENABLE ROW LEVEL SECURITY;`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE smsystem.tenants FORCE ROW LEVEL SECURITY;`,
+    );
 
     // GRANT ALL PRIVILEGES ON public.tenants to smsystem
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('tenants');
+    await queryRunner.query(
+      `DROP POLICY tenant_isolation_policy ON smsystem.tenants;`,
+    );
+    await queryRunner.dropTable('smsystem.tenants');
   }
 }
