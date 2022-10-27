@@ -2,6 +2,7 @@ import { ICreatePersonDTO } from '@modules/persons/dtos/ICreatePersonDTO';
 import { IPersonsRepository } from '@modules/persons/repositories/IPersonsRepository';
 import { Repository } from 'typeorm';
 
+import { customRepository } from '@shared/infra/tenantContext/tenantRepository';
 import { AppDataSource } from '@shared/infra/typeorm';
 
 import { Person } from '../models/Person';
@@ -10,15 +11,9 @@ class PersonsRepository implements IPersonsRepository {
   private ormRepository: Repository<Person>;
 
   constructor() {
-    this.ormRepository = AppDataSource.getRepository<Person>(Person);
-  }
-
-  public async getTotal(): Promise<number> {
-    const result = await this.ormRepository.query(
-      'SELECT count(persons.id) as total FROM persons ',
+    this.ormRepository = AppDataSource.getRepository<Person>(Person).extend(
+      customRepository(Person),
     );
-
-    return result[0].total;
   }
 
   public async create(data: ICreatePersonDTO): Promise<Person> {

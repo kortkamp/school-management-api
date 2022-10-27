@@ -8,6 +8,7 @@ import { Exam } from '@modules/exams/infra/typeorm/models/Exam';
 import { ExamResult } from '@modules/exams/infra/typeorm/models/ExamResult';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
 import { Message } from '@modules/messages/infra/typeorm/models/Message';
+import { Person } from '@modules/persons/infra/typeorm/models/Person';
 import { Role } from '@modules/roles/infra/typeorm/models/Role';
 import { Routine } from '@modules/routines/infra/typeorm/models/Routine';
 import { RoutineGroup } from '@modules/routines/infra/typeorm/models/RoutineGroup';
@@ -28,7 +29,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 const dataSourceOptions: DataSourceOptions = {
   name: process.env.POSTGRES_DB_NAME,
   type: 'postgres',
-  logging: false,
+  logging: true,
   url:
     process.env.MIGRATION === 'TRUE'
       ? process.env.DATABASE_ROOT_URL
@@ -59,6 +60,7 @@ const dataSourceOptions: DataSourceOptions = {
     SchoolYear,
     Course,
     Tenant,
+    Person,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };

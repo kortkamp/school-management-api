@@ -16,6 +16,8 @@ import { GradesRepository } from '@modules/grades/infra/typeorm/repositories/Gra
 import { IGradesRepository } from '@modules/grades/repositories/IGradesRepository';
 import { MessagesRepository } from '@modules/messages/infra/typeorm/repositories/MessagesRepository';
 import { IMessagesRepository } from '@modules/messages/repositories/IMessagesRepository';
+import { PersonsRepository } from '@modules/persons/infra/typeorm/repositories/PersonsRepository';
+import { IPersonsRepository } from '@modules/persons/repositories/IPersonsRepository';
 import { RolesRepository } from '@modules/roles/infra/typeorm/repositories/RolesRepository';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
 import { RoutineGroupsRepository } from '@modules/routines/infra/typeorm/repositories/RoutineGroupsRepository';
@@ -161,4 +163,9 @@ container.registerSingleton<ICoursesRepository>(
 container.registerSingleton<ITenantsRepository>(
   'TenantsRepository',
   TenantsRepository,
+);
+
+container.registerSingleton<IPersonsRepository>(
+  'PersonsRepository',
+  PersonsRepository,
 );

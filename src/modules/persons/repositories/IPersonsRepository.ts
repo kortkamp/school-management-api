@@ -8,7 +8,6 @@ interface IPersonsRepository {
   findByName(name: string): Promise<IPerson | undefined>;
   save(dataUpdate: IPerson): Promise<void>;
   delete(user: IPerson): Promise<void>;
-  getTotal(): Promise<number>;
 }
 
 export { IPersonsRepository };

@@ -4,6 +4,7 @@ import { coursesRoutes } from '@modules/courses/infra/http/routes/courses.routes
 import { employeesRoutes } from '@modules/employees/infra/http/routes/employees.routes';
 import { examsRoutes } from '@modules/exams/infra/http/routes/exams.routes';
 import { gradesRoutes } from '@modules/grades/infra/http/routes/grades.routes';
+import { personsRoutes } from '@modules/persons/infra/http/routes/persons.routes';
 import { routineGroupsRoutes } from '@modules/routines/infra/http/routes/routineGroups.routes';
 import { routinesRoutes } from '@modules/routines/infra/http/routes/routines.routes';
 import { schoolParametersRoutes } from '@modules/schools/infra/http/routes/schoolParameters.routes';
@@ -38,5 +39,7 @@ tenantRoutes.use('/school-years', schoolYearsRoutes);
 tenantRoutes.use('/employees', employeesRoutes);
 tenantRoutes.use('/registration', schoolRegistrationRoutes);
 tenantRoutes.use('/courses', coursesRoutes);
+
+tenantRoutes.use('/persons', personsRoutes);
 
 export { tenantRoutes };

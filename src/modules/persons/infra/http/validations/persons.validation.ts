@@ -4,7 +4,10 @@ export const createPersonValidate = celebrate(
   {
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
-      segment_id: Joi.string().uuid().required(),
+      cpf: Joi.string().length(11).empty('').default(null).allow(null),
+      rg: Joi.string().min(2).max(20).empty('').default(null).allow(null),
+      sex: Joi.string().valid('M', 'F').required(),
+      birth: Joi.string().isoDate().empty('').default(null).allow(null),
     },
   },
   {
@@ -31,7 +34,10 @@ export const updatePersonValidate = celebrate(
     },
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100),
-      segment_id: Joi.string().uuid(),
+      cpf: Joi.string().length(11).empty('').default(null).allow(null),
+      rg: Joi.string().min(2).max(20).empty('').default(null).allow(null),
+      sex: Joi.string().valid('M', 'F'),
+      birth: Joi.string().isoDate(),
     },
   },
   {

@@ -1,3 +1,5 @@
+import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
@@ -14,6 +16,15 @@ const personsRoutes = Router();
 personsRoutes.use(authMiddleware);
 
 const personsController = new PersonsController();
+
+personsRoutes.use(
+  ensureRoles([
+    RoleTypes.REGISTER,
+    RoleTypes.ADMIN,
+    RoleTypes.PRINCIPAL,
+    RoleTypes.SECRETARY,
+  ]),
+);
 
 personsRoutes.post('/', createPersonValidate, personsController.create);
 
