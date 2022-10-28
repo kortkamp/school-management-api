@@ -6,17 +6,18 @@ import { UpdateStudentService } from '@modules/students/services/UpdateStudentSe
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { parseQueryFilters } from 'typeorm-dynamic-filters';
+
+import { IListStudentsDTO } from '../../../dtos/IListStudentsDTO';
 
 class StudentsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listStudentsService = container.resolve(ListStudentsService);
 
-    const school_id = request.school.id;
+    const authSchoolId = request.school.id;
 
     const students = await listStudentsService.execute(
-      school_id,
-      parseQueryFilters(request.query),
+      authSchoolId,
+      request.query as any as IListStudentsDTO,
     );
 
     return response.json({
@@ -28,13 +29,13 @@ class StudentsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const createStudentService = container.resolve(CreateStudentService);
 
-    const school_id = request.school.id;
+    const authSchoolId = request.school.id;
 
     const data = request.body;
 
     const student = await createStudentService.execute({
       data,
-      school_id,
+      authSchoolId,
     });
 
     return response
@@ -47,7 +48,9 @@ class StudentsController {
 
     const studentId = request.params.id;
 
-    await deleteStudentService.execute(studentId);
+    const schoolId = request.school.id;
+
+    await deleteStudentService.execute(schoolId, studentId);
 
     return response.status(204).json({ success: true });
   }
@@ -59,7 +62,13 @@ class StudentsController {
 
     const data = request.body;
 
-    const student = await updateStudentService.execute({ studentId, data });
+    const schoolId = request.school.id;
+
+    const student = await updateStudentService.execute({
+      schoolId,
+      studentId,
+      data,
+    });
 
     return response.status(200).json({ success: true, student });
   }
@@ -69,7 +78,9 @@ class StudentsController {
 
     const studentId = request.params.id;
 
-    const student = await showStudentService.execute(studentId);
+    const schoolId = request.school.id;
+
+    const student = await showStudentService.execute(schoolId, studentId);
 
     return response.status(200).json({ success: true, student });
   }

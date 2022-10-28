@@ -1,30 +1,41 @@
-import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
-import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { inject, injectable } from 'tsyringe';
 import { IFilterQuery } from 'typeorm-dynamic-filters';
 
 import { IListResultInterface } from '@shared/dtos/IListResultDTO';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
+import { IListStudentsDTO } from '../dtos/IListStudentsDTO';
+import { IStudentsRepository } from '../repositories/IStudentsRepository';
+
+// type IRequest = Omit<IListStudentsDTO, "">;
+
 @injectable()
 class ListStudentsService {
   constructor(
-    @inject('UsersRepository')
-    private studentsRepository: IUsersRepository,
-
-    @inject('RolesRepository')
-    private rolesRepository: IRolesRepository,
+    @inject('StudentsRepository')
+    private studentsRepository: IStudentsRepository,
   ) {}
   public async execute(
-    school_id: string,
-    query: IFilterQuery,
+    authSchoolId: string,
+    {
+      active = true,
+      school_id = authSchoolId,
+      course_id,
+      grade_id,
+      class_group_id,
+      page = 1,
+      per_page = 10,
+    }: IListStudentsDTO,
   ): Promise<IListResultInterface> {
-    const { page, per_page } = query;
-
-    const [students, length] = await this.studentsRepository.listStudents(
+    const [students, length] = await this.studentsRepository.getAll({
+      active,
       school_id,
-      query,
-    );
+      course_id,
+      grade_id,
+      class_group_id,
+      page,
+      per_page,
+    });
 
     return {
       result: students,

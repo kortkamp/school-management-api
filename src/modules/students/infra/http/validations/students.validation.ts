@@ -1,22 +1,20 @@
 import { celebrate, Joi, Segments } from 'celebrate';
-import { listWithFilterSchema } from 'typeorm-dynamic-filters';
 
 export const createStudentValidate = celebrate(
   {
     [Segments.BODY]: {
-      name: Joi.string().min(3).max(100).required(),
-      email: Joi.string().email().trim().lowercase().empty('').default(null),
-      enroll_id: Joi.string().required(),
-      CPF: Joi.string().min(11).max(14).empty('').default(null),
-      phone: Joi.string().min(10).max(13),
-      sex: Joi.string().valid('M', 'F').required(),
-      birth: Joi.string().isoDate().required(),
-
-      segment_id: Joi.string().uuid().empty('').default(null).allow(null),
+      person_id: Joi.string().uuid(),
+      enroll_id: Joi.string().empty('').default(null).allow(null),
+      course_id: Joi.string().uuid().empty('').default(null).allow(null),
       grade_id: Joi.string().uuid().empty('').default(null).allow(null),
       class_group_id: Joi.string().uuid().empty('').default(null).allow(null),
-      password: Joi.string().allow(''),
-      password_confirmation: Joi.string().valid(Joi.ref('password')).optional(),
+      person: Joi.object({
+        name: Joi.string().min(3).max(100).required(),
+        cpf: Joi.string().length(11).empty('').default(null).allow(null),
+        rg: Joi.string().min(2).max(20).empty('').default(null).allow(null),
+        sex: Joi.string().valid('M', 'F').required(),
+        birth: Joi.string().isoDate().empty('').default(null).allow(null),
+      }),
     },
   },
   {
@@ -41,7 +39,12 @@ export const updateStudentValidate = celebrate(
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
-    [Segments.BODY]: {},
+    [Segments.BODY]: {
+      enroll_id: Joi.string(),
+      course_id: Joi.string().uuid(),
+      grade_id: Joi.string().uuid(),
+      class_group_id: Joi.string(),
+    },
   },
   {
     abortEarly: false,
@@ -49,17 +52,12 @@ export const updateStudentValidate = celebrate(
 );
 
 export const listStudentsValidate = celebrate({
-  [Segments.QUERY]: listWithFilterSchema,
+  [Segments.QUERY]: {
+    page: Joi.number().positive(),
+    per_page: Joi.number().positive(),
+    school_id: Joi.string().uuid(),
+    course_id: Joi.string().uuid(),
+    grade_id: Joi.string().uuid(),
+    class_group_id: Joi.string().uuid(),
+  },
 });
-
-export const listStudentsResultsValidate = celebrate(
-  {
-    [Segments.QUERY]: {
-      subject_id: Joi.string().uuid().required(),
-      class_group_id: Joi.string().uuid().required(),
-    },
-  },
-  {
-    abortEarly: false,
-  },
-);

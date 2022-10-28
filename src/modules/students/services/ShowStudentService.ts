@@ -1,27 +1,23 @@
-import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { inject, injectable } from 'tsyringe';
 
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
+import { IStudentsRepository } from '../repositories/IStudentsRepository';
+
 @injectable()
 class ShowStudentService {
   constructor(
-    @inject('UsersRepository')
-    private studentsRepository: IUsersRepository,
+    @inject('StudentsRepository')
+    private studentsRepository: IStudentsRepository,
   ) {}
-  public async execute(studentId: string) {
-    const student = await this.studentsRepository.findById(studentId, [
-      'role',
-      'subjects',
-      'grade',
-      'segment',
-      'classGroup',
-      'teachingClasses',
-    ]);
-    if (!student || student.role.name !== 'student') {
-      throw new ErrorsApp('Student does not exists', 404);
+  public async execute(school_id: string, studentId: string) {
+    const student = await this.studentsRepository.findById(
+      school_id,
+      studentId,
+    );
+    if (!student) {
+      throw new ErrorsApp('Aluno não encontrado', 404);
     }
-
     return student;
   }
 }

@@ -3,16 +3,18 @@ import { inject, injectable } from 'tsyringe';
 
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
+import { IStudentsRepository } from '../repositories/IStudentsRepository';
+
 @injectable()
 class DeleteStudentService {
   constructor(
-    @inject('UsersRepository')
-    private studentsRepository: IUsersRepository,
+    @inject('StudentsRepository')
+    private studentsRepository: IStudentsRepository,
   ) {}
-  public async execute(studentId: string) {
-    const student = await this.studentsRepository.findById(studentId);
+  public async execute(schoolId: string, studentId: string) {
+    const student = await this.studentsRepository.findById(schoolId, studentId);
     if (!student) {
-      throw new ErrorsApp('Student does not exists', 404);
+      throw new ErrorsApp('Aluno não encontrado', 404);
     }
 
     await this.studentsRepository.delete(student);
