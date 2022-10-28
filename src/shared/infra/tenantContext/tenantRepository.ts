@@ -25,7 +25,6 @@ async function tenantWrapper<R>(
   callback: (manager: EntityManager) => Promise<R>,
   providedTenantId?: string,
 ) {
-  console.log('tenantWrapper', providedTenantId);
   const tenantId = providedTenantId || tenantStorage.get();
   let response: R;
   await AppDataSource.transaction(async manager => {
@@ -51,7 +50,6 @@ function tenantTransactionWrapper<R>(
 ) {
   return async () => {
     const tenantId = tenantStorage.get();
-    console.log(tenantId);
     let response: R;
     await AppDataSource.transaction(async manager => {
       await manager.query(`SET LOCAL smsystem.current_tenant='${tenantId}';`);
@@ -65,6 +63,10 @@ function tenantTransactionWrapper<R>(
 const customRepository = <T>(entity: EntityTarget<T>) => ({
   find: (options?: FindManyOptions<T>) =>
     tenantTransactionWrapper(mng => mng.getRepository(entity).find(options))(),
+  findAndCount: (options?: FindManyOptions<T>) =>
+    tenantTransactionWrapper(mng =>
+      mng.getRepository(entity).findAndCount(options),
+    )(),
   save: (entities: DeepPartial<T>[], options?: SaveOptions) =>
     tenantTransactionWrapper(mng =>
       mng.getRepository(entity).save(entities, options),
