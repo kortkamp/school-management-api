@@ -1,4 +1,4 @@
-import { storage } from '../storage';
+import { storage } from './storage';
 
 const TENANT_KEY = 'tenantId';
 
