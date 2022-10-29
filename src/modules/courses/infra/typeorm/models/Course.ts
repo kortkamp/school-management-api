@@ -5,14 +5,13 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-@Entity('courses')
+@Entity('smsystem.courses')
 class Course implements ICourse {
   @PrimaryGeneratedColumn('uuid')
   id: string;

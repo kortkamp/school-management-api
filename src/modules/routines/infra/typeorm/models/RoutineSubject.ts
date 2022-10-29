@@ -12,7 +12,7 @@ import {
 
 import { Routine } from './Routine';
 
-@Entity('routine_subjects')
+@Entity('smsystem.routine_subjects')
 class RoutineSubject implements IRoutineSubject {
   @PrimaryColumn()
   routine_id: string;

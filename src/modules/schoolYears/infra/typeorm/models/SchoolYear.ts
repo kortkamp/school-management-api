@@ -13,7 +13,7 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-@Entity('school_years')
+@Entity('periodic.school_years')
 class SchoolYear implements ISchoolYear {
   @PrimaryGeneratedColumn('uuid')
   id: string;

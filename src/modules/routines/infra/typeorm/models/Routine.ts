@@ -14,7 +14,7 @@ import { v4 as uuid } from 'uuid';
 import { RoutineGroup } from './RoutineGroup';
 import { RoutineSubject } from './RoutineSubject';
 
-@Entity('routines')
+@Entity('smsystem.routines')
 class Routine implements IRoutine {
   @PrimaryGeneratedColumn('uuid')
   id: string;

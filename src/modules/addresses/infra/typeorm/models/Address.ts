@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-@Entity('addresses')
+@Entity('smsystem.addresses')
 class Address implements IAddress {
   @PrimaryGeneratedColumn('uuid')
   id: string;

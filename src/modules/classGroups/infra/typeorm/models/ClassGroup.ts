@@ -2,13 +2,11 @@ import { IClassGroup } from '@modules/classGroups/models/IClassGroup';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
 import { RoutineGroup } from '@modules/routines/infra/typeorm/models/RoutineGroup';
 import { School } from '@modules/schools/infra/typeorm/models/School';
-import { User } from '@modules/users/infra/typeorm/models/User';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -18,7 +16,7 @@ import { v4 as uuid } from 'uuid';
 
 import { TeacherClass } from './TeacherClass';
 
-@Entity('class_groups')
+@Entity('smsystem.class_groups')
 class ClassGroup implements IClassGroup {
   @PrimaryGeneratedColumn('uuid')
   id: string;

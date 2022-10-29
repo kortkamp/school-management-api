@@ -13,7 +13,7 @@ import {
 
 import { Subject } from './Subject';
 
-@Entity('user_subjects')
+@Entity('smsystem.user_subjects')
 class UserSubject implements IUserSubject {
   @PrimaryColumn()
   user_id: string;

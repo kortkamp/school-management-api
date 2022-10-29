@@ -13,7 +13,7 @@ import { v4 as uuid } from 'uuid';
 
 import { Routine } from './Routine';
 
-@Entity('routine_groups')
+@Entity('smsystem.routine_groups')
 class RoutineGroup implements IRoutineGroup {
   @PrimaryGeneratedColumn('uuid')
   id: string;

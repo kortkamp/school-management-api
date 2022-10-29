@@ -13,7 +13,7 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
-@Entity('grades')
+@Entity('smsystem.grades')
 class Grade implements IGrade {
   @PrimaryGeneratedColumn('uuid')
   id: string;

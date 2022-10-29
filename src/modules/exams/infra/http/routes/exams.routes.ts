@@ -1,4 +1,5 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
@@ -21,12 +22,17 @@ const examsController = new ExamsController();
 
 examsRoutes.use('/results', examResultsRoutes);
 
-examsRoutes.post(
-  '/',
-  ensureRoles(['teacher', 'admin']),
-  createExamValidate,
-  examsController.create,
-);
+// examsRoutes.post(
+//   '/',
+//   ensureRoles([
+//     RoleTypes.TEACHER,
+//     RoleTypes.ADMIN,
+//     RoleTypes.PRINCIPAL,
+//     RoleTypes.SECRETARY,
+//   ]),
+//   createExamValidate,
+//   examsController.create,
+// );
 
 examsRoutes.get('/', listExamsValidate, examsController.index);
 
