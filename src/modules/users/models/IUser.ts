@@ -18,6 +18,8 @@ interface IUser {
 
   avatar?: string;
 
+  person_id: string;
+
   tenant_id: string;
 
   created_at: Date;

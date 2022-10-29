@@ -42,9 +42,9 @@ class ClassGroup implements IClassGroup {
   })
   school: School;
 
-  @OneToMany(type => User, users => users.classGroup, {})
-  @JoinColumn({ name: 'id' })
-  students: User[];
+  // @OneToMany(type => User, users => users.classGroup, {})
+  // @JoinColumn({ name: 'id' })
+  // students: User[];
 
   @OneToMany(
     type => TeacherClass,
@@ -54,8 +54,8 @@ class ClassGroup implements IClassGroup {
   @JoinColumn({ name: 'class_group_id' })
   teacherClassGroups: TeacherClass[];
 
-  @ManyToMany(type => User, user => user.teachingClasses)
-  teachers: User[];
+  // @ManyToMany(type => User, user => user.teachingClasses)
+  // teachers: User[];
 
   @ManyToOne(() => Grade, grade => grade, { orphanedRowAction: 'nullify' })
   @JoinColumn({

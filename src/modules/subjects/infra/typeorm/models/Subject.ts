@@ -28,8 +28,8 @@ class Subject implements ISubject {
   @JoinColumn({ name: 'segment_id', referencedColumnName: 'id' })
   segment: Segment;
 
-  @ManyToMany(type => User, user => user.subjects)
-  users: User[];
+  // @ManyToMany(type => User, user => user.subjects)
+  // users: User[];
 
   @CreateDateColumn()
   created_at: Date;

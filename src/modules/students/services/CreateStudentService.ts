@@ -20,6 +20,9 @@ class CreateStudentService {
   constructor(
     @inject('StudentsRepository')
     private studentsRepository: IStudentsRepository,
+
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
   ) {}
 
   public async execute({ authSchoolId, data }: IRequest) {
@@ -51,6 +54,16 @@ class CreateStudentService {
         throw new ErrorsApp('A matrícula já está cadastrada', 409);
       }
     }
+
+    const hashedPassword = await this.hashProvider.create('', 8);
+
+    const user = {
+      name: data.person.name,
+      password: hashedPassword,
+      active: true,
+    };
+
+    person.user = user;
 
     const student = await this.studentsRepository.create({
       active,

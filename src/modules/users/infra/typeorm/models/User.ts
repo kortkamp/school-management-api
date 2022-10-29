@@ -1,9 +1,4 @@
-import { Address } from '@modules/addresses/infra/typeorm/models/Address';
-import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
-import { ExamResult } from '@modules/exams/infra/typeorm/models/ExamResult';
-import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
-import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
-import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
+import { Person } from '@modules/persons/infra/typeorm/models/Person';
 import { IUser } from '@modules/users/models/IUser';
 import { Exclude, Expose } from 'class-transformer';
 import {
@@ -12,11 +7,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToOne,
   JoinColumn,
-  ManyToMany,
-  JoinTable,
   OneToMany,
+  OneToOne,
+  Generated,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
@@ -30,7 +24,7 @@ class User implements IUser {
   @Column('varchar')
   email: string;
 
-  @Column('integer')
+  @Generated('increment')
   number_id: number;
 
   @Column('varchar')
@@ -60,6 +54,13 @@ class User implements IUser {
     const avatarURL = process.env.AVATAR_URL;
     return avatarURL + this.avatar;
   }
+
+  @Column('uuid')
+  person_id: string;
+
+  @OneToOne(() => Person, person => person)
+  @JoinColumn({ name: 'person_id', referencedColumnName: 'id' })
+  person: Person;
 
   @Column('uuid')
   tenant_id: string;

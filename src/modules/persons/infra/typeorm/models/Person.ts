@@ -1,8 +1,10 @@
 import { IPerson } from '@modules/persons/models/IPerson';
+import { User } from '@modules/users/infra/typeorm/models/User';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -36,6 +38,9 @@ class Person implements IPerson {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToOne(() => User, user => user.person, { cascade: ['insert'] })
+  user: User;
 
   constructor() {
     if (!this.id) {
