@@ -30,85 +30,11 @@ class User implements IUser {
   @Column('varchar')
   email: string;
 
+  @Column('integer')
+  number_id: number;
+
   @Column('varchar')
   name: string;
-
-  @Column('varchar')
-  enroll_id?: string;
-
-  @Column('varchar')
-  CPF?: string;
-
-  @Column('varchar')
-  phone?: string;
-
-  @Column('char')
-  sex: 'M' | 'F';
-
-  @Column()
-  birth: Date;
-
-  @Column('uuid')
-  segment_id?: string;
-
-  @Column('uuid')
-  grade_id?: string;
-
-  @Column('uuid')
-  class_group_id?: string;
-
-  @Column('uuid')
-  address_id?: string;
-
-  @ManyToOne(() => Address, address => address, {
-    cascade: ['insert', 'update'],
-  })
-  @JoinColumn({ name: 'address_id', referencedColumnName: 'id' })
-  address?: Address;
-
-  @ManyToOne(() => Segment, segment => segment)
-  @JoinColumn({ name: 'segment_id', referencedColumnName: 'id' })
-  segment: Segment;
-
-  @ManyToOne(() => Grade, grade => grade)
-  @JoinColumn({ name: 'grade_id', referencedColumnName: 'id' })
-  grade: Grade;
-
-  @ManyToOne(() => ClassGroup, classGroup => classGroup)
-  @JoinColumn({ name: 'class_group_id', referencedColumnName: 'id' })
-  classGroup: ClassGroup;
-
-  @OneToMany(type => ExamResult, results => results.student, {})
-  @JoinColumn({ name: 'id' })
-  results: ExamResult[];
-
-  @ManyToMany(type => Subject, subject => subject.users)
-  @JoinTable({
-    name: 'user_subjects',
-    joinColumn: {
-      name: 'user_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'subject_id',
-      referencedColumnName: 'id',
-    },
-  })
-  subjects: Subject[];
-
-  @ManyToMany(type => ClassGroup, classGroup => classGroup.teachers)
-  @JoinTable({
-    name: 'teacher_classes',
-    joinColumn: {
-      name: 'teacher_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'class_group_id',
-      referencedColumnName: 'id',
-    },
-  })
-  teachingClasses: ClassGroup[];
 
   @OneToMany(type => UserSchoolRole, userSchoolRole => userSchoolRole.user, {
     cascade: ['insert', 'update'],
@@ -134,6 +60,7 @@ class User implements IUser {
     const avatarURL = process.env.AVATAR_URL;
     return avatarURL + this.avatar;
   }
+
   @Column('uuid')
   tenant_id: string;
 

@@ -6,31 +6,9 @@ import { IUserSchoolRole } from './IUserSchoolRole';
 interface IUser {
   id: string;
 
+  number_id: number;
+
   name: string;
-
-  //= ========
-
-  enroll_id?: string; // unique
-
-  CPF?: string; // unique
-
-  phone?: string;
-
-  sex: 'M' | 'F';
-
-  birth: Date;
-
-  //= =========
-
-  segment_id?: string;
-
-  grade_id?: string;
-
-  class_group_id?: string;
-
-  subjects: ISubject[];
-
-  userSchoolRoles?: IUserSchoolRole[];
 
   email: string;
 
@@ -39,10 +17,6 @@ interface IUser {
   active: boolean;
 
   avatar?: string;
-
-  address_id?: string;
-
-  address?: IAddress;
 
   tenant_id: string;
 

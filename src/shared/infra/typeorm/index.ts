@@ -17,6 +17,7 @@ import { School } from '@modules/schools/infra/typeorm/models/School';
 import { SchoolParameter } from '@modules/schools/infra/typeorm/models/SchoolParameter';
 import { SchoolYear } from '@modules/schoolYears/infra/typeorm/models/SchoolYear';
 import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
+import { Student } from '@modules/students/infra/typeorm/models/Student';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import { UserSubject } from '@modules/subjects/infra/typeorm/models/UserSubject';
 import { Tenant } from '@modules/tenants/infra/typeorm/models/Tenant';
@@ -29,7 +30,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 const dataSourceOptions: DataSourceOptions = {
   name: process.env.POSTGRES_DB_NAME,
   type: 'postgres',
-  logging: true,
+  logging: false,
   url:
     process.env.MIGRATION === 'TRUE'
       ? process.env.DATABASE_ROOT_URL
@@ -61,6 +62,7 @@ const dataSourceOptions: DataSourceOptions = {
     Course,
     Tenant,
     Person,
+    Student,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };
