@@ -1,10 +1,6 @@
-import { RoleTypes } from '@modules/roles/models/IRole';
-import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
-import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
-import { IUser } from '@modules/users/models/IUser';
+import { IPersonsRepository } from '@modules/persons/repositories/IPersonsRepository';
 import { injectable, inject } from 'tsyringe';
 
-import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
 import { ICreateStudentDTO } from '../dtos/ICreateStudentDTO';
@@ -21,8 +17,8 @@ class CreateStudentService {
     @inject('StudentsRepository')
     private studentsRepository: IStudentsRepository,
 
-    @inject('HashProvider')
-    private hashProvider: IHashProvider,
+    @inject('PersonsRepository')
+    private personsRepository: IPersonsRepository,
   ) {}
 
   public async execute({ authSchoolId, data }: IRequest) {
@@ -35,13 +31,18 @@ class CreateStudentService {
       course_id,
       enroll_id,
       grade_id,
-      person,
     } = data;
     if (!authSchoolId) {
       throw new ErrorsApp(
         'O Usuário precisa pertencer a uma escola para cadastrar um aluno',
         403,
       );
+    }
+
+    const personExists = await this.personsRepository.findById(person_id);
+
+    if (!personExists) {
+      throw new ErrorsApp('A pessoa não existe', 404);
     }
 
     if (data.enroll_id) {
@@ -55,16 +56,6 @@ class CreateStudentService {
       }
     }
 
-    const hashedPassword = await this.hashProvider.create('', 8);
-
-    const user = {
-      name: data.person.name,
-      password: hashedPassword,
-      active: true,
-    };
-
-    person.user = user;
-
     const student = await this.studentsRepository.create({
       active,
       enroll_date,
@@ -74,7 +65,6 @@ class CreateStudentService {
       course_id,
       enroll_id,
       grade_id,
-      person,
     });
 
     return student;

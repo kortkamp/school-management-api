@@ -1,5 +1,3 @@
-import { ICreatePersonDTO } from '@modules/persons/dtos/ICreatePersonDTO';
-
 interface ICreateStudentDTO {
   person_id: string;
   school_id: string;
@@ -11,8 +9,6 @@ interface ICreateStudentDTO {
   class_group_id?: string;
 
   active: boolean;
-
-  person: ICreatePersonDTO;
 }
 
 export { ICreateStudentDTO };

@@ -8,13 +8,6 @@ export const createStudentValidate = celebrate(
       course_id: Joi.string().uuid().empty('').default(null).allow(null),
       grade_id: Joi.string().uuid().empty('').default(null).allow(null),
       class_group_id: Joi.string().uuid().empty('').default(null).allow(null),
-      person: Joi.object({
-        name: Joi.string().min(3).max(100).required(),
-        cpf: Joi.string().length(11).empty('').default(null).allow(null),
-        rg: Joi.string().min(2).max(20).empty('').default(null).allow(null),
-        sex: Joi.string().valid('M', 'F').required(),
-        birth: Joi.string().isoDate().empty('').default(null).allow(null),
-      }),
     },
   },
   {
