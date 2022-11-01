@@ -6,6 +6,7 @@ interface IPersonsRepository {
   getAll(relations?: string[]): Promise<IPerson[]>;
   findById(userId: string, relations?: string[]): Promise<IPerson | undefined>;
   findByName(name: string): Promise<IPerson | undefined>;
+  findByCPF(cpf: string): Promise<IPerson | undefined>;
   save(dataUpdate: IPerson): Promise<void>;
   delete(user: IPerson): Promise<void>;
 }

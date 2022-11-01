@@ -1,3 +1,5 @@
+import { IUser } from '@modules/users/models/IUser';
+
 interface IPerson {
   id: string;
 
@@ -10,6 +12,10 @@ interface IPerson {
   sex: 'M' | 'F';
 
   birth: Date;
+
+  user?: IUser;
+
+  active: boolean;
 
   tenant_id: string;
 

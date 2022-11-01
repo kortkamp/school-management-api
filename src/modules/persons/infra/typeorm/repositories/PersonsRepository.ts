@@ -25,7 +25,7 @@ class PersonsRepository implements IPersonsRepository {
   }
 
   public async getAll(relations: string[] = []): Promise<Person[]> {
-    return this.ormRepository.find({ relations });
+    return this.ormRepository.find({ where: { active: false }, relations });
   }
 
   public async save(data: Person): Promise<void> {
@@ -47,6 +47,14 @@ class PersonsRepository implements IPersonsRepository {
   public async findByName(name: string): Promise<Person | undefined> {
     const person = await this.ormRepository.findOne({
       where: { name },
+    });
+
+    return person;
+  }
+
+  public async findByCPF(cpf: string): Promise<Person | undefined> {
+    const person = await this.ormRepository.findOne({
+      where: { cpf },
     });
 
     return person;

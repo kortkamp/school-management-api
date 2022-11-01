@@ -1,5 +1,6 @@
 import { CreatePersonService } from '@modules/persons/services/CreatePersonService';
 import { DeletePersonService } from '@modules/persons/services/DeletePersonService';
+import { FindPersonByCPFService } from '@modules/persons/services/FindPersonByCPFService';
 import { ListPersonsService } from '@modules/persons/services/ListPersonsService';
 import { ShowPersonService } from '@modules/persons/services/ShowPersonService';
 import { UpdatePersonService } from '@modules/persons/services/UpdatePersonService';
@@ -13,13 +14,24 @@ class PersonsController {
 
     const persons = await listPersonsService.execute();
 
-    return response.json({ success: true, persons: instanceToInstance(persons) });
+    return response.json({
+      success: true,
+      persons: instanceToInstance(persons),
+    });
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const createPersonService = container.resolve(CreatePersonService);
 
-    const person = await createPersonService.execute(request.body);
+    const authUser = request.user;
+
+    const authSchoolId = request.school.id;
+
+    const person = await createPersonService.execute({
+      authSchoolId,
+      authUser,
+      data: request.body,
+    });
 
     return response
       .status(201)
@@ -54,6 +66,19 @@ class PersonsController {
     const personId = request.params.id;
 
     const person = await showPersonService.execute(personId);
+
+    return response.status(200).json({ success: true, person });
+  }
+
+  public async findByCPF(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const findPersonByCPFService = container.resolve(FindPersonByCPFService);
+
+    const { cpf } = request.params;
+
+    const person = await findPersonByCPFService.execute(cpf);
 
     return response.status(200).json({ success: true, person });
   }

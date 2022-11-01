@@ -7,6 +7,7 @@ import { PersonsController } from '../controllers/PersonsController';
 import {
   createPersonValidate,
   deletePersonValidate,
+  findByCpfValidate,
   showPersonValidate,
   updatePersonValidate,
 } from '../validations/persons.validation';
@@ -28,7 +29,9 @@ personsRoutes.use(
 
 personsRoutes.post('/', createPersonValidate, personsController.create);
 
-personsRoutes.get('/', personsController.index);
+personsRoutes.get('/cpf/:cpf', findByCpfValidate, personsController.findByCPF);
+
+personsRoutes.get('/inactive', personsController.index);
 
 personsRoutes.delete('/:id', deletePersonValidate, personsController.delete);
 

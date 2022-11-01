@@ -8,6 +8,7 @@ export const createPersonValidate = celebrate(
       rg: Joi.string().min(2).max(20).empty('').default(null).allow(null),
       sex: Joi.string().valid('M', 'F').required(),
       birth: Joi.string().isoDate().empty('').default(null).allow(null),
+      role_id: Joi.string().uuid().empty('').default(null).allow(null),
     },
   },
   {
@@ -24,6 +25,12 @@ export const deletePersonValidate = celebrate({
 export const showPersonValidate = celebrate({
   [Segments.PARAMS]: {
     id: Joi.string().uuid().required(),
+  },
+});
+
+export const findByCpfValidate = celebrate({
+  [Segments.PARAMS]: {
+    cpf: Joi.string().length(11).required(),
   },
 });
 

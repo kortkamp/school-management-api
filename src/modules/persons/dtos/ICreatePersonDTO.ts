@@ -7,6 +7,7 @@ interface ICreatePersonDTO {
   sex: 'M' | 'F';
   birth: Date;
   user?: ICreateUserDTO;
+  active?: boolean;
 }
 
 export { ICreatePersonDTO };

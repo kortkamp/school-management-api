@@ -31,6 +31,9 @@ class Person implements IPerson {
   birth: Date;
 
   @Column()
+  active: boolean;
+
+  @Column()
   tenant_id: string;
 
   @CreateDateColumn()
