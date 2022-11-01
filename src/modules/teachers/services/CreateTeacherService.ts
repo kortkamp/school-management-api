@@ -1,55 +1,39 @@
+import { IPersonsRepository } from '@modules/persons/repositories/IPersonsRepository';
 import { RoleTypes } from '@modules/roles/models/IRole';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
-import { IUser } from '@modules/users/models/IUser';
-import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
-import { IUserTokensRepository } from '@modules/users/repositories/IUserTokensRepository';
-import path from 'path';
+import { IUserSchoolRoleRepositories } from '@modules/users/repositories/IUserSchoolRoleRepositories';
 import { injectable, inject } from 'tsyringe';
 
-import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
-import IMailTemplateProvider from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
+import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
 import { ICreateTeacherDTO } from '../dtos/ICreateTeacherDTO';
+import { ITeachersRepository } from '../repositories/ITeachersRepository';
 
 interface IRequest {
-  school_id: string;
+  authSchoolId: string;
   data: ICreateTeacherDTO;
 }
 
 @injectable()
 class CreateTeacherService {
   constructor(
-    @inject('UsersRepository')
-    private teachersRepository: IUsersRepository,
+    @inject('TeachersRepository')
+    private teachersRepository: ITeachersRepository,
 
-    @inject('UserTokensRepository')
-    private userTokensRepository: IUserTokensRepository,
-
-    @inject('MailProvider')
-    private mailProvider: IMailProvider,
-
-    @inject('MailTemplateProvider')
-    private mailTemplateProvider: IMailTemplateProvider,
+    @inject('PersonsRepository')
+    private personsRepository: IPersonsRepository,
 
     @inject('RolesRepository')
     private rolesRepository: IRolesRepository,
+
+    @inject('UserSchoolRoleRepositories')
+    private userSchoolRoleRepositories: IUserSchoolRoleRepositories,
   ) {}
 
-  public async execute({ data, school_id }: IRequest): Promise<IUser> {
-    const emailExists = await this.teachersRepository.findByEmail(data.email);
-
-    if (emailExists) {
-      throw new ErrorsApp('O Email já está cadastrado', 409);
-    }
-
-    const cpfExists = await this.teachersRepository.findByCPF(data.CPF);
-
-    if (cpfExists) {
-      throw new ErrorsApp('O CPF já está cadastrado', 409);
-    }
-
-    if (!school_id) {
+  public async execute({ authSchoolId, data }: IRequest) {
+    const { active = true, school_id = authSchoolId, person_id } = data;
+    if (!authSchoolId) {
       throw new ErrorsApp(
         'O Usuário precisa pertencer a uma escola para cadastrar um professor',
         403,
@@ -61,48 +45,39 @@ class CreateTeacherService {
     );
 
     if (!teacherRole) {
-      throw new ErrorsApp('A função professor não existe', 404);
+      throw new ErrorsApp('A função de professor não existe', 404);
     }
 
-    Object.assign(data, {
-      userSchoolRoles: [{ school_id, role_id: teacherRole.id }],
-      active: true,
+    const personExists = await this.personsRepository.findById(person_id, [
+      'user',
+    ]);
+
+    if (!personExists) {
+      throw new ErrorsApp('A pessoa não existe', 404);
+    }
+
+    const teacherExists = await this.teachersRepository.findByPerson(
+      school_id,
+      person_id,
+    );
+
+    if (teacherExists) {
+      throw new ErrorsApp('Professor já cadastrado', 409);
+    }
+
+    const teacher = await this.teachersRepository.create({
+      active,
+      school_id,
+      person_id,
     });
 
-    const user = await this.teachersRepository.create(data);
+    await this.userSchoolRoleRepositories.create({
+      school_id: authSchoolId,
+      user_id: personExists.user.id,
+      role_id: teacherRole.id,
+    });
 
-    if (data.email) {
-      const userToken = await this.userTokensRepository.generate(user.id);
-
-      const templateFile = path.resolve(
-        __dirname,
-        '..',
-        '..',
-        'users',
-        'views',
-        'define_password.hbs',
-      );
-
-      const link = `${process.env.CONFIRM_USER_URL}${userToken.token}`;
-
-      const app_name = process.env.APP_NAME;
-
-      const templateHTML = await this.mailTemplateProvider.parse({
-        file: templateFile,
-        variables: { name: user.name, link, app_name },
-      });
-
-      const message = {
-        to: user.email,
-        from: `${app_name} <no-reply@${process.env.DOMAIN}>`,
-        subject: `Inscrição no ${app_name}`,
-        html: templateHTML,
-      };
-
-      await this.mailProvider.sendMail(message);
-    }
-
-    return user;
+    return teacher;
   }
 }
 

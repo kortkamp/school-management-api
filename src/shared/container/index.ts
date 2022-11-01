@@ -40,6 +40,8 @@ import { SubjectsRepository } from '@modules/subjects/infra/typeorm/repositories
 import { UserSubjectsRepository } from '@modules/subjects/infra/typeorm/repositories/UserSubjectsRepository';
 import { ISubjectsRepository } from '@modules/subjects/repositories/ISubjectsRepository';
 import { IUserSubjectsRepository } from '@modules/subjects/repositories/IUserSubjectsRepository';
+import { TeachersRepository } from '@modules/teachers/infra/typeorm/repositories/TeachersRepository';
+import { ITeachersRepository } from '@modules/teachers/repositories/ITeachersRepository';
 import { TenantsRepository } from '@modules/tenants/infra/typeorm/repositories/TenantsRepository';
 import { ITenantsRepository } from '@modules/tenants/repositories/ITenantsRepository';
 import { TermsRepository } from '@modules/terms/infra/typeorm/repositories/TermsRepository';
@@ -175,4 +177,9 @@ container.registerSingleton<IPersonsRepository>(
 container.registerSingleton<IStudentsRepository>(
   'StudentsRepository',
   StudentsRepository,
+);
+
+container.registerSingleton<ITeachersRepository>(
+  'TeachersRepository',
+  TeachersRepository,
 );

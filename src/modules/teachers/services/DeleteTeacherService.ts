@@ -1,18 +1,22 @@
-import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { inject, injectable } from 'tsyringe';
 
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
+import { ITeachersRepository } from '../repositories/ITeachersRepository';
+
 @injectable()
 class DeleteTeacherService {
   constructor(
-    @inject('UsersRepository')
-    private teachersRepository: IUsersRepository,
+    @inject('TeachersRepository')
+    private teachersRepository: ITeachersRepository,
   ) {}
-  public async execute(teacherId: string) {
-    const teacher = await this.teachersRepository.findById(teacherId);
+  public async execute(school_id: string, teacherId: string) {
+    const teacher = await this.teachersRepository.findById(
+      school_id,
+      teacherId,
+    );
     if (!teacher) {
-      throw new ErrorsApp('Teacher does not exists', 404);
+      throw new ErrorsApp('O Professor não existe', 404);
     }
 
     await this.teachersRepository.delete(teacher);

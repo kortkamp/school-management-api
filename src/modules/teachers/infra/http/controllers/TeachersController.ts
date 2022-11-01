@@ -1,3 +1,4 @@
+import { IListStudentsDTO } from '@modules/students/dtos/IListStudentsDTO';
 import { CreateTeacherService } from '@modules/teachers/services/CreateTeacherService';
 import { DeleteTeacherService } from '@modules/teachers/services/DeleteTeacherService';
 import { ListTeachersService } from '@modules/teachers/services/ListTeachersService';
@@ -6,17 +7,16 @@ import { UpdateTeacherService } from '@modules/teachers/services/UpdateTeacherSe
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { parseQueryFilters } from 'typeorm-dynamic-filters';
 
 class TeachersController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listTeachersService = container.resolve(ListTeachersService);
-    const school_id = request.school.id;
+    const authSchoolId = request.school.id;
 
-    const teachers = await listTeachersService.execute({
-      school_id,
-      query: parseQueryFilters(request.query),
-    });
+    const teachers = await listTeachersService.execute(
+      authSchoolId,
+      request.query as any as IListStudentsDTO,
+    );
 
     return response.json({
       success: true,
@@ -29,9 +29,9 @@ class TeachersController {
 
     const data = request.body;
 
-    const school_id = request.school.id;
+    const authSchoolId = request.school.id;
 
-    const teacher = await createTeacherService.execute({ school_id, data });
+    const teacher = await createTeacherService.execute({ authSchoolId, data });
 
     return response
       .status(201)
@@ -43,7 +43,9 @@ class TeachersController {
 
     const teacherId = request.params.id;
 
-    await deleteTeacherService.execute(teacherId);
+    const authSchoolId = request.school.id;
+
+    await deleteTeacherService.execute(authSchoolId, teacherId);
 
     return response.status(204).json({ success: true });
   }

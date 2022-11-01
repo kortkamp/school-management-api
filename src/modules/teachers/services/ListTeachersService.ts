@@ -6,6 +6,9 @@ import { IFilterQuery } from 'typeorm-dynamic-filters';
 import { IListResultInterface } from '@shared/dtos/IListResultDTO';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
+import { IListTeachersDTO } from '../dtos/IListTeachersDTO';
+import { ITeachersRepository } from '../repositories/ITeachersRepository';
+
 interface IRequest {
   query: IFilterQuery;
   school_id: string;
@@ -14,20 +17,24 @@ interface IRequest {
 @injectable()
 class ListTeachersService {
   constructor(
-    @inject('UsersRepository')
-    private teachersRepository: IUsersRepository,
-
-    @inject('RolesRepository')
-    private rolesRepository: IRolesRepository,
+    @inject('TeachersRepository')
+    private teachersRepository: ITeachersRepository,
   ) {}
-  public async execute({
-    school_id,
-    query,
-  }: IRequest): Promise<IListResultInterface> {
-    const { page, per_page } = query;
-
-    const [teachers, length] =
-      await this.teachersRepository.listTeachersBySchool(school_id, query);
+  public async execute(
+    authSchoolId: string,
+    {
+      active = true,
+      school_id = authSchoolId,
+      page = 1,
+      per_page = 10,
+    }: IListTeachersDTO,
+  ): Promise<IListResultInterface> {
+    const [teachers, length] = await this.teachersRepository.getAll({
+      active,
+      school_id,
+      page,
+      per_page,
+    });
 
     return {
       result: teachers,
