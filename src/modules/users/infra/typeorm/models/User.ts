@@ -24,7 +24,7 @@ class User implements IUser {
   @Column('varchar')
   email: string;
 
-  @Generated('increment')
+  @Column({ generated: 'increment' })
   number_id: number;
 
   @Column('varchar')
