@@ -20,6 +20,7 @@ import { Segment } from '@modules/segments/infra/typeorm/models/Segment';
 import { Student } from '@modules/students/infra/typeorm/models/Student';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import { UserSubject } from '@modules/subjects/infra/typeorm/models/UserSubject';
+import { Teacher } from '@modules/teachers/infra/typeorm/models/Teacher';
 import { Tenant } from '@modules/tenants/infra/typeorm/models/Tenant';
 import { Term } from '@modules/terms/infra/typeorm/models/Term';
 import { User } from '@modules/users/infra/typeorm/models/User';
@@ -63,6 +64,7 @@ const dataSourceOptions: DataSourceOptions = {
     Tenant,
     Person,
     Student,
+    Teacher,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };
