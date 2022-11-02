@@ -15,6 +15,11 @@ import { IUser } from '../models/IUser';
 import { IUsersRepository } from '../repositories/IUsersRepository';
 import { IUserTokensRepository } from '../repositories/IUserTokensRepository';
 
+interface IRequest extends ICreateUserDTO {
+  tenant_name: string;
+  school_name: string;
+}
+
 @injectable()
 class CreateUserService {
   constructor(
@@ -43,7 +48,7 @@ class CreateUserService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute(data: ICreateUserDTO): Promise<IUser> {
+  public async execute(data: IRequest): Promise<IUser> {
     const emailExists = await this.usersRepository.findByEmail(data.email);
 
     if (emailExists) {
@@ -55,7 +60,7 @@ class CreateUserService {
     Object.assign(data, { password: hashedPassword, active: false });
 
     const tenant = await this.tenantsRepository.create({
-      name: `tenant ${data.name}`,
+      name: data.tenant_name,
     });
 
     Object.assign(data, { tenant_id: tenant.id });
@@ -72,7 +77,7 @@ class CreateUserService {
       throw new ErrorsApp('A função cadastro de escola não existe', 404);
     }
 
-    const schoolData = { name: '' };
+    const schoolData = { name: data.school_name };
 
     Object.assign(schoolData, {
       userSchoolRoles: [{ role_id: newUserRole.id, user_id: user.id }],
@@ -98,8 +103,8 @@ class CreateUserService {
 
     const message = {
       to: user.email,
-      from: 'Template API <no-reply@template.com>',
-      subject: 'Signup in Template API Confirmation',
+      from: `${app_name} <no-reply@template.com>`,
+      subject: `Confirmação de registro no ${app_name}`,
       html: templateHTML,
     };
 
