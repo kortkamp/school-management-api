@@ -1,5 +1,4 @@
 import { celebrate, Joi, Segments } from 'celebrate';
-import { listWithFilterSchema } from 'typeorm-dynamic-filters';
 
 export const createTeacherValidate = celebrate(
   {
@@ -37,5 +36,11 @@ export const updateTeacherValidate = celebrate(
 );
 
 export const listTeachersValidate = celebrate({
-  [Segments.QUERY]: { active: Joi.boolean() },
+  [Segments.QUERY]: {
+    active: Joi.boolean(),
+    page: Joi.number().positive(),
+    per_page: Joi.number().positive(),
+    orderBy: Joi.string(),
+    orderType: Joi.string().valid('ASC', 'DESC'),
+  },
 });
