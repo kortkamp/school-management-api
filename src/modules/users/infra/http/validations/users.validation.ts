@@ -6,16 +6,11 @@ export const createUserValidate = celebrate(
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
       email: Joi.string().email().trim().lowercase().required(),
-      CPF: Joi.string().min(11).max(14),
-      phone: Joi.string().min(10).max(13),
-      sex: Joi.string().valid('M', 'F').required(),
-      birth: Joi.string().isoDate().required(),
-      school_id: Joi.string().uuid(),
-      segment_id: Joi.string().uuid(),
-      grade_id: Joi.string().uuid(),
-      class_group_id: Joi.string().uuid(),
       password: Joi.string().required(),
       password_confirmation: Joi.string().required().valid(Joi.ref('password')),
+
+      tenant_name: Joi.string().min(3).max(100).required(),
+      school_name: Joi.string().min(3).max(100).required(),
     },
   },
   {
