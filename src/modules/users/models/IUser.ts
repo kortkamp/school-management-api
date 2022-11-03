@@ -1,4 +1,5 @@
 import { IAddress } from '@modules/addresses/models/IAddress';
+import { IPerson } from '@modules/persons/models/IPerson';
 import { ISubject } from '@modules/subjects/models/ISubject';
 
 import { IUserSchoolRole } from './IUserSchoolRole';
@@ -17,6 +18,10 @@ interface IUser {
   active: boolean;
 
   avatar?: string;
+
+  userSchoolRoles: IUserSchoolRole[];
+
+  person: IPerson;
 
   person_id: string;
 
