@@ -1,18 +1,12 @@
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { inject, injectable } from 'tsyringe';
-import { IFilterQuery } from 'typeorm-dynamic-filters';
 
 import { IListResultInterface } from '@shared/dtos/IListResultDTO';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
 import { IListTeachersDTO } from '../dtos/IListTeachersDTO';
 import { ITeachersRepository } from '../repositories/ITeachersRepository';
-
-interface IRequest {
-  query: IFilterQuery;
-  school_id: string;
-}
 
 @injectable()
 class ListTeachersService {
@@ -23,7 +17,7 @@ class ListTeachersService {
   public async execute(
     authSchoolId: string,
     {
-      active = true,
+      active,
       school_id = authSchoolId,
       page = 1,
       per_page = 10,
