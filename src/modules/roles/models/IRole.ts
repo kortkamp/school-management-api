@@ -21,6 +21,8 @@ interface IRole {
 
   type: RoleTypes;
 
+  is_employee: boolean;
+
   name: string;
 
   created_at: Date;

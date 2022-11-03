@@ -19,6 +19,9 @@ class Role implements IRole {
   @Column()
   name: string;
 
+  @Column()
+  is_employee: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 
