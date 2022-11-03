@@ -76,6 +76,7 @@ class UserSchoolRoleRepositories implements IUserSchoolRoleRepositories {
         .addSelect(['role.id', 'role.name', 'role.type'])
         .leftJoin('user.person', 'person')
         .addSelect(['person.id', 'person.name'])
+        .andWhere('role.is_employee = true')
         .orderBy('schoolRoles.created_at', 'DESC')
         .take(take)
         .skip(skip);
