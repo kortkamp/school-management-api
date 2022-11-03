@@ -33,6 +33,8 @@ class ListEmployeesService {
     const normalized = roles.map(role => ({
       id: role.user_id,
       name: role.user.name,
+      person_name: role.user.person?.name,
+      number_id: role.user.number_id,
       role: role.role.name,
       role_id: role.role_id,
     }));

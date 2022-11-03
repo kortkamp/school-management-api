@@ -3,6 +3,7 @@ import { IUserSchoolRoleRepositories } from '@modules/users/repositories/IUserSc
 import { Repository } from 'typeorm';
 import { FilterBuilder, IFilterQuery } from 'typeorm-dynamic-filters';
 
+import { tenantWrapper } from '@shared/infra/tenantContext/tenantRepository';
 import { AppDataSource } from '@shared/infra/typeorm';
 
 import { UserSchoolRole } from '../models/UserSchoolRole';
@@ -51,22 +52,38 @@ class UserSchoolRoleRepositories implements IUserSchoolRoleRepositories {
     school_id: string,
     query: IFilterQuery,
   ): Promise<[UserSchoolRole[], number]> {
-    const filterQueryBuilder = new FilterBuilder(
-      this.ormRepository,
-      'schoolRoles',
-    );
+    const take = query.per_page || 10;
+    const skip = query.page ? (query.page - 1) * query.per_page : 0;
 
-    const qb = filterQueryBuilder.build(query);
+    const { filterBy, filterValue } = query;
 
-    qb.andWhere('school_id = :school_id', { school_id })
-      .leftJoin('schoolRoles.user', 'user')
-      .addSelect(['user.id', 'user.name'])
-      .leftJoin('schoolRoles.role', 'role')
-      .addSelect(['role.id', 'role.name', 'role.type']);
+    const itens = await tenantWrapper(manager => {
+      const qb = manager
+        .getRepository(UserSchoolRole)
+        .createQueryBuilder('schoolRoles');
 
-    const listRoles = await qb.getManyAndCount();
+      qb.andWhere('school_id = :school_id', { school_id });
 
-    return listRoles;
+      if (filterBy[0]) {
+        qb.andWhere(`${filterBy[0]} = :filter_value`, {
+          filter_value: filterValue[0],
+        });
+      }
+
+      qb.leftJoin('schoolRoles.user', 'user')
+        .addSelect(['user.id', 'user.name', 'user.number_id'])
+        .leftJoin('schoolRoles.role', 'role')
+        .addSelect(['role.id', 'role.name', 'role.type'])
+        .leftJoin('user.person', 'person')
+        .addSelect(['person.id', 'person.name'])
+        .orderBy('schoolRoles.created_at', 'DESC')
+        .take(take)
+        .skip(skip);
+
+      return qb.getManyAndCount();
+    });
+
+    return itens;
   }
 
   public async delete(user: UserSchoolRole): Promise<void> {
