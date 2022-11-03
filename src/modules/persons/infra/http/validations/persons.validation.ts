@@ -7,7 +7,7 @@ export const createPersonValidate = celebrate(
       cpf: Joi.string().length(11).empty('').default(null).allow(null),
       rg: Joi.string().min(2).max(20).empty('').default(null).allow(null),
       sex: Joi.string().valid('M', 'F').required(),
-      birth: Joi.string().isoDate().empty('').default(null).allow(null),
+      birth: Joi.string().empty('').default(null).allow(null),
       role_id: Joi.string().uuid().empty('').default(null).allow(null),
     },
   },
