@@ -80,7 +80,9 @@ class PersonsController {
 
     const person = await findPersonByCPFService.execute(cpf);
 
-    return response.status(200).json({ success: true, person });
+    return response
+      .status(200)
+      .json({ success: true, person: instanceToInstance(person) });
   }
 }
 
