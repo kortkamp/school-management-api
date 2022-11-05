@@ -1,4 +1,4 @@
-import { CreateStudentService } from '@modules/students/services/CreateStudentService';
+import { CreateStudentPersonService } from '@modules/students/services/CreateStudentPersonService';
 import { DeleteStudentService } from '@modules/students/services/DeleteStudentService';
 import { ListStudentsService } from '@modules/students/services/ListStudentsService';
 import { ShowStudentService } from '@modules/students/services/ShowStudentService';
@@ -27,15 +27,18 @@ class StudentsController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const createStudentService = container.resolve(CreateStudentService);
+    const createStudentService = container.resolve(CreateStudentPersonService);
 
     const authSchoolId = request.school.id;
 
     const data = request.body;
 
+    const authUser = request.user;
+
     const student = await createStudentService.execute({
       data,
       authSchoolId,
+      authUser,
     });
 
     return response
