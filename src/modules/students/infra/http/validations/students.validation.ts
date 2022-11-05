@@ -63,8 +63,8 @@ export const listStudentsValidate = celebrate({
     page: Joi.number().positive(),
     per_page: Joi.number().positive(),
     school_id: Joi.string().uuid(),
-    course_id: Joi.string().uuid(),
-    grade_id: Joi.string().uuid(),
-    class_group_id: Joi.string().uuid(),
+    course_id: Joi.string().uuid().empty('').default(null).allow(null),
+    grade_id: Joi.string().uuid().empty('').default(null).allow(null),
+    class_group_id: Joi.string().uuid().empty('').default(null).allow(null),
   },
 });
