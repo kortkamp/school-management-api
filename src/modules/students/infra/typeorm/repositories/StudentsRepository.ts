@@ -53,9 +53,9 @@ class StudentsRepository implements IStudentsRepository {
           sex: true,
           birth: true,
         },
-        course: { name: true },
-        grade: { name: true },
-        classGroup: { name: true },
+        course: { id: true, name: true },
+        grade: { id: true, name: true },
+        classGroup: { id: true, name: true },
       },
     });
   }
