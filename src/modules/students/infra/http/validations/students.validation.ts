@@ -3,7 +3,21 @@ import { celebrate, Joi, Segments } from 'celebrate';
 export const createStudentValidate = celebrate(
   {
     [Segments.BODY]: {
-      person_id: Joi.string().uuid(),
+      name: Joi.string().min(3).max(100).required(),
+      cpf: Joi.string().length(11).empty('').default(null).allow(null),
+      rg: Joi.string().min(2).max(20).empty('').default(null).allow(null),
+      sex: Joi.string().valid('M', 'F').required(),
+      birth: Joi.string().empty('').default(null).allow(null),
+      role_id: Joi.string().uuid().empty('').default(null).allow(null),
+      addresses: Joi.array().items({
+        street: Joi.string().min(3).max(100).required(),
+        number: Joi.string().min(1).max(20).required(),
+        complement: Joi.string().max(30).required().allow(''),
+        district: Joi.string().min(1).max(20).required(),
+        city: Joi.string().min(1).max(40).required(),
+        state: Joi.string().length(2).required(),
+        CEP: Joi.string().length(8).required(),
+      }),
       enroll_id: Joi.string().empty('').default(null).allow(null),
       course_id: Joi.string().uuid().empty('').default(null).allow(null),
       grade_id: Joi.string().uuid().empty('').default(null).allow(null),
@@ -34,9 +48,9 @@ export const updateStudentValidate = celebrate(
     },
     [Segments.BODY]: {
       enroll_id: Joi.string(),
-      course_id: Joi.string().uuid(),
-      grade_id: Joi.string().uuid(),
-      class_group_id: Joi.string(),
+      course_id: Joi.string().uuid().empty('').default(null).allow(null),
+      grade_id: Joi.string().uuid().empty('').default(null).allow(null),
+      class_group_id: Joi.string().empty('').default(null).allow(null),
     },
   },
   {
