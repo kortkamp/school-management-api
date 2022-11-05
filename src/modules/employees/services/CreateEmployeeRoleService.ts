@@ -1,5 +1,6 @@
 import { RoleTypes } from '@modules/roles/models/IRole';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
+import { ITeachersRepository } from '@modules/teachers/repositories/ITeachersRepository';
 import { IUserSchoolRole } from '@modules/users/models/IUserSchoolRole';
 import { IUserSchoolRoleRepositories } from '@modules/users/repositories/IUserSchoolRoleRepositories';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
@@ -15,17 +16,22 @@ interface IRequest {
   data: ICreateEmployeeRoleDTO;
 }
 
+// TODO check if new or prev role is a teacher and create or delete teacher row on teachers table
+
 @injectable()
 class CreateEmployeeRoleService {
   constructor(
     @inject('UsersRepository')
-    private employeesRepository: IUsersRepository,
+    private usersRepository: IUsersRepository,
 
     @inject('RolesRepository')
     private rolesRepository: IRolesRepository,
 
     @inject('UserSchoolRoleRepositories')
     private userSchoolRoleRepositories: IUserSchoolRoleRepositories,
+
+    @inject('TeachersRepository')
+    private teachersRepository: ITeachersRepository,
   ) {}
 
   public async execute({
@@ -37,7 +43,7 @@ class CreateEmployeeRoleService {
       throw new ErrorsApp('Não é permitido alterar sua própria função', 400);
     }
 
-    const employee = await this.employeesRepository.findById(data.employee_id);
+    const employee = await this.usersRepository.findById(data.employee_id);
 
     if (!employee) {
       throw new ErrorsApp('O funcionário não existe', 404);
@@ -77,6 +83,12 @@ class CreateEmployeeRoleService {
       }
       await this.userSchoolRoleRepositories.delete(prevUserSchoolRole);
     }
+
+    await this.teachersRepository.create({
+      active: true,
+      person_id: employee.person_id,
+      school_id,
+    });
 
     const userSchoolRole = await this.userSchoolRoleRepositories.create({
       school_id,
