@@ -1,9 +1,16 @@
+import { Address } from '@modules/addresses/infra/typeorm/models/Address';
 import { IPerson } from '@modules/persons/models/IPerson';
+import { Student } from '@modules/students/infra/typeorm/models/Student';
 import { User } from '@modules/users/infra/typeorm/models/User';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -42,8 +49,27 @@ class Person implements IPerson {
   @UpdateDateColumn()
   updated_at: Date;
 
+  @ManyToMany(() => Address, address => address.persons, {
+    cascade: ['insert'],
+  })
+  @JoinTable({
+    name: 'smsystem.person_addresses',
+    joinColumn: {
+      name: 'person_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'address_id',
+      referencedColumnName: 'id',
+    },
+  })
+  addresses: Address[];
+
   @OneToOne(() => User, user => user.person, { cascade: ['insert'] })
   user: User;
+
+  @OneToOne(() => Student, student => student.person, { cascade: ['insert'] })
+  student: Student;
 
   constructor() {
     if (!this.id) {

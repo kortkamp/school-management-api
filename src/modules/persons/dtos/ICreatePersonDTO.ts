@@ -1,3 +1,4 @@
+import { ICreateStudentDTO } from '@modules/students/dtos/ICreateStudentDTO';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 
 interface ICreatePersonDTO {
@@ -7,6 +8,7 @@ interface ICreatePersonDTO {
   sex: 'M' | 'F';
   birth: Date;
   user?: ICreateUserDTO;
+  student?: Omit<ICreateStudentDTO, 'person_id'>;
   active?: boolean;
 }
 

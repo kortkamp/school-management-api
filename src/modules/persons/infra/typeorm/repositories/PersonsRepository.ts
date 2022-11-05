@@ -54,7 +54,7 @@ class PersonsRepository implements IPersonsRepository {
 
   public async findByCPF(cpf: string): Promise<Person | undefined> {
     const person = await this.ormRepository.findOne({
-      relations: ['user'],
+      relations: ['user', 'addresses'],
       where: { cpf },
     });
 

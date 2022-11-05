@@ -1,8 +1,11 @@
 import { IAddress } from '@modules/addresses/models/IAddress';
+import { Person } from '@modules/persons/infra/typeorm/models/Person';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
@@ -35,6 +38,20 @@ class Address implements IAddress {
 
   @CreateDateColumn()
   created_at: Date;
+
+  @OneToMany(() => Person, person => person.addresses)
+  @JoinTable({
+    name: 'smsystem.person_addresses',
+    joinColumn: {
+      name: 'address_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'person_id',
+      referencedColumnName: 'id',
+    },
+  })
+  persons: Person[];
 
   constructor() {
     if (!this.id) {
