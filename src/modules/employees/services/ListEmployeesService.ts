@@ -34,6 +34,7 @@ class ListEmployeesService {
       id: role.user_id,
       name: role.user.name,
       person_name: role.user.person?.name,
+      person_id: role.user.person?.id,
       number_id: role.user.number_id,
       role: role.role.name,
       role_id: role.role_id,
