@@ -1,3 +1,4 @@
+import { ICreateAddressDTO } from '@modules/addresses/dtos/ICreateAddressDTO';
 import { ICreateStudentDTO } from '@modules/students/dtos/ICreateStudentDTO';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 
@@ -10,6 +11,7 @@ interface ICreatePersonDTO {
   user?: ICreateUserDTO;
   student?: Omit<ICreateStudentDTO, 'person_id'>;
   active?: boolean;
+  addresses?: ICreateAddressDTO[];
 }
 
 export { ICreatePersonDTO };
