@@ -2,6 +2,10 @@ import { ICreateClassGroupDTO } from '@modules/classGroups/dtos/ICreateClassGrou
 import { IClassGroupsRepository } from '@modules/classGroups/repositories/IClassGroupsRepository';
 import { Repository } from 'typeorm';
 
+import {
+  customRepository,
+  tenantWrapper,
+} from '@shared/infra/tenantContext/tenantRepository';
 import { AppDataSource } from '@shared/infra/typeorm';
 
 import { ClassGroup } from '../models/ClassGroup';
@@ -10,7 +14,9 @@ class ClassGroupsRepository implements IClassGroupsRepository {
   private ormRepository: Repository<ClassGroup>;
 
   constructor() {
-    this.ormRepository = AppDataSource.getRepository<ClassGroup>(ClassGroup);
+    this.ormRepository = AppDataSource.getRepository<ClassGroup>(
+      ClassGroup,
+    ).extend(customRepository(ClassGroup));
   }
 
   public async getTotal(): Promise<number> {
@@ -33,23 +39,30 @@ class ClassGroupsRepository implements IClassGroupsRepository {
     school_id: string,
     relations: string[] = [],
   ): Promise<ClassGroup[]> {
-    const qb = this.ormRepository.createQueryBuilder('classGroup');
-    qb.where('classGroup.school_id = :school_id', { school_id })
-      .select(['classGroup.id', 'classGroup.name'])
-      .leftJoin('classGroup.grade', 'grade')
-      .addSelect(['grade.id', 'grade.name'])
-      .leftJoin('grade.course', 'course')
-      .addSelect(['course.id', 'course.name'])
-      .leftJoin('classGroup.routineGroup', 'routineGroup')
-      .addSelect(['routineGroup.id', 'routineGroup.name']);
-    // // .leftJoin('classGroup.users', 'users')
-    // // .addSelect(['users.id', 'users.name'])
-    // .loadRelationCountAndMap(
-    //   'classGroup.students_count',
-    //   'classGroup.students',
-    // );
+    const itens = await tenantWrapper(manager => {
+      const qb = manager
+        .getRepository(ClassGroup)
+        .createQueryBuilder('classGroup');
 
-    return qb.getMany();
+      qb.where('classGroup.school_id = :school_id', { school_id })
+        .select(['classGroup.id', 'classGroup.name'])
+        .leftJoin('classGroup.grade', 'grade')
+        .addSelect(['grade.id', 'grade.name'])
+        .leftJoin('grade.course', 'course')
+        .addSelect(['course.id', 'course.name'])
+        .leftJoin('classGroup.routineGroup', 'routineGroup')
+        .addSelect(['routineGroup.id', 'routineGroup.name']);
+      // // .leftJoin('classGroup.users', 'users')
+      // // .addSelect(['users.id', 'users.name'])
+      // .loadRelationCountAndMap(
+      //   'classGroup.students_count',
+      //   'classGroup.students',
+      // );
+
+      return qb.getMany();
+    });
+
+    return itens;
   }
 
   public async listClassGroups(school_id: string): Promise<ClassGroup[]> {

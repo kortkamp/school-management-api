@@ -1,4 +1,5 @@
 import { IClassGroup } from '@modules/classGroups/models/IClassGroup';
+import { Course } from '@modules/courses/infra/typeorm/models/Course';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
 import { RoutineGroup } from '@modules/routines/infra/typeorm/models/RoutineGroup';
 import { School } from '@modules/schools/infra/typeorm/models/School';
@@ -25,13 +26,19 @@ class ClassGroup implements IClassGroup {
   name: string;
 
   @Column()
+  school_id: string;
+
+  @Column()
+  course_id: string;
+
+  @Column()
   grade_id: string;
 
   @Column()
   routine_group_id: string;
 
   @Column()
-  school_id: string;
+  tenant_id: string;
 
   @ManyToOne(() => School, school => school)
   @JoinColumn({
@@ -47,13 +54,16 @@ class ClassGroup implements IClassGroup {
   @OneToMany(
     type => TeacherClass,
     teacherClassGroups => teacherClassGroups.classGroup,
-    {},
   )
   @JoinColumn({ name: 'class_group_id' })
   teacherClassGroups: TeacherClass[];
 
   // @ManyToMany(type => User, user => user.teachingClasses)
   // teachers: User[];
+
+  @ManyToOne(() => Course, course => course)
+  @JoinColumn({ name: 'course_id', referencedColumnName: 'id' })
+  course: Course;
 
   @ManyToOne(() => Grade, grade => grade, { orphanedRowAction: 'nullify' })
   @JoinColumn({

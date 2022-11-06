@@ -2,6 +2,10 @@ import { ICreateCourseDTO } from '@modules/courses/dtos/ICreateCourseDTO';
 import { ICoursesRepository } from '@modules/courses/repositories/ICoursesRepository';
 import { Repository } from 'typeorm';
 
+import {
+  customRepository,
+  tenantWrapper,
+} from '@shared/infra/tenantContext/tenantRepository';
 import { AppDataSource } from '@shared/infra/typeorm';
 
 import { Course } from '../models/Course';
@@ -10,7 +14,9 @@ class CoursesRepository implements ICoursesRepository {
   private ormRepository: Repository<Course>;
 
   constructor() {
-    this.ormRepository = AppDataSource.getRepository<Course>(Course);
+    this.ormRepository = AppDataSource.getRepository<Course>(Course).extend(
+      customRepository(Course),
+    );
   }
 
   public async create(data: ICreateCourseDTO): Promise<Course> {
@@ -25,31 +31,35 @@ class CoursesRepository implements ICoursesRepository {
     school_id: string,
     relations: string[] = [],
   ): Promise<Course[]> {
-    const qb = this.ormRepository.createQueryBuilder('courses');
+    const itens = await tenantWrapper(manager => {
+      const qb = manager.getRepository(Course).createQueryBuilder('courses');
 
-    qb.select([
-      'courses.id',
-      'courses.name',
-      'courses.total_hours',
-      'courses.phase_name',
-      'courses.phases_number',
-      'courses.segment_id',
-    ]);
-    qb.where('courses.school_id = :school_id', { school_id });
-    qb.leftJoin('courses.grades', 'grades')
-      .addSelect([
-        'grades.id',
-        'grades.name',
-        'grades.days',
-        'grades.total_hours',
-      ])
-      .leftJoin('grades.class_groups', 'class_groups')
-      .addSelect(['class_groups.id', 'class_groups.name'])
-      .orderBy('grades.name', 'ASC')
-      .addOrderBy('courses.created_at', 'ASC')
-      .addOrderBy('class_groups.name', 'ASC');
-    // return this.ormRepository.find({ where: { school_id }, relations });
-    return qb.getMany();
+      qb.select([
+        'courses.id',
+        'courses.name',
+        'courses.total_hours',
+        'courses.phase_name',
+        'courses.phases_number',
+        'courses.segment_id',
+      ]);
+      qb.where('courses.school_id = :school_id', { school_id });
+      qb.leftJoin('courses.grades', 'grades')
+        .addSelect([
+          'grades.id',
+          'grades.name',
+          'grades.days',
+          'grades.total_hours',
+        ])
+        .leftJoin('grades.class_groups', 'class_groups')
+        .addSelect(['class_groups.id', 'class_groups.name'])
+        .orderBy('grades.name', 'ASC')
+        .addOrderBy('courses.created_at', 'ASC')
+        .addOrderBy('class_groups.name', 'ASC');
+      // return this.ormRepository.find({ where: { school_id }, relations });
+      return qb.getMany();
+    });
+
+    return itens;
   }
 
   public async save(data: Course): Promise<void> {

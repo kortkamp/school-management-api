@@ -4,6 +4,7 @@ export const createClassGroupValidate = celebrate(
   {
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
+      course_id: Joi.string().uuid().required(),
       grade_id: Joi.string().uuid().required(),
     },
   },
