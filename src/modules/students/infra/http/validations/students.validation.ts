@@ -4,11 +4,10 @@ export const createStudentValidate = celebrate(
   {
     [Segments.BODY]: {
       name: Joi.string().min(3).max(100).required(),
-      cpf: Joi.string().length(11).empty('').default(null).allow(null),
-      rg: Joi.string().min(2).max(20).empty('').default(null).allow(null),
+      cpf: Joi.string().length(11),
+      rg: Joi.string().min(2).max(20),
       sex: Joi.string().valid('M', 'F').required(),
-      birth: Joi.string().empty('').default(null).allow(null),
-      role_id: Joi.string().uuid().empty('').default(null).allow(null),
+      birth: Joi.string().required(),
       addresses: Joi.array().items({
         street: Joi.string().min(3).max(100).required(),
         number: Joi.string().min(1).max(20).required(),
