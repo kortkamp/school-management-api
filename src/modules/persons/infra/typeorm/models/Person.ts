@@ -6,11 +6,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
-  ManyToOne,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -50,10 +47,11 @@ class Person implements IPerson {
   updated_at: Date;
 
   @ManyToMany(() => Address, address => address.persons, {
-    cascade: ['insert'],
+    cascade: ['insert', 'update'],
   })
   @JoinTable({
-    name: 'smsystem.person_addresses',
+    schema: 'smsystem',
+    name: 'person_addresses',
     joinColumn: {
       name: 'person_id',
       referencedColumnName: 'id',

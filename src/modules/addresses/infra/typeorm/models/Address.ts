@@ -41,7 +41,8 @@ class Address implements IAddress {
 
   @OneToMany(() => Person, person => person.addresses)
   @JoinTable({
-    name: 'smsystem.person_addresses',
+    schema: 'smsystem',
+    name: 'person_addresses',
     joinColumn: {
       name: 'address_id',
       referencedColumnName: 'id',
