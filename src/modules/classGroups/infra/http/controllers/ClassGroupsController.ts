@@ -24,14 +24,13 @@ class ClassGroupsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const createClassGroupService = container.resolve(CreateClassGroupService);
 
-    const school_id = request.school.id;
+    const authSchoolId = request.school.id;
 
-    const { name, grade_id } = request.body;
+    const data = request.body;
 
     const classGroup = await createClassGroupService.execute({
-      name,
-      grade_id,
-      school_id,
+      authSchoolId,
+      data,
     });
 
     return response
