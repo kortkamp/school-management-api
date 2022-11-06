@@ -1,5 +1,3 @@
-import { ICreateGradeDTO } from '@modules/grades/dtos/ICreateGradeDTO';
-import { GradesRepository } from '@modules/grades/infra/typeorm/repositories/GradesRepository';
 import { ICreateSegmentDTO } from '@modules/segments/dtos/ICreateSegmentDTO';
 import { SegmentsRepository } from '@modules/segments/infra/typeorm/repositories/SegmentsRepository';
 import { ICreateSubjectDTO } from '@modules/subjects/dtos/ICreateSubjectDTO';
@@ -10,51 +8,32 @@ import { AppDataSource } from '..';
 
 interface ISeed {
   segment: ICreateSegmentDTO;
-  grades: Omit<ICreateGradeDTO, 'segment_id'>[];
   subjects: Omit<ICreateSubjectDTO, 'segment_id'>[];
 }
 
 async function create() {
   await AppDataSource.initialize();
   const segmentsRepository = new SegmentsRepository();
-  const gradesRepository = new GradesRepository();
   const subjectsRepository = new SubjectsRepository();
 
   const seeds: ISeed[] = [
     {
-      segment: { name: 'Infantil' },
-      grades: [
-        {
-          name: 'Infantil 1',
-        },
-        {
-          name: 'Infantil 2',
-        },
-        {
-          name: 'Infantil 3',
-        },
-        {
-          name: 'Infantil 4',
-        },
-      ],
+      segment: {
+        name: 'Infantil',
+        phase_name: 'ano',
+        starting_phase: 1,
+        phases_number: 5,
+      },
       subjects: [],
     },
     {
-      segment: { name: 'Fundamental I' },
-      grades: [
-        {
-          name: '1º Ano',
-        },
-        {
-          name: '2º Ano',
-        },
-        {
-          name: '3º Ano',
-        },
-        {
-          name: '4º Ano',
-        },
-      ],
+      segment: {
+        name: 'Fundamental I',
+        phase_name: 'ano',
+        starting_phase: 1,
+        phases_number: 5,
+      },
+
       subjects: [
         {
           name: 'Lingua Portuguesa',
@@ -86,24 +65,13 @@ async function create() {
       ],
     },
     {
-      segment: { name: 'Fundamental II' },
-      grades: [
-        {
-          name: '5º Ano',
-        },
-        {
-          name: '6º Ano',
-        },
-        {
-          name: '7º Ano',
-        },
-        {
-          name: '8º Ano',
-        },
-        {
-          name: '9º Ano',
-        },
-      ],
+      segment: {
+        name: 'Fundamental II',
+        phase_name: 'ano',
+        starting_phase: 6,
+        phases_number: 4,
+      },
+
       subjects: [
         {
           name: 'Lingua Portuguesa',
@@ -135,18 +103,12 @@ async function create() {
       ],
     },
     {
-      segment: { name: 'Médio' },
-      grades: [
-        {
-          name: '1º Ano',
-        },
-        {
-          name: '2º Ano',
-        },
-        {
-          name: '3º Ano',
-        },
-      ],
+      segment: {
+        name: 'Médio',
+        phase_name: 'ano',
+        starting_phase: 1,
+        phases_number: 3,
+      },
       subjects: [
         {
           name: 'Lingua Portuguesa',
@@ -191,12 +153,6 @@ async function create() {
   const createSeeds = seeds.map(async seed => {
     const segment = await segmentsRepository.create(seed.segment);
     console.log(`Created segment:${segment.id} ${segment.name} `);
-
-    const createGrades = seed.grades.map(async grade =>
-      gradesRepository.create({ ...grade, segment_id: segment.id }),
-    );
-    const grades = await Promise.all(createGrades);
-    console.log(`Created ${grades.length} grades`);
 
     const createSubjects = seed.subjects.map(async subject =>
       subjectsRepository.create({ ...subject, segment_id: segment.id }),
