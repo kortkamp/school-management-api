@@ -13,34 +13,42 @@ async function create() {
     {
       type: RoleTypes.SYSTEM_ADMIN,
       name: 'System Admin',
+      is_employee: true,
     },
     {
       type: RoleTypes.ADMIN,
       name: 'Administrador',
+      is_employee: true,
     },
     {
       type: RoleTypes.REGISTER,
       name: 'Registro',
+      is_employee: true,
     },
     {
       type: RoleTypes.PRINCIPAL,
       name: 'Diretor(a)',
+      is_employee: true,
     },
     {
       type: RoleTypes.SECRETARY,
       name: 'Secretário(a)',
+      is_employee: true,
     },
     {
       type: RoleTypes.TEACHER,
       name: 'Professor(a)',
+      is_employee: true,
     },
     {
       type: RoleTypes.STUDENT,
       name: 'Aluno(a)',
+      is_employee: false,
     },
     {
       type: RoleTypes.PARENT,
       name: 'Responsável',
+      is_employee: false,
     },
   ];
 
