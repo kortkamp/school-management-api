@@ -3,6 +3,7 @@ import { Course } from '@modules/courses/infra/typeorm/models/Course';
 import { Grade } from '@modules/grades/infra/typeorm/models/Grade';
 import { RoutineGroup } from '@modules/routines/infra/typeorm/models/RoutineGroup';
 import { School } from '@modules/schools/infra/typeorm/models/School';
+import { Student } from '@modules/students/infra/typeorm/models/Student';
 import {
   Column,
   CreateDateColumn,
@@ -47,9 +48,9 @@ class ClassGroup implements IClassGroup {
   })
   school: School;
 
-  // @OneToMany(type => User, users => users.classGroup, {})
-  // @JoinColumn({ name: 'id' })
-  // students: User[];
+  @OneToMany(type => Student, student => student.classGroup, {})
+  @JoinColumn({ name: 'id' })
+  students: Student[];
 
   @OneToMany(
     type => TeacherClass,
