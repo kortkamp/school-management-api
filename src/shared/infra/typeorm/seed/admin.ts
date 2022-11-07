@@ -16,6 +16,7 @@ async function create() {
   const roleData: ICreateRoleDTO = {
     type: RoleTypes.SYSTEM_ADMIN,
     name: 'System Admin',
+    is_employee: false,
   };
 
   const adminRole = await rolesRepository.create(roleData);
@@ -24,9 +25,7 @@ async function create() {
     email: 'system-admin@template.com',
     name: 'System Admin',
     active: true,
-    birth: new Date(),
-    sex: 'M',
-    role_id: adminRole.id,
+
     password: await hash('123456', 8),
   };
 
