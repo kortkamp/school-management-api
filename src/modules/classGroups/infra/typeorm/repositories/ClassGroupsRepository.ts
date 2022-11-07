@@ -51,13 +51,13 @@ class ClassGroupsRepository implements IClassGroupsRepository {
         .leftJoin('grade.course', 'course')
         .addSelect(['course.id', 'course.name'])
         .leftJoin('classGroup.routineGroup', 'routineGroup')
-        .addSelect(['routineGroup.id', 'routineGroup.name']);
-      // // .leftJoin('classGroup.users', 'users')
-      // // .addSelect(['users.id', 'users.name'])
-      // .loadRelationCountAndMap(
-      //   'classGroup.students_count',
-      //   'classGroup.students',
-      // );
+        .addSelect(['routineGroup.id', 'routineGroup.name'])
+        // // .leftJoin('classGroup.users', 'users')
+        // // .addSelect(['users.id', 'users.name'])
+        .loadRelationCountAndMap(
+          'classGroup.students_count',
+          'classGroup.students',
+        );
 
       return qb.getMany();
     });
@@ -97,28 +97,37 @@ class ClassGroupsRepository implements IClassGroupsRepository {
     id: string,
     school_id: string,
   ): Promise<ClassGroup | undefined> {
-    const qb = this.ormRepository.createQueryBuilder('classGroup');
-    qb.where('classGroup.id = :id AND classGroup.school_id = :school_id ', {
-      id,
-      school_id,
-    })
-      .select(['classGroup.id', 'classGroup.name'])
-      .leftJoin('classGroup.grade', 'grade')
-      .addSelect(['grade.id', 'grade.name'])
-      .leftJoin('grade.course', 'course')
-      .addSelect(['course.id', 'course.name'])
-      .leftJoin('classGroup.routineGroup', 'routineGroup')
-      .addSelect(['routineGroup.id', 'routineGroup.name'])
-      .leftJoinAndSelect('classGroup.students', 'students')
-      .leftJoinAndSelect('classGroup.teachers', 'teachers');
-    // // .leftJoin('classGroup.users', 'users')
-    // // .addSelect(['users.id', 'users.name'])
-    // .loadRelationCountAndMap(
-    //   'classGroup.students_count',
-    //   'classGroup.students',
-    // );
+    const classGroup = await tenantWrapper(manager => {
+      const qb = manager
+        .getRepository(ClassGroup)
+        .createQueryBuilder('classGroup');
+      qb.where('classGroup.id = :id AND classGroup.school_id = :school_id ', {
+        id,
+        school_id,
+      })
+        .select(['classGroup.id', 'classGroup.name'])
+        .leftJoin('classGroup.grade', 'grade')
+        .addSelect(['grade.id', 'grade.name'])
+        .leftJoin('grade.course', 'course')
+        .addSelect(['course.id', 'course.name'])
+        .leftJoin('classGroup.routineGroup', 'routineGroup')
+        .addSelect(['routineGroup.id', 'routineGroup.name'])
+        .leftJoin('classGroup.students', 'students')
+        .leftJoin('students.person', 'person')
+        .addSelect(['students.id', 'students.enroll_id'])
+        .addSelect(['person.id', 'person.name']);
+      // .leftJoinAndSelect('classGroup.teachers', 'teachers');
+      // // .leftJoin('classGroup.users', 'users')
+      // // .addSelect(['users.id', 'users.name'])
+      // .loadRelationCountAndMap(
+      //   'classGroup.students_count',
+      //   'classGroup.students',
+      // );
 
-    return qb.getOne();
+      return qb.getOne();
+    });
+
+    return classGroup;
   }
 
   public async findByName(name: string): Promise<ClassGroup | undefined> {
