@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import { v4 as uuid } from 'uuid';
 
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
@@ -31,6 +32,10 @@ class UpdatePersonService {
       }
     }
 
+    if (!data.addresses[0].id) {
+      // eslint-disable-next-line no-param-reassign
+      data.addresses[0].id = uuid();
+    }
     Object.assign(person, data);
 
     await this.personsRepository.save(person);
