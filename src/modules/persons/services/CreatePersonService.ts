@@ -54,6 +54,7 @@ class CreatePersonService {
     const hashedPassword = await this.hashProvider.create('123456', 8);
 
     const user: ICreateUserDTO = {
+      email: data.contact.email,
       name: data.name,
       active: true,
       password: hashedPassword,

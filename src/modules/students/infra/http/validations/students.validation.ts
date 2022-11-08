@@ -17,6 +17,11 @@ export const createStudentValidate = celebrate(
         state: Joi.string().length(2).required(),
         CEP: Joi.string().length(8).required(),
       }),
+      contact: Joi.object({
+        email: Joi.string().email().empty('').default(null).allow(null),
+        phone: Joi.string().length(10).empty('').default(null).allow(null),
+        cel_phone: Joi.string().length(11).empty('').default(null).allow(null),
+      }),
       enroll_id: Joi.string().empty('').default(null).allow(null),
       course_id: Joi.string().uuid().empty('').default(null).allow(null),
       grade_id: Joi.string().uuid().empty('').default(null).allow(null),

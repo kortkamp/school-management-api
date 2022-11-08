@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { Address } from '@modules/addresses/infra/typeorm/models/Address';
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { TeacherClass } from '@modules/classGroups/infra/typeorm/models/TeacherClass';
+import { Contact } from '@modules/contacts/infra/typeorm/models/Contact';
 import { Course } from '@modules/courses/infra/typeorm/models/Course';
 import { Exam } from '@modules/exams/infra/typeorm/models/Exam';
 import { ExamResult } from '@modules/exams/infra/typeorm/models/ExamResult';
@@ -65,6 +66,7 @@ const dataSourceOptions: DataSourceOptions = {
     Person,
     Student,
     Teacher,
+    Contact,
   ],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };

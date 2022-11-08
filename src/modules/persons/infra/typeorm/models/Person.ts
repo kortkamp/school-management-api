@@ -1,4 +1,5 @@
 import { Address } from '@modules/addresses/infra/typeorm/models/Address';
+import { Contact } from '@modules/contacts/infra/typeorm/models/Contact';
 import { IPerson } from '@modules/persons/models/IPerson';
 import { Student } from '@modules/students/infra/typeorm/models/Student';
 import { User } from '@modules/users/infra/typeorm/models/User';
@@ -62,6 +63,11 @@ class Person implements IPerson {
     },
   })
   addresses: Address[];
+
+  @OneToOne(() => Contact, contact => contact.person, {
+    cascade: ['insert', 'update'],
+  })
+  contact: Contact;
 
   @OneToOne(() => User, user => user.person, { cascade: ['insert'] })
   user: User;
