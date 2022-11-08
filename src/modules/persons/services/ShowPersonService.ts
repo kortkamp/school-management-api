@@ -13,6 +13,7 @@ class ShowPersonService {
   public async execute(personId: string) {
     const person = await this.personsRepository.findById(personId, [
       'addresses',
+      'contact',
     ]);
     if (!person) {
       throw new ErrorsApp('Person does not exists', 404);
