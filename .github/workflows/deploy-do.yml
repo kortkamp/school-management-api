@@ -1,0 +1,35 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: CI/CD Production
+
+on:
+  # Só irá rodar nas seguintes situações das seguintes branhces
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-api-digital-ocean:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - name: SSH PULL/INSTALL/MIGRATE/RESTART
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          # Exporta envs para ter acesso ao nodejs
+          script: |
+            cd /var/www/school-management-api/
+            git fetch
+            git checkout main
+            git pull origin main
+            yarn install
+            yarn build
+            yarn typeorm:dist migration:run
+            runuser -u nodejs pm2 restart server
