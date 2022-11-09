@@ -3,6 +3,10 @@ import { IExamsRepository } from '@modules/exams/repositories/IExamsRepository';
 import { Repository } from 'typeorm';
 import { FilterBuilder, IFilterQuery } from 'typeorm-dynamic-filters';
 
+import {
+  customRepository,
+  tenantWrapper,
+} from '@shared/infra/tenantContext/tenantRepository';
 import { AppDataSource } from '@shared/infra/typeorm';
 
 import { Exam } from '../models/Exam';
@@ -11,7 +15,9 @@ class ExamsRepository implements IExamsRepository {
   private ormRepository: Repository<Exam>;
 
   constructor() {
-    this.ormRepository = AppDataSource.getRepository<Exam>(Exam);
+    this.ormRepository = AppDataSource.getRepository<Exam>(Exam).extend(
+      customRepository(Exam),
+    );
   }
 
   public async getTotal(): Promise<number> {
@@ -29,22 +35,24 @@ class ExamsRepository implements IExamsRepository {
   }
 
   public async getAll(query: IFilterQuery): Promise<[Exam[], number]> {
-    const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'exam');
+    const exams = tenantWrapper(manager => {
+      const qb = manager.getRepository(Exam).createQueryBuilder('exam');
+      qb.leftJoin('exam.subject', 'subject')
+        .addSelect(['subject.id', 'subject.name'])
+        .leftJoin('exam.class_group', 'class_group')
+        .addSelect(['class_group.id', 'class_group.name'])
+        .leftJoin('exam.teacher', 'teacher')
+        .leftJoin('teacher.person', 'person')
+        .addSelect(['teacher.id', 'person.id', 'person.name'])
+        .leftJoin('exam.term', 'term')
+        .addSelect(['term.id', 'term.name']);
 
-    const queryBuilder = filterQueryBuilder
-      .build(query)
-      .leftJoin('exam.subject', 'subject')
-      .addSelect(['subject.id', 'subject.name'])
-      .leftJoin('exam.class_group', 'class_group')
-      .addSelect(['class_group.id', 'class_group.name'])
-      .leftJoin('exam.teacher', 'teacher')
-      .addSelect(['teacher.id', 'teacher.name'])
-      .leftJoin('exam.term', 'term')
-      .addSelect(['term.id', 'term.name']);
+      const result = qb.getManyAndCount();
 
-    const result = await queryBuilder.getManyAndCount();
+      return result;
+    });
 
-    return result;
+    return exams;
   }
 
   public async getAllByClassSubject(
