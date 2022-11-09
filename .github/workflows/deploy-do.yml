@@ -26,6 +26,7 @@ jobs:
           # Exporta envs para ter acesso ao nodejs
           script: |
             cd /var/www/school-management-api/
+            runuser -u nodejs pm2 stop server
             git fetch
             git checkout main
             git pull origin main
