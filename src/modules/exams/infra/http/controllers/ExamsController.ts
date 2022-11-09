@@ -12,9 +12,8 @@ import { parseQueryFilters } from 'typeorm-dynamic-filters';
 class ExamsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listExamsService = container.resolve(ListExamsService);
-    const { user, query } = request;
+    const { query } = request;
     const exams = await listExamsService.execute({
-      user,
       query: parseQueryFilters(query),
     });
 
@@ -24,11 +23,17 @@ class ExamsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const createExamService = container.resolve(CreateExamService);
 
-    const teacher_id = request.user.id;
+    const authUserId = request.user.id;
+
+    const schoolId = request.school.id;
 
     const data = request.body;
 
-    const exam = await createExamService.execute({ teacher_id, ...data });
+    const exam = await createExamService.execute({
+      authUserId,
+      schoolId,
+      data,
+    });
 
     return response
       .status(201)

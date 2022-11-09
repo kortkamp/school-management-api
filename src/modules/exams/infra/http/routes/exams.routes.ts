@@ -22,17 +22,17 @@ const examsController = new ExamsController();
 
 examsRoutes.use('/results', examResultsRoutes);
 
-// examsRoutes.post(
-//   '/',
-//   ensureRoles([
-//     RoleTypes.TEACHER,
-//     RoleTypes.ADMIN,
-//     RoleTypes.PRINCIPAL,
-//     RoleTypes.SECRETARY,
-//   ]),
-//   createExamValidate,
-//   examsController.create,
-// );
+examsRoutes.post(
+  '/',
+  ensureRoles([
+    RoleTypes.TEACHER,
+    RoleTypes.ADMIN,
+    RoleTypes.PRINCIPAL,
+    RoleTypes.SECRETARY,
+  ]),
+  createExamValidate,
+  examsController.create,
+);
 
 examsRoutes.get('/', listExamsValidate, examsController.index);
 
