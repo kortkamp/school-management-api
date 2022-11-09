@@ -70,6 +70,23 @@ class TeachersRepository implements ITeachersRepository {
     });
   }
 
+  public async findByUser(
+    school_id: string,
+    user_id: string,
+  ): Promise<Teacher | undefined> {
+    return this.ormRepository.findOne({
+      relations: ['person', 'person.user'],
+      where: {
+        person: {
+          user: {
+            id: user_id,
+          },
+        },
+        school_id,
+      },
+    });
+  }
+
   public async delete(student: Teacher): Promise<void> {
     await this.ormRepository.remove(student);
   }
