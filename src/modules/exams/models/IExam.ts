@@ -35,6 +35,8 @@ export interface IExam {
 
   date: Date;
 
+  school_id: string;
+
   created_at: Date;
 
   updated_at: Date;

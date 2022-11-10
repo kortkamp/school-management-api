@@ -24,7 +24,7 @@ class ListExamsService {
 
     const [exams, length] = await this.examsRepository.getAll({
       ...query,
-      // school_id: authSchoolId,
+      school_id: authSchoolId,
     });
 
     return {

@@ -1,5 +1,6 @@
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { examStatus, examType, IExam } from '@modules/exams/models/IExam';
+import { School } from '@modules/schools/infra/typeorm/models/School';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import { Teacher } from '@modules/teachers/infra/typeorm/models/Teacher';
 import { Term } from '@modules/terms/infra/typeorm/models/Term';
@@ -69,6 +70,13 @@ class Exam implements IExam {
 
   @Column()
   date: Date;
+
+  @Column()
+  school_id: string;
+
+  @ManyToOne(() => School, school => school)
+  @JoinColumn({ name: 'school_id', referencedColumnName: 'id' })
+  school: School;
 
   @CreateDateColumn()
   created_at: Date;
