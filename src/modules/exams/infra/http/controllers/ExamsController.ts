@@ -1,3 +1,4 @@
+import { IListExamsDTO } from '@modules/exams/dtos/IListExamsDTO';
 import { CreateExamService } from '@modules/exams/services/CreateExamService';
 import { DeleteExamService } from '@modules/exams/services/DeleteExamService';
 import { ListExamsService } from '@modules/exams/services/ListExamsService';
@@ -12,12 +13,14 @@ import { parseQueryFilters } from 'typeorm-dynamic-filters';
 class ExamsController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listExamsService = container.resolve(ListExamsService);
-    const { query } = request;
+
+    const authSchoolId = request.school.id;
     const exams = await listExamsService.execute({
-      query: parseQueryFilters(query),
+      authSchoolId,
+      query: request.query as any as IListExamsDTO,
     });
 
-    return response.json({ success: true, exams: instanceToInstance(exams) });
+    return response.json({ success: true, ...instanceToInstance(exams) });
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

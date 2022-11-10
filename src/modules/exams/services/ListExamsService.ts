@@ -1,13 +1,14 @@
 import { inject, injectable } from 'tsyringe';
-import { IFilterQuery } from 'typeorm-dynamic-filters';
 
 import { IListResultInterface } from '@shared/dtos/IListResultDTO';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
+import { IListExamsDTO } from '../dtos/IListExamsDTO';
 import { IExamsRepository } from '../repositories/IExamsRepository';
 
 interface IRequest {
-  query: IFilterQuery;
+  authSchoolId: string;
+  query: IListExamsDTO;
 }
 @injectable()
 class ListExamsService {
@@ -15,10 +16,16 @@ class ListExamsService {
     @inject('ExamsRepository')
     private examsRepository: IExamsRepository,
   ) {}
-  public async execute({ query }: IRequest): Promise<IListResultInterface> {
-    const { page, per_page } = query;
+  public async execute({
+    authSchoolId,
+    query,
+  }: IRequest): Promise<IListResultInterface> {
+    const { page = 1, per_page = 10 } = query;
 
-    const [exams, length] = await this.examsRepository.getAll(query);
+    const [exams, length] = await this.examsRepository.getAll({
+      ...query,
+      // school_id: authSchoolId,
+    });
 
     return {
       result: exams,

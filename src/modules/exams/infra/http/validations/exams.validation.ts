@@ -1,4 +1,4 @@
-import { examType } from '@modules/exams/models/IExam';
+import { examStatus, examType } from '@modules/exams/models/IExam';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { listWithFilterSchema } from 'typeorm-dynamic-filters';
 
@@ -54,7 +54,14 @@ export const updateExamValidate = celebrate(
 );
 
 export const listExamsValidate = celebrate({
-  [Segments.QUERY]: listWithFilterSchema,
+  [Segments.QUERY]: {
+    page: Joi.number().positive(),
+    per_page: Joi.number().positive(),
+    school_id: Joi.string().uuid(),
+    status: Joi.string().valid(...Object.values(examStatus)),
+    type: Joi.string().valid(...Object.values(examType)),
+    class_group_id: Joi.string().uuid(),
+  },
 });
 
 export const listExamsByClassSubjectValidate = celebrate(

@@ -1,4 +1,5 @@
 import { ICreateExamDTO } from '@modules/exams/dtos/ICreateExamDTO';
+import { IListExamsDTO } from '@modules/exams/dtos/IListExamsDTO';
 import { IExamsRepository } from '@modules/exams/repositories/IExamsRepository';
 import { Repository } from 'typeorm';
 import { FilterBuilder, IFilterQuery } from 'typeorm-dynamic-filters';
@@ -34,7 +35,51 @@ class ExamsRepository implements IExamsRepository {
     return newExam;
   }
 
-  public async getAll(query: IFilterQuery): Promise<[Exam[], number]> {
+  public async getAll(query: IListExamsDTO): Promise<[Exam[], number]> {
+    const { page, per_page, ...where } = query;
+
+    const take = per_page || 10;
+    const skip = page ? (page - 1) * per_page : 0;
+
+    return this.ormRepository.findAndCount({
+      where,
+      take,
+      skip,
+      relations: [
+        'subject',
+        'class_group',
+        'teacher',
+        'teacher.person',
+        'term',
+      ],
+      select: {
+        id: true,
+        type: true,
+        status: true,
+        value: true,
+        date: true,
+        subject: {
+          id: true,
+          name: true,
+        },
+        class_group: {
+          id: true,
+          name: true,
+        },
+        teacher: {
+          id: true,
+          person: {
+            id: true,
+            name: true,
+          },
+        },
+        term: {
+          id: true,
+          name: true,
+        },
+      },
+    });
+
     const exams = tenantWrapper(manager => {
       const qb = manager.getRepository(Exam).createQueryBuilder('exam');
       qb.leftJoin('exam.subject', 'subject')
