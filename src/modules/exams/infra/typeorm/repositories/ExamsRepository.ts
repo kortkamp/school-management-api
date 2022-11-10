@@ -58,6 +58,7 @@ class ExamsRepository implements IExamsRepository {
         status: true,
         value: true,
         date: true,
+        created_at: true,
         subject: {
           id: true,
           name: true,
@@ -78,26 +79,8 @@ class ExamsRepository implements IExamsRepository {
           name: true,
         },
       },
+      order: { created_at: 'DESC' },
     });
-
-    const exams = tenantWrapper(manager => {
-      const qb = manager.getRepository(Exam).createQueryBuilder('exam');
-      qb.leftJoin('exam.subject', 'subject')
-        .addSelect(['subject.id', 'subject.name'])
-        .leftJoin('exam.class_group', 'class_group')
-        .addSelect(['class_group.id', 'class_group.name'])
-        .leftJoin('exam.teacher', 'teacher')
-        .leftJoin('teacher.person', 'person')
-        .addSelect(['teacher.id', 'person.id', 'person.name'])
-        .leftJoin('exam.term', 'term')
-        .addSelect(['term.id', 'term.name']);
-
-      const result = qb.getManyAndCount();
-
-      return result;
-    });
-
-    return exams;
   }
 
   public async getAllByClassSubject(

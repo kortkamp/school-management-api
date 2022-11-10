@@ -8,7 +8,6 @@ import { UpdateExamService } from '@modules/exams/services/UpdateExamService';
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { parseQueryFilters } from 'typeorm-dynamic-filters';
 
 class ExamsController {
   public async index(request: Request, response: Response): Promise<Response> {

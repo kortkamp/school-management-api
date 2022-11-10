@@ -1,6 +1,5 @@
 import { examStatus, examType } from '@modules/exams/models/IExam';
 import { celebrate, Joi, Segments } from 'celebrate';
-import { listWithFilterSchema } from 'typeorm-dynamic-filters';
 
 export const createExamValidate = celebrate(
   {
@@ -9,7 +8,7 @@ export const createExamValidate = celebrate(
         .required()
         .valid(...Object.values(examType)),
 
-      value: Joi.number().integer().required(),
+      value: Joi.number().positive().required(),
       term_id: Joi.string().uuid().required(),
       subject_id: Joi.string().uuid().required(),
       class_group_id: Joi.string().uuid().required(),
