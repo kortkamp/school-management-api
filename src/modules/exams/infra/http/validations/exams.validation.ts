@@ -57,6 +57,7 @@ export const listExamsValidate = celebrate({
     page: Joi.number().positive(),
     per_page: Joi.number().positive(),
     school_id: Joi.string().uuid(),
+    teacher_id: Joi.string().uuid(),
     status: Joi.string().valid(...Object.values(examStatus)),
     type: Joi.string().valid(...Object.values(examType)),
     class_group_id: Joi.string().uuid(),
