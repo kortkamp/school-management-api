@@ -33,10 +33,17 @@ class TeacherClassesController {
     const listTeacherClassesService = container.resolve(
       ListTeacherClassesByTeacherService,
     );
+    const schoolId = request.school.id;
 
-    const filteredModules = await listTeacherClassesService.execute(
-      request.params.id,
-    );
+    const { query } = request;
+
+    const authUserId = request.user.id;
+
+    const filteredModules = await listTeacherClassesService.execute({
+      authUserId,
+      query,
+      schoolId,
+    });
 
     return response.json({
       success: true,

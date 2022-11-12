@@ -18,15 +18,14 @@ teacherClassesRoutes.use(authMiddleware);
 const teacherClassesController = new TeacherClassesController();
 
 teacherClassesRoutes.get(
-  '/teacher/:id',
-  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY, RoleTypes.TEACHER]),
-
+  '/teacher/',
+  ensureRoles([RoleTypes.TEACHER]),
   teacherClassesController.listByTeacher,
 );
 
 teacherClassesRoutes.get(
   '/',
-  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY, RoleTypes.TEACHER]),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
   listTeacherClassesValidate,
   teacherClassesController.index,
 );
