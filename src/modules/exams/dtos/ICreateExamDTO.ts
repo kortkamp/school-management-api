@@ -13,6 +13,8 @@ interface ICreateExamDTO {
 
   subject_id: string;
 
+  school_id: string;
+
   class_group_id: string;
 
   date: Date;

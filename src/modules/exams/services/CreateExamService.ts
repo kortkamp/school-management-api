@@ -36,6 +36,7 @@ class CreateExamService {
     const exam = await this.examsRepository.create({
       ...data,
       weight: 1,
+      school_id: schoolId,
       teacher_id: teacher.id,
     });
 
