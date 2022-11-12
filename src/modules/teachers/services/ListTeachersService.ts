@@ -1,9 +1,6 @@
-import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
-import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { inject, injectable } from 'tsyringe';
 
 import { IListResultInterface } from '@shared/dtos/IListResultDTO';
-import ErrorsApp from '@shared/errors/ErrorsApp';
 
 import { IListTeachersDTO } from '../dtos/IListTeachersDTO';
 import { ITeachersRepository } from '../repositories/ITeachersRepository';

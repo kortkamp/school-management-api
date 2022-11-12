@@ -1,8 +1,9 @@
 import { ICreateTeacherClassDTO } from '@modules/classGroups/dtos/ICreateTeacherClassDTO';
+import { IListTeacherClassDTO } from '@modules/classGroups/dtos/IListTeacherClassDTO';
 import { ITeacherClassesRepository } from '@modules/classGroups/repositories/ITeacherClassesRepository';
 import { Repository } from 'typeorm';
-import { FilterBuilder, IFilterQuery } from 'typeorm-dynamic-filters';
 
+import { customRepository } from '@shared/infra/tenantContext/tenantRepository';
 import { AppDataSource } from '@shared/infra/typeorm';
 
 import { TeacherClass } from '../models/TeacherClass';
@@ -11,8 +12,9 @@ class TeacherClassesRepository implements ITeacherClassesRepository {
   private ormRepository: Repository<TeacherClass>;
 
   constructor() {
-    this.ormRepository =
-      AppDataSource.getRepository<TeacherClass>(TeacherClass);
+    this.ormRepository = AppDataSource.getRepository<TeacherClass>(
+      TeacherClass,
+    ).extend(customRepository(TeacherClass));
   }
 
   public async create(data: ICreateTeacherClassDTO): Promise<TeacherClass> {
@@ -43,25 +45,34 @@ class TeacherClassesRepository implements ITeacherClassesRepository {
     return teacherClass;
   }
 
-  public async getAll(query: IFilterQuery): Promise<[TeacherClass[], number]> {
-    const filterQueryBuilder = new FilterBuilder(
-      this.ormRepository,
-      'teacherClasses',
-    );
+  public async getAll(
+    query: IListTeacherClassDTO,
+  ): Promise<[TeacherClass[], number]> {
+    const where = query;
+    const items = await this.ormRepository.findAndCount({
+      relations: ['classGroup', 'teacher', 'subject', 'teacher.person'],
+      where,
+      select: {
+        teacher: {
+          id: true,
+          person: {
+            id: true,
+            name: true,
+          },
+        },
+        classGroup: {
+          id: true,
+          name: true,
+        },
+        subject: {
+          id: true,
+          name: true,
+        },
+        created_at: true,
+      },
+    });
 
-    const queryBuilder = filterQueryBuilder.build(query);
-
-    queryBuilder
-      .leftJoin('teacherClasses.classGroup', 'classGroup')
-      .addSelect(['classGroup.id', 'classGroup.name'])
-      .leftJoin('teacherClasses.subject', 'subject')
-      .addSelect(['subject.id', 'subject.name'])
-      .leftJoin('classGroup.grade', 'grade')
-      .addSelect(['grade.id', 'grade.name']);
-
-    const result = await queryBuilder.getManyAndCount();
-
-    return result;
+    return items;
   }
 
   public async getAllByTeacher(teacher_id: string): Promise<TeacherClass[]> {

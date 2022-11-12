@@ -1,9 +1,12 @@
 import { inject, injectable } from 'tsyringe';
-import { IFilterQuery } from 'typeorm-dynamic-filters';
 
-import { IListResultInterface } from '@shared/dtos/IListResultDTO';
-
+import { IListTeacherClassDTO } from '../dtos/IListTeacherClassDTO';
 import { ITeacherClassesRepository } from '../repositories/ITeacherClassesRepository';
+
+interface IRequest {
+  schoolId: string;
+  query: IListTeacherClassDTO;
+}
 
 @injectable()
 class ListTeacherClassesService {
@@ -11,20 +14,13 @@ class ListTeacherClassesService {
     @inject('TeacherClassesRepository')
     private teacherClassesRepository: ITeacherClassesRepository,
   ) {}
-  public async execute(query: IFilterQuery): Promise<IListResultInterface> {
-    const { page, per_page } = query;
-    const [teacherClasses, length] = await this.teacherClassesRepository.getAll(
-      query,
-    );
+  public async execute({ query, schoolId }: IRequest) {
+    const [teacherClasses] = await this.teacherClassesRepository.getAll({
+      ...query,
+      school_id: schoolId,
+    });
 
-    return {
-      result: teacherClasses,
-      // total_registers: total,
-      total_filtered: length,
-      page,
-      per_page,
-      total_pages: Math.ceil(length / per_page),
-    };
+    return teacherClasses;
   }
 }
 

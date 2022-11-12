@@ -1,5 +1,6 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
 import { ensureRolesOrSelf } from '@modules/roles/infra/http/middlewares/ensureRolesOrSelf';
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
@@ -18,28 +19,28 @@ const teacherClassesController = new TeacherClassesController();
 
 teacherClassesRoutes.get(
   '/teacher/:id',
-  ensureRolesOrSelf(['admin']),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY, RoleTypes.TEACHER]),
 
   teacherClassesController.listByTeacher,
 );
 
 teacherClassesRoutes.get(
   '/',
-  ensureRoles(['admin']),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY, RoleTypes.TEACHER]),
   listTeacherClassesValidate,
   teacherClassesController.index,
 );
 
 teacherClassesRoutes.post(
   '/',
-  ensureRoles(['admin']),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
   createTeacherClassValidate,
   teacherClassesController.create,
 );
 
 teacherClassesRoutes.delete(
   '/',
-  ensureRoles(['admin']),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
   deleteTeacherClassValidate,
   teacherClassesController.delete,
 );

@@ -36,6 +36,7 @@ class TeachersRepository implements ITeachersRepository {
       relations: ['person'],
       select: {
         id: true,
+        active: true,
         person: {
           id: true,
           name: true,
