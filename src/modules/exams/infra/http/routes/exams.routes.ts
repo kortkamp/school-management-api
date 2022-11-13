@@ -22,30 +22,47 @@ const examsController = new ExamsController();
 
 examsRoutes.use('/results', examResultsRoutes);
 
+examsRoutes.get(
+  '/',
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
+  listExamsValidate,
+  examsController.index,
+);
+
+// examsRoutes.get(
+//   '/subject',
+//   listExamsByClassSubjectValidate,
+//   examsController.listByClassSubject,
+// );
+
 examsRoutes.post(
   '/',
-  ensureRoles([
-    RoleTypes.TEACHER,
-    RoleTypes.ADMIN,
-    RoleTypes.PRINCIPAL,
-    RoleTypes.SECRETARY,
-  ]),
+  ensureRoles([RoleTypes.TEACHER]),
   createExamValidate,
   examsController.create,
 );
 
-examsRoutes.get('/', listExamsValidate, examsController.index);
-
 examsRoutes.get(
-  '/subject',
-  listExamsByClassSubjectValidate,
-  examsController.listByClassSubject,
+  '/teacher',
+  ensureRoles([RoleTypes.TEACHER]),
+  listExamsValidate,
+  examsController.indexByTeacher,
 );
 
-examsRoutes.delete('/:id', deleteExamValidate, examsController.delete);
+examsRoutes.delete(
+  '/:id',
+  ensureRoles([RoleTypes.TEACHER]),
+  deleteExamValidate,
+  examsController.delete,
+);
 
-examsRoutes.put('/:id', updateExamValidate, examsController.update);
+examsRoutes.put(
+  '/:id',
+  ensureRoles([RoleTypes.TEACHER]),
+  updateExamValidate,
+  examsController.update,
+);
 
-examsRoutes.get('/:id', showExamValidate, examsController.show);
+// examsRoutes.get('/:id', showExamValidate, examsController.show);
 
 export { examsRoutes };
