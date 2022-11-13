@@ -12,7 +12,11 @@ interface IExamsRepository {
     class_group_id: string,
     student_id?: string,
   ): Promise<IExam[]>;
-  findById(userId: string, relations?: string[]): Promise<IExam | undefined>;
+  findById(
+    exam_id: string,
+    school_id: string,
+    teacher_id: string,
+  ): Promise<IExam | undefined>;
   show(id: string, student_id?: string): Promise<IExam | undefined>;
   save(dataUpdate: IExam): Promise<void>;
   delete(user: IExam): Promise<void>;

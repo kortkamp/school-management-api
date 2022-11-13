@@ -136,12 +136,12 @@ class ExamsRepository implements IExamsRepository {
   }
 
   public async findById(
-    id: string,
-    relations?: string[],
+    exam_id: string,
+    school_id: string,
+    teacher_id: string,
   ): Promise<Exam | undefined> {
     const exam = await this.ormRepository.findOne({
-      where: { id },
-      relations,
+      where: { id: exam_id, school_id, teacher_id },
     });
 
     return exam;
