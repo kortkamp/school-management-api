@@ -41,10 +41,11 @@ export const updateExamValidate = celebrate(
       type: Joi.string()
         .required()
         .valid(...Object.values(examType)),
-      value: Joi.number().integer(),
-      term_id: Joi.string().uuid(),
-      weight: Joi.number().integer(),
-      date: Joi.string().isoDate(),
+      value: Joi.number().positive().required(),
+      term_id: Joi.string().uuid().required(),
+      subject_id: Joi.string().uuid().required(),
+      class_group_id: Joi.string().uuid().required(),
+      date: Joi.string().isoDate().required(),
     },
   },
   {
