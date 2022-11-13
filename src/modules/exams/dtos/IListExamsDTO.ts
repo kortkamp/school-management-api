@@ -2,6 +2,7 @@ import { examStatus, examType } from '../models/IExam';
 
 interface IListExamsDTO {
   school_id: string;
+  teacher_id: string;
   class_group_id?: string;
   status: examStatus;
   type: examType;
