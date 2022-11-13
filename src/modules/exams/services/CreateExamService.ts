@@ -4,7 +4,6 @@ import { inject, injectable } from 'tsyringe';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
 import { ICreateExamDTO } from '../dtos/ICreateExamDTO';
-import { IExamResultsRepository } from '../repositories/IExamResultsRepository';
 import { IExamsRepository } from '../repositories/IExamsRepository';
 
 interface IRequest {
