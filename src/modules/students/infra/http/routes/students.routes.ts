@@ -52,6 +52,8 @@ studentsRoutes.put(
   studentsController.update,
 );
 
+studentsRoutes.get('/user', studentsController.showByUser);
+
 studentsRoutes.get('/:id', showStudentValidate, studentsController.show);
 
 export { studentsRoutes };

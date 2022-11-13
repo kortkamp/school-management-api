@@ -24,7 +24,7 @@ examsRoutes.use('/results', examResultsRoutes);
 
 examsRoutes.get(
   '/',
-  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY, RoleTypes.STUDENT]),
   listExamsValidate,
   examsController.index,
 );
