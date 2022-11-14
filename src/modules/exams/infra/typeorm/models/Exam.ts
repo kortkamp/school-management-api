@@ -64,7 +64,9 @@ class Exam implements IExam {
   @JoinColumn({ name: 'class_group_id', referencedColumnName: 'id' })
   class_group: ClassGroup;
 
-  @OneToMany(type => ExamResult, examResult => examResult.exam, {})
+  @OneToMany(type => ExamResult, examResult => examResult.exam, {
+    cascade: ['insert', 'update'],
+  })
   @JoinColumn({ name: 'id' })
   results: ExamResult[];
 

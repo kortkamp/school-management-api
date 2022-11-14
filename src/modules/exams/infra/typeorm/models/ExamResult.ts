@@ -1,5 +1,5 @@
 import { IExamResult } from '@modules/exams/models/IExamResult';
-import { User } from '@modules/users/infra/typeorm/models/User';
+import { Student } from '@modules/students/infra/typeorm/models/Student';
 import {
   Column,
   CreateDateColumn,
@@ -12,7 +12,7 @@ import {
 
 import { Exam } from './Exam';
 
-@Entity('exam_results')
+@Entity('periodic.exam_results')
 class ExamResult implements IExamResult {
   @PrimaryColumn()
   exam_id: string;
@@ -23,9 +23,9 @@ class ExamResult implements IExamResult {
   @Column()
   value: number;
 
-  @ManyToOne(() => User, student => student)
+  @ManyToOne(() => Student, student => student)
   @JoinColumn({ name: 'student_id', referencedColumnName: 'id' })
-  student: User;
+  student: Student;
 
   @ManyToOne(() => Exam, exam => exam)
   @JoinColumn({ name: 'exam_id', referencedColumnName: 'id' })

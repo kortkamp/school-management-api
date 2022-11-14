@@ -132,6 +132,7 @@ class ExamsRepository implements IExamsRepository {
   }
 
   public async save(data: Exam): Promise<void> {
+    console.log(data);
     await this.ormRepository.save(data);
   }
 
@@ -148,26 +149,34 @@ class ExamsRepository implements IExamsRepository {
   }
 
   public async show(id: string, student_id?: string): Promise<Exam> {
-    const qb = this.ormRepository
-      .createQueryBuilder('exam')
-      .andWhere({ id })
-      .leftJoin('exam.subject', 'subject')
-      .addSelect(['subject.id', 'subject.name'])
-      .leftJoin('exam.class_group', 'class_group')
-      .addSelect(['class_group.id', 'class_group.name'])
-      .leftJoin(
-        'exam.results',
+    const exam = await this.ormRepository.findOne({
+      where: { id },
+      relations: [
+        'class_group',
+        'class_group.students',
+        'class_group.students.person',
         'results',
-        student_id ? 'results.student_id = :student_id' : '',
-        {
-          student_id,
+      ],
+      select: {
+        id: true,
+        type: true,
+        status: true,
+        weight: true,
+        date: true,
+        class_group: {
+          id: true,
+          name: true,
+          students: {
+            id: true,
+            person: {
+              id: true,
+              name: true,
+            },
+          },
         },
-      )
-      .addSelect(['results.value'])
-      .leftJoin('results.student', 'student')
-      .addSelect(['student.id', 'student.name']);
-
-    return qb.getOne();
+      },
+    });
+    return exam;
   }
 
   public async delete(exam: Exam): Promise<void> {

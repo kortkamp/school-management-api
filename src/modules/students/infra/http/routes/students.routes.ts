@@ -33,7 +33,7 @@ studentsRoutes.post(
 
 studentsRoutes.get(
   '/',
-  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY, RoleTypes.TEACHER]),
   listStudentsValidate,
   studentsController.index,
 );
