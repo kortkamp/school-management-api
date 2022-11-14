@@ -9,6 +9,7 @@ interface ITeachersRepository {
     school_id: string,
     person_id: string,
   ): Promise<ITeacher | undefined>;
+  findByUser(school_id: string, user_id: string): Promise<ITeacher | undefined>;
   findById(
     school_id: string,
     teacherId: string,

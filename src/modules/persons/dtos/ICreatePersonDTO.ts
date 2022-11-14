@@ -3,6 +3,10 @@ import { ICreateContactDTO } from '@modules/contacts/dtos/ICreateContactDTO';
 import { ICreateStudentDTO } from '@modules/students/dtos/ICreateStudentDTO';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 
+interface IPersonAddress extends ICreateAddressDTO {
+  id?: string;
+}
+
 interface ICreatePersonDTO {
   name: string;
   cpf?: string;
@@ -12,7 +16,7 @@ interface ICreatePersonDTO {
   user?: ICreateUserDTO;
   student?: Omit<ICreateStudentDTO, 'person_id'>;
   active?: boolean;
-  addresses?: ICreateAddressDTO[];
+  addresses?: IPersonAddress[];
   contact?: ICreateContactDTO;
 }
 

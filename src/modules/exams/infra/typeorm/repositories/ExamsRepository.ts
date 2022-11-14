@@ -1,8 +1,13 @@
 import { ICreateExamDTO } from '@modules/exams/dtos/ICreateExamDTO';
+import { IListExamsDTO } from '@modules/exams/dtos/IListExamsDTO';
 import { IExamsRepository } from '@modules/exams/repositories/IExamsRepository';
 import { Repository } from 'typeorm';
 import { FilterBuilder, IFilterQuery } from 'typeorm-dynamic-filters';
 
+import {
+  customRepository,
+  tenantWrapper,
+} from '@shared/infra/tenantContext/tenantRepository';
 import { AppDataSource } from '@shared/infra/typeorm';
 
 import { Exam } from '../models/Exam';
@@ -11,7 +16,9 @@ class ExamsRepository implements IExamsRepository {
   private ormRepository: Repository<Exam>;
 
   constructor() {
-    this.ormRepository = AppDataSource.getRepository<Exam>(Exam);
+    this.ormRepository = AppDataSource.getRepository<Exam>(Exam).extend(
+      customRepository(Exam),
+    );
   }
 
   public async getTotal(): Promise<number> {
@@ -28,23 +35,52 @@ class ExamsRepository implements IExamsRepository {
     return newExam;
   }
 
-  public async getAll(query: IFilterQuery): Promise<[Exam[], number]> {
-    const filterQueryBuilder = new FilterBuilder(this.ormRepository, 'exam');
+  public async getAll(query: IListExamsDTO): Promise<[Exam[], number]> {
+    const { page, per_page, ...where } = query;
 
-    const queryBuilder = filterQueryBuilder
-      .build(query)
-      .leftJoin('exam.subject', 'subject')
-      .addSelect(['subject.id', 'subject.name'])
-      .leftJoin('exam.class_group', 'class_group')
-      .addSelect(['class_group.id', 'class_group.name'])
-      .leftJoin('exam.teacher', 'teacher')
-      .addSelect(['teacher.id', 'teacher.name'])
-      .leftJoin('exam.term', 'term')
-      .addSelect(['term.id', 'term.name']);
+    const take = per_page || 10;
+    const skip = page ? (page - 1) * per_page : 0;
 
-    const result = await queryBuilder.getManyAndCount();
-
-    return result;
+    return this.ormRepository.findAndCount({
+      where,
+      take,
+      skip,
+      relations: [
+        'subject',
+        'class_group',
+        'teacher',
+        'teacher.person',
+        'term',
+      ],
+      select: {
+        id: true,
+        type: true,
+        status: true,
+        value: true,
+        date: true,
+        created_at: true,
+        subject: {
+          id: true,
+          name: true,
+        },
+        class_group: {
+          id: true,
+          name: true,
+        },
+        teacher: {
+          id: true,
+          person: {
+            id: true,
+            name: true,
+          },
+        },
+        term: {
+          id: true,
+          name: true,
+        },
+      },
+      order: { created_at: 'DESC' },
+    });
   }
 
   public async getAllByClassSubject(
@@ -100,12 +136,12 @@ class ExamsRepository implements IExamsRepository {
   }
 
   public async findById(
-    id: string,
-    relations?: string[],
+    exam_id: string,
+    school_id: string,
+    teacher_id: string,
   ): Promise<Exam | undefined> {
     const exam = await this.ormRepository.findOne({
-      where: { id },
-      relations,
+      where: { id: exam_id, school_id, teacher_id },
     });
 
     return exam;

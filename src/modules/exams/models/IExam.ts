@@ -8,24 +8,16 @@ export enum examStatus {
 export enum examType {
   EXAM = 'prova',
   WORK = 'trabalho',
-  EXERCICE = 'exercício',
-}
-
-export enum examSubType {
-  ACCUMULATIVE = 'accumulative',
-  SUBSTITUTIVE = 'substitutive',
-  GREATER = 'greater',
-  MEAN = 'mean',
+  PRESENTATION = 'seminário',
+  EXERCISE = 'exercício',
+  BEHAVIOR = 'comportamento',
+  OTHER = 'outros',
 }
 
 export interface IExam {
   id: string;
 
   type: examType;
-
-  sub_type: examSubType;
-
-  reference_id?: string;
 
   status: examStatus;
 
@@ -39,9 +31,11 @@ export interface IExam {
 
   subject_id: string;
 
-  class_id: string;
+  class_group_id: string;
 
   date: Date;
+
+  school_id: string;
 
   created_at: Date;
 

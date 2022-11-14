@@ -36,6 +36,7 @@ class TeachersRepository implements ITeachersRepository {
       relations: ['person'],
       select: {
         id: true,
+        active: true,
         person: {
           id: true,
           name: true,
@@ -67,6 +68,23 @@ class TeachersRepository implements ITeachersRepository {
   ): Promise<Teacher | undefined> {
     return this.ormRepository.findOne({
       where: { person_id, school_id },
+    });
+  }
+
+  public async findByUser(
+    school_id: string,
+    user_id: string,
+  ): Promise<Teacher | undefined> {
+    return this.ormRepository.findOne({
+      relations: ['person', 'person.user'],
+      where: {
+        person: {
+          user: {
+            id: user_id,
+          },
+        },
+        school_id,
+      },
     });
   }
 

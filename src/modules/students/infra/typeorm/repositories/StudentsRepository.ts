@@ -27,6 +27,23 @@ class StudentsRepository implements IStudentsRepository {
     });
   }
 
+  public async findByUser(
+    school_id: string,
+    user_id: string,
+  ): Promise<Student | undefined> {
+    return this.ormRepository.findOne({
+      relations: ['person', 'person.user'],
+      where: {
+        person: {
+          user: {
+            id: user_id,
+          },
+        },
+        school_id,
+      },
+    });
+  }
+
   public async create(data: ICreateStudentDTO): Promise<Student> {
     const newStudent = this.ormRepository.create(data);
 

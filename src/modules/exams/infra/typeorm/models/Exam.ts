@@ -1,11 +1,8 @@
 import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
-import {
-  examStatus,
-  examSubType,
-  examType,
-  IExam,
-} from '@modules/exams/models/IExam';
+import { examStatus, examType, IExam } from '@modules/exams/models/IExam';
+import { School } from '@modules/schools/infra/typeorm/models/School';
 import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
+import { Teacher } from '@modules/teachers/infra/typeorm/models/Teacher';
 import { Term } from '@modules/terms/infra/typeorm/models/Term';
 import { User } from '@modules/users/infra/typeorm/models/User';
 import {
@@ -22,19 +19,13 @@ import { v4 as uuid } from 'uuid';
 
 import { ExamResult } from './ExamResult';
 
-@Entity('exams')
+@Entity('periodic.exams')
 class Exam implements IExam {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('varchar')
   type: examType;
-
-  @Column('varchar')
-  sub_type: examSubType;
-
-  @Column('uuid')
-  reference_id?: string;
 
   @Column('varchar')
   status: examStatus;
@@ -55,9 +46,9 @@ class Exam implements IExam {
   @Column()
   teacher_id: string;
 
-  @ManyToOne(() => User, teacher => teacher)
+  @ManyToOne(() => Teacher, teacher => teacher)
   @JoinColumn({ name: 'teacher_id', referencedColumnName: 'id' })
-  teacher: User;
+  teacher: Teacher;
 
   @Column()
   subject_id: string;
@@ -67,10 +58,10 @@ class Exam implements IExam {
   subject: Subject;
 
   @Column()
-  class_id: string;
+  class_group_id: string;
 
   @ManyToOne(() => ClassGroup, class_group => class_group)
-  @JoinColumn({ name: 'class_id', referencedColumnName: 'id' })
+  @JoinColumn({ name: 'class_group_id', referencedColumnName: 'id' })
   class_group: ClassGroup;
 
   @OneToMany(type => ExamResult, examResult => examResult.exam, {})
@@ -79,6 +70,13 @@ class Exam implements IExam {
 
   @Column()
   date: Date;
+
+  @Column()
+  school_id: string;
+
+  @ManyToOne(() => School, school => school)
+  @JoinColumn({ name: 'school_id', referencedColumnName: 'id' })
+  school: School;
 
   @CreateDateColumn()
   created_at: Date;

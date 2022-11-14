@@ -1,6 +1,7 @@
 import { CreateStudentPersonService } from '@modules/students/services/CreateStudentPersonService';
 import { DeleteStudentService } from '@modules/students/services/DeleteStudentService';
 import { ListStudentsService } from '@modules/students/services/ListStudentsService';
+import { ShowStudentByAuthUserService } from '@modules/students/services/ShowStudentByAuthUserService';
 import { ShowStudentService } from '@modules/students/services/ShowStudentService';
 import { UpdateStudentService } from '@modules/students/services/UpdateStudentService';
 import { instanceToInstance } from 'class-transformer';
@@ -55,7 +56,7 @@ class StudentsController {
 
     await deleteStudentService.execute(schoolId, studentId);
 
-    return response.status(204).json({ success: true });
+    return response.status(200).json({ success: true });
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -86,6 +87,23 @@ class StudentsController {
     const student = await showStudentService.execute(schoolId, studentId);
 
     return response.status(200).json({ success: true, student });
+  }
+
+  public async showByUser(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const showStudentService = container.resolve(ShowStudentByAuthUserService);
+
+    const schoolId = request.school.id;
+
+    const authUserId = request.user.id;
+
+    const student = await showStudentService.execute({ schoolId, authUserId });
+
+    return response
+      .status(200)
+      .json({ success: true, student: instanceToInstance(student) });
   }
 }
 

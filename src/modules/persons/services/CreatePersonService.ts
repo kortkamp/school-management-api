@@ -1,4 +1,6 @@
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { IRolesRepository } from '@modules/roles/repositories/IRolesRepository';
+import { ITeachersRepository } from '@modules/teachers/repositories/ITeachersRepository';
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { IUserSchoolRoleRepositories } from '@modules/users/repositories/IUserSchoolRoleRepositories';
 import { inject, injectable } from 'tsyringe';
@@ -33,6 +35,9 @@ class CreatePersonService {
 
     @inject('UserSchoolRoleRepositories')
     private userSchoolRoleRepositories: IUserSchoolRoleRepositories,
+
+    @inject('TeachersRepository')
+    private teachersRepository: ITeachersRepository,
   ) {}
 
   public async execute({ authSchoolId, authUser, data }: IRequest) {
@@ -40,15 +45,6 @@ class CreatePersonService {
 
     if (personExists) {
       throw new ErrorsApp('Esta pessoa já está cadastrada', 409);
-    }
-
-    if (data.role_id) {
-      const roleExists = await this.rolesRepository.findById(data.role_id);
-      if (!roleExists) {
-        throw new ErrorsApp('A função informada não existe', 400);
-      }
-      // eslint-disable-next-line no-param-reassign
-      data.active = true;
     }
 
     const hashedPassword = await this.hashProvider.create('123456', 8);
@@ -64,6 +60,21 @@ class CreatePersonService {
     const person = await this.personsRepository.create({ ...data, user });
 
     if (data.role_id) {
+      const roleExists = await this.rolesRepository.findById(data.role_id);
+      if (!roleExists) {
+        throw new ErrorsApp('A função informada não existe', 400);
+      }
+      // eslint-disable-next-line no-param-reassign
+      data.active = true;
+
+      if (roleExists.type === RoleTypes.TEACHER) {
+        await this.teachersRepository.create({
+          active: true,
+          person_id: person.id,
+          school_id: authSchoolId,
+        });
+      }
+
       await this.userSchoolRoleRepositories.create({
         role_id: data.role_id,
         user_id: person.user.id,

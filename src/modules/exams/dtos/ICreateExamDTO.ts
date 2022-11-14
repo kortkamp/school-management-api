@@ -1,11 +1,7 @@
-import { examSubType, examType } from '../models/IExam';
+import { examType } from '../models/IExam';
 
 interface ICreateExamDTO {
   type: examType;
-
-  sub_type: examSubType;
-
-  reference_id?: string;
 
   value: number;
 
@@ -17,7 +13,9 @@ interface ICreateExamDTO {
 
   subject_id: string;
 
-  class_id: string;
+  school_id: string;
+
+  class_group_id: string;
 
   date: Date;
 }

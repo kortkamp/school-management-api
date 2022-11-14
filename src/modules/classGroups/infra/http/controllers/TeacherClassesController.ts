@@ -5,7 +5,6 @@ import { ListTeacherClassesService } from '@modules/classGroups/services/ListTea
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import { parseQueryFilters } from 'typeorm-dynamic-filters';
 
 class TeacherClassesController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -13,9 +12,14 @@ class TeacherClassesController {
       ListTeacherClassesService,
     );
 
-    const filteredModules = await listTeacherClassesService.execute(
-      parseQueryFilters(request.query),
-    );
+    const schoolId = request.school.id;
+
+    const { query } = request;
+
+    const filteredModules = await listTeacherClassesService.execute({
+      query,
+      schoolId,
+    });
 
     return response.json({
       success: true,
@@ -29,10 +33,17 @@ class TeacherClassesController {
     const listTeacherClassesService = container.resolve(
       ListTeacherClassesByTeacherService,
     );
+    const schoolId = request.school.id;
 
-    const filteredModules = await listTeacherClassesService.execute(
-      request.params.id,
-    );
+    const { query } = request;
+
+    const authUserId = request.user.id;
+
+    const filteredModules = await listTeacherClassesService.execute({
+      authUserId,
+      query,
+      schoolId,
+    });
 
     return response.json({
       success: true,
@@ -44,7 +55,14 @@ class TeacherClassesController {
       CreateTeacherClassService,
     );
 
-    const teacherClass = await createTeacherClassService.execute(request.body);
+    const schoolId = request.school.id;
+
+    const data = request.body;
+
+    const teacherClass = await createTeacherClassService.execute({
+      data,
+      schoolId,
+    });
 
     return response
       .status(201)
@@ -56,9 +74,13 @@ class TeacherClassesController {
       DeleteTeacherClassService,
     );
 
-    await deleteTeacherClassService.execute(request.body);
+    const schoolId = request.school.id;
 
-    return response.status(204).json({ success: true });
+    const data = request.body;
+
+    await deleteTeacherClassService.execute({ data, schoolId });
+
+    return response.status(200).json({ success: true });
   }
 }
 

@@ -15,14 +15,30 @@ classGroupsRoutes.use(authMiddleware);
 
 const classGroupsController = new ClassGroupsController();
 
-classGroupsRoutes.post('/', createClassGroupValidate, classGroupsController.create);
+classGroupsRoutes.post(
+  '/',
+  createClassGroupValidate,
+  classGroupsController.create,
+);
 
 classGroupsRoutes.get('/', classGroupsController.index);
 
-classGroupsRoutes.delete('/:id', deleteClassGroupValidate, classGroupsController.delete);
+classGroupsRoutes.delete(
+  '/:id',
+  deleteClassGroupValidate,
+  classGroupsController.delete,
+);
 
-classGroupsRoutes.put('/:id', updateClassGroupValidate, classGroupsController.update);
+classGroupsRoutes.put(
+  '/:id',
+  updateClassGroupValidate,
+  classGroupsController.update,
+);
 
-classGroupsRoutes.get('/:id', showClassGroupValidate, classGroupsController.show);
+classGroupsRoutes.get(
+  '/:id',
+  showClassGroupValidate,
+  classGroupsController.show,
+);
 
 export { classGroupsRoutes };

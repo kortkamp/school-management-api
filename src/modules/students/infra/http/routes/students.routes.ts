@@ -31,7 +31,12 @@ studentsRoutes.post(
   studentsController.create,
 );
 
-studentsRoutes.get('/', listStudentsValidate, studentsController.index);
+studentsRoutes.get(
+  '/',
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
+  listStudentsValidate,
+  studentsController.index,
+);
 
 studentsRoutes.delete(
   '/:id',
@@ -46,6 +51,8 @@ studentsRoutes.put(
   updateStudentValidate,
   studentsController.update,
 );
+
+studentsRoutes.get('/user', studentsController.showByUser);
 
 studentsRoutes.get('/:id', showStudentValidate, studentsController.show);
 
