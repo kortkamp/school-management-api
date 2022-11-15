@@ -168,7 +168,7 @@ class ExamsRepository implements IExamsRepository {
           name: true,
         },
         results: {
-          value: true,
+          achievement: true,
           created_at: true,
           student: {
             id: true,

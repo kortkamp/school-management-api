@@ -48,7 +48,7 @@ export const updateExamValidate = celebrate(
       date: Joi.string().isoDate().required(),
       results: Joi.array().items({
         student_id: Joi.string().uuid().required(),
-        value: Joi.number().integer(),
+        achievement: Joi.number().min(0).max(1).required(),
       }),
     },
   },

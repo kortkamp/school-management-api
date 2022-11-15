@@ -21,7 +21,7 @@ class ExamResult implements IExamResult {
   student_id: string;
 
   @Column()
-  value: number;
+  achievement: number;
 
   @ManyToOne(() => Student, student => student)
   @JoinColumn({ name: 'student_id', referencedColumnName: 'id' })

@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import ErrorsApp from '@shared/errors/ErrorsApp';
 
 import { ICreateExamDTO } from '../dtos/ICreateExamDTO';
+import { examStatus } from '../models/IExam';
 import { IExamsRepository } from '../repositories/IExamsRepository';
 
 interface IRequest {
@@ -38,10 +39,13 @@ class UpdateExamService {
     );
 
     if (!exam) {
-      throw new ErrorsApp('Exam not found', 404);
+      throw new ErrorsApp('Avaliação não encontrada', 404);
     }
 
     Object.assign(exam, data);
+    if (data.results.length > 0) {
+      exam.status = examStatus.CLOSED;
+    }
 
     await this.examsRepository.save(exam);
 

@@ -18,6 +18,8 @@ interface ICreateExamDTO {
   class_group_id: string;
 
   date: Date;
+
+  results: any[];
 }
 
 export { ICreateExamDTO };

@@ -32,7 +32,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 const dataSourceOptions: DataSourceOptions = {
   name: process.env.POSTGRES_DB_NAME,
   type: 'postgres',
-  logging: false,
+  logging: true,
   url:
     process.env.MIGRATION === 'TRUE'
       ? process.env.DATABASE_ROOT_URL
