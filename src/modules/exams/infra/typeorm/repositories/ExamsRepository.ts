@@ -148,14 +148,14 @@ class ExamsRepository implements IExamsRepository {
     return exam;
   }
 
-  public async show(id: string, student_id?: string): Promise<Exam> {
-    const exam = await this.ormRepository.findOne({
+  public async show(id: string): Promise<Exam> {
+    const exams = await this.ormRepository.find({
       where: { id },
       relations: [
         'class_group',
-        'class_group.students',
-        'class_group.students.person',
         'results',
+        'results.student',
+        'results.student.person',
       ],
       select: {
         id: true,
@@ -166,7 +166,11 @@ class ExamsRepository implements IExamsRepository {
         class_group: {
           id: true,
           name: true,
-          students: {
+        },
+        results: {
+          value: true,
+          created_at: true,
+          student: {
             id: true,
             person: {
               id: true,
@@ -175,8 +179,9 @@ class ExamsRepository implements IExamsRepository {
           },
         },
       },
+      order: { results: { student: { person: { name: 'ASC' } } } },
     });
-    return exam;
+    return exams[0];
   }
 
   public async delete(exam: Exam): Promise<void> {
