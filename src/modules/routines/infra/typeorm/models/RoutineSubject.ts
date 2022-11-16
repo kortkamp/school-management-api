@@ -12,7 +12,7 @@ import {
 
 import { Routine } from './Routine';
 
-@Entity('smsystem.routine_subjects')
+@Entity('periodic.routine_subjects')
 class RoutineSubject implements IRoutineSubject {
   @PrimaryColumn()
   routine_id: string;
@@ -28,6 +28,9 @@ class RoutineSubject implements IRoutineSubject {
 
   @Column()
   teacher_id: string;
+
+  @Column()
+  school_id: string;
 
   @ManyToOne(() => Routine, routine => routine)
   @JoinColumn({ name: 'routine_id', referencedColumnName: 'id' })
