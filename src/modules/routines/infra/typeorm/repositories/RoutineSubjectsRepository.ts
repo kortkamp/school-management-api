@@ -1,7 +1,7 @@
 import { ICreateRoutineSubjectDTO } from '@modules/routines/dtos/ICreateRoutineSubjectDTO';
 import { IRoutineSubject } from '@modules/routines/models/IRoutineSubject';
 import { IRoutineSubjectsRepository } from '@modules/routines/repositories/IRoutineSubjectsRepository';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { AppDataSource } from '@shared/infra/typeorm';
 
@@ -17,10 +17,11 @@ class RoutineSubjectsRepository implements IRoutineSubjectsRepository {
 
   public async getAllByClassGroup(
     class_group_id: string,
+    school_id: string,
   ): Promise<IRoutineSubject[]> {
     return this.ormRepository.find({
-      where: { class_group_id },
-      select: ['class_group_id', 'routine_id', 'subject_id', 'week_day'],
+      where: { class_group_id, school_id },
+      // select: ['class_group_id', 'routine_id', 'subject_id', 'week_day'],
     });
   }
 
@@ -30,17 +31,14 @@ class RoutineSubjectsRepository implements IRoutineSubjectsRepository {
     return this.ormRepository.find();
   }
 
-  public async clearAndCreate(
-    class_group_id: string,
+  public async create(
     data: ICreateRoutineSubjectDTO[],
   ): Promise<RoutineSubject[]> {
-    const newRoutineSubject = this.ormRepository.create(data);
+    const newRoutineSubjects = this.ormRepository.create(data);
 
-    await this.ormRepository.delete({ class_group_id });
+    await this.ormRepository.save(newRoutineSubjects);
 
-    await this.ormRepository.save(newRoutineSubject);
-
-    return newRoutineSubject;
+    return newRoutineSubjects;
   }
 
   public async save(data: RoutineSubject): Promise<void> {

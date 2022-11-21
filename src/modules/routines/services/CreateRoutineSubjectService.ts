@@ -3,6 +3,11 @@ import { inject, injectable } from 'tsyringe';
 import { ICreateRoutineSubjectDTO } from '../dtos/ICreateRoutineSubjectDTO';
 import { IRoutineSubjectsRepository } from '../repositories/IRoutineSubjectsRepository';
 
+interface IRequest {
+  schoolId: string;
+  routineSubjects: Omit<ICreateRoutineSubjectDTO, 'school_id'>[];
+}
+
 @injectable()
 class CreateRoutineSubjectService {
   constructor(
@@ -10,11 +15,16 @@ class CreateRoutineSubjectService {
     private routineSubjectsRepository: IRoutineSubjectsRepository,
   ) {}
 
-  public async execute(data: ICreateRoutineSubjectDTO[]) {
-    const { class_group_id } = data[0];
-    const routineSubject = await this.routineSubjectsRepository.clearAndCreate(
-      class_group_id,
-      data,
+  public async execute({ routineSubjects, schoolId }: IRequest) {
+    const createData: ICreateRoutineSubjectDTO[] = routineSubjects.map(
+      item => ({
+        school_id: schoolId,
+        ...item,
+      }),
+    );
+
+    const routineSubject = await this.routineSubjectsRepository.create(
+      createData,
     );
 
     return routineSubject;

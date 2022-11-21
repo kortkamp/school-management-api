@@ -5,6 +5,8 @@ interface ICreateRoutineSubjectDTO {
 
   class_group_id: string;
 
+  school_id: string;
+
   week_day: number;
 }
 

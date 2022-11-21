@@ -43,11 +43,7 @@ class Routine implements IRoutine {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @OneToMany(
-    type => RoutineSubject,
-    routineSubjects => routineSubjects.routine,
-    {},
-  )
+  @OneToMany(type => RoutineSubject, routineSubjects => routineSubjects.routine)
   @JoinColumn({ name: 'id' })
   routineSubjects: RoutineSubject[];
 
