@@ -1,3 +1,5 @@
+import { IRoutineGroup } from '@modules/routines/models/IRoutineGroup';
+
 interface IClassGroup {
   id: string;
 
@@ -10,6 +12,8 @@ interface IClassGroup {
   grade_id: string;
 
   routine_group_id: string;
+
+  routineGroup: IRoutineGroup;
 
   tenant_id: string;
 
