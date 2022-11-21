@@ -53,6 +53,7 @@ class TeacherClassesRepository implements ITeacherClassesRepository {
       relations: ['classGroup', 'teacher', 'subject', 'teacher.person'],
       where,
       select: {
+        id: true,
         teacher: {
           id: true,
           person: {
