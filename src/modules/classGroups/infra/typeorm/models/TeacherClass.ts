@@ -9,11 +9,15 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 
 import { ClassGroup } from './ClassGroup';
 
 @Entity('periodic.teacher_classes')
 class TeacherClass implements ITeacherClass {
+  @Column()
+  id: string;
+
   @PrimaryColumn()
   teacher_id: string;
 
@@ -40,6 +44,12 @@ class TeacherClass implements ITeacherClass {
 
   @CreateDateColumn()
   created_at: Date;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
+    }
+  }
 }
 
 export { TeacherClass };

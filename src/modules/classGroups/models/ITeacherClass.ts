@@ -1,4 +1,6 @@
 interface ITeacherClass {
+  id: string;
+
   teacher_id: string;
 
   class_group_id: string;
