@@ -1,3 +1,5 @@
+import { IRoutineSubject } from '@modules/routines/models/IRoutineSubject';
+
 interface ITeacherClass {
   id: string;
 
@@ -8,6 +10,8 @@ interface ITeacherClass {
   subject_id: string;
 
   school_id: string;
+
+  routines: IRoutineSubject[];
 
   created_at: Date;
 }

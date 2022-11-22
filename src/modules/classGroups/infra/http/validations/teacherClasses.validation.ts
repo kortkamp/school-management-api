@@ -33,3 +33,20 @@ export const listTeacherClassesValidate = celebrate({
     subject_id: Joi.string().uuid(),
   },
 });
+
+export const updateTeacherClassesValidate = celebrate(
+  {
+    [Segments.BODY]: {
+      teacherClasses: Joi.array().items({
+        id: Joi.string().uuid().required(),
+        routines: Joi.array().items({
+          week_day: Joi.number().min(0).max(6).required(),
+          routine_id: Joi.string().uuid().required(),
+        }),
+      }),
+    },
+  },
+  {
+    abortEarly: false,
+  },
+);

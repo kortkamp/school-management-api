@@ -10,7 +10,7 @@ interface IClassGroupsRepository {
     class_group_id: string,
     school_id: string,
   ): Promise<IClassGroup | undefined>;
-  findByName(name: string): Promise<IClassGroup | undefined>;
+  findByName(school_id: string, name: string): Promise<IClassGroup | undefined>;
   save(dataUpdate: IClassGroup): Promise<void>;
   delete(user: IClassGroup): Promise<void>;
   getTotal(): Promise<number>;
