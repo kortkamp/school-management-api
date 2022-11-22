@@ -3,11 +3,7 @@ interface IRoutineSubject {
 
   week_day: number;
 
-  subject_id: string;
-
-  teacher_id?: string;
-
-  class_group_id: string;
+  teacher_class_group_id: string;
 
   school_id: string;
 

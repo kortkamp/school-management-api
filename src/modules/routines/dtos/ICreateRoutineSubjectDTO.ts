@@ -1,13 +1,11 @@
 interface ICreateRoutineSubjectDTO {
   routine_id: string;
 
-  subject_id: string;
+  week_day: number;
 
-  class_group_id: string;
+  teacher_class_group_id: string;
 
   school_id: string;
-
-  week_day: number;
 }
 
 export { ICreateRoutineSubjectDTO };

@@ -20,7 +20,7 @@ class RoutineSubjectsRepository implements IRoutineSubjectsRepository {
     school_id: string,
   ): Promise<IRoutineSubject[]> {
     return this.ormRepository.find({
-      where: { class_group_id, school_id },
+      where: { school_id },
       // select: ['class_group_id', 'routine_id', 'subject_id', 'week_day'],
     });
   }
@@ -34,6 +34,7 @@ class RoutineSubjectsRepository implements IRoutineSubjectsRepository {
   public async create(
     data: ICreateRoutineSubjectDTO[],
   ): Promise<RoutineSubject[]> {
+    console.log(data);
     const newRoutineSubjects = this.ormRepository.create(data);
 
     await this.ormRepository.save(newRoutineSubjects);
