@@ -1,10 +1,10 @@
-import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { TeacherClass } from '@modules/classGroups/infra/typeorm/models/TeacherClass';
 import { ICreateRoutineDTO } from '@modules/routines/dtos/ICreateRoutineDTO';
 import { IRoutinesRepository } from '@modules/routines/repositories/IRoutinesRepository';
 import { UserSubject } from '@modules/subjects/infra/typeorm/models/UserSubject';
 import { Repository } from 'typeorm';
 
+import { tenantWrapper } from '@shared/infra/tenantContext/tenantRepository';
 import { AppDataSource } from '@shared/infra/typeorm';
 
 import { Routine } from '../models/Routine';
@@ -32,41 +32,43 @@ class RoutinesRepository implements IRoutinesRepository {
 
   public async getAll(school_id: string): Promise<Routine[]> {
     return this.ormRepository.find({
-      where: { school_id },
+      where: { routineGroup: { school_id } },
       order: { start_at: 'ASC' },
     });
   }
 
-  public async getAllByClassGroup(class_group_id: string): Promise<Routine[]> {
-    const qb = this.ormRepository
-      .createQueryBuilder('routine')
-      .select(['routine.id', 'routine.start_at', 'routine.end_at']);
+  public async getAllByClassGroup(
+    school_id: string,
+    routine_group_id: string,
+    class_group_id: string,
+  ): Promise<Routine[]> {
+    return tenantWrapper(manager => {
+      const qb = manager.getRepository(Routine).createQueryBuilder('routine');
 
-    qb.where(qb => {
-      const subQuery = qb
-        .subQuery()
-        .select('class_group.day_time')
-        .from(ClassGroup, 'class_group')
-        .where('class_group.id = :class_group_id', { class_group_id })
-        .getQuery();
-      return `routine.day_time IN ${subQuery}`;
+      qb.select([
+        'routine.id',
+        'routine.type',
+        'routine.start_at',
+        'routine.duration',
+      ])
+        .leftJoin(
+          'routine.routineSubjects',
+          'routineSubjects',
+          `routineSubjects.class_group_id = '${class_group_id}'`,
+        )
+        .addSelect(['routineSubjects.week_day'])
+        .leftJoin('routineSubjects.subject', 'subject')
+        .addSelect(['subject.id', 'subject.name'])
+        .leftJoin('routineSubjects.teacher', 'teacher')
+        .addSelect(['teacher.id'])
+        .leftJoin('teacher.person', 'person')
+        .addSelect(['person.id', 'person.name'])
+        .where('routine.routine_group_id = :routine_group_id', {
+          routine_group_id,
+        });
+
+      return qb.getMany();
     });
-
-    qb.leftJoin(
-      'routine.routineSubjects',
-      'routineSubjects',
-      'routineSubjects.class_group_id = :class_group_id',
-      { class_group_id },
-    ).addSelect(['routineSubjects.week_day']);
-
-    qb.leftJoin('routineSubjects.subject', 'subject').addSelect([
-      'subject.name',
-      'subject.id',
-    ]);
-
-    qb.orderBy('routine.start_at', 'ASC');
-
-    return qb.getMany();
   }
 
   public async getAllByTeacher(teacher_id: string): Promise<Routine[]> {

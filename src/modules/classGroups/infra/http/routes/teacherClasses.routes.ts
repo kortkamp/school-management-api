@@ -9,6 +9,7 @@ import {
   listTeacherClassesValidate,
   createTeacherClassValidate,
   deleteTeacherClassValidate,
+  updateTeacherClassesValidate,
 } from '../validations/teacherClasses.validation';
 
 const teacherClassesRoutes = Router();
@@ -35,6 +36,12 @@ teacherClassesRoutes.post(
   ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
   createTeacherClassValidate,
   teacherClassesController.create,
+);
+
+teacherClassesRoutes.put(
+  '/',
+  updateTeacherClassesValidate,
+  teacherClassesController.update,
 );
 
 teacherClassesRoutes.delete(

@@ -6,8 +6,11 @@ interface IClassGroupsRepository {
   getAll(school_id: string, relations?: string[]): Promise<IClassGroup[]>;
   listClassGroups(school_id: string): Promise<IClassGroup[]>;
   getAllByTeacher(teacher_id: string): Promise<IClassGroup[]>;
-  findById(userId: string, school_id: string): Promise<IClassGroup | undefined>;
-  findByName(name: string): Promise<IClassGroup | undefined>;
+  findById(
+    class_group_id: string,
+    school_id: string,
+  ): Promise<IClassGroup | undefined>;
+  findByName(school_id: string, name: string): Promise<IClassGroup | undefined>;
   save(dataUpdate: IClassGroup): Promise<void>;
   delete(user: IClassGroup): Promise<void>;
   getTotal(): Promise<number>;

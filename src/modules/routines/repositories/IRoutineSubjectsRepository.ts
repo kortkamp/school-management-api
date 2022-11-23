@@ -2,11 +2,11 @@ import { ICreateRoutineSubjectDTO } from '../dtos/ICreateRoutineSubjectDTO';
 import { IRoutineSubject } from '../models/IRoutineSubject';
 
 interface IRoutineSubjectsRepository {
-  clearAndCreate(
+  create(data: ICreateRoutineSubjectDTO[]): Promise<IRoutineSubject[]>;
+  getAllByClassGroup(
     class_group_id: string,
-    data: ICreateRoutineSubjectDTO[],
+    school_id: string,
   ): Promise<IRoutineSubject[]>;
-  getAllByClassGroup(class_group_id: string): Promise<IRoutineSubject[]>;
   getAllByTeacher(teacher_id: string): Promise<IRoutineSubject[]>;
   save(dataUpdate: IRoutineSubject): Promise<void>;
   delete(user: IRoutineSubject): Promise<void>;

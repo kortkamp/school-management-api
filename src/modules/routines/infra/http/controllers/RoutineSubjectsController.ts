@@ -11,10 +11,13 @@ class RoutineSubjectsController {
   ): Promise<Response> {
     const listRoutines = container.resolve(ListRoutinesByClassGroup);
 
-    const class_group_id = request.params.id;
+    const classGroupId = request.params.id;
+
+    const schoolId = request.school.id;
 
     const routineSubjects = await listRoutines.execute({
-      class_group_id,
+      schoolId,
+      classGroupId,
     });
 
     return response.json({
@@ -28,9 +31,14 @@ class RoutineSubjectsController {
       CreateRoutineSubjectService,
     );
 
-    const routineSubject = await createRoutineSubjectService.execute(
-      request.body.routine_subjects,
-    );
+    const schoolId = request.school.id;
+
+    const routineSubjects = request.body.routine_subjects;
+
+    const routineSubject = await createRoutineSubjectService.execute({
+      routineSubjects,
+      schoolId,
+    });
 
     return response.status(201).json({
       success: true,

@@ -130,9 +130,12 @@ class ClassGroupsRepository implements IClassGroupsRepository {
     return classGroup;
   }
 
-  public async findByName(name: string): Promise<ClassGroup | undefined> {
+  public async findByName(
+    school_id: string,
+    name: string,
+  ): Promise<ClassGroup | undefined> {
     const classGroup = await this.ormRepository.findOne({
-      where: { name },
+      where: { name, school_id },
     });
 
     return classGroup;

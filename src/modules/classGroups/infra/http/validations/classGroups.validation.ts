@@ -32,10 +32,10 @@ export const updateClassGroupValidate = celebrate(
       id: Joi.string().uuid().required(),
     },
     [Segments.BODY]: {
-      name: Joi.string().min(3).max(100).required(),
-      course_id: Joi.string().uuid().required(),
-      grade_id: Joi.string().uuid().required(),
-      routine_group_id: Joi.string().uuid().required(),
+      name: Joi.string().min(3).max(100),
+      course_id: Joi.string().uuid(),
+      grade_id: Joi.string().uuid(),
+      routine_group_id: Joi.string().uuid(),
     },
   },
   {

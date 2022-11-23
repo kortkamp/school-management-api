@@ -63,6 +63,6 @@ examsRoutes.put(
   examsController.update,
 );
 
-// examsRoutes.get('/:id', showExamValidate, examsController.show);
+examsRoutes.get('/:id', showExamValidate, examsController.show);
 
 export { examsRoutes };

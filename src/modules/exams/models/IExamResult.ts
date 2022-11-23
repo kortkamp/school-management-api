@@ -3,7 +3,8 @@ interface IExamResult {
 
   exam_id: string;
 
-  value: number;
+  // value refers to the percentage from the exam value
+  achievement: number;
 
   created_at: Date;
 

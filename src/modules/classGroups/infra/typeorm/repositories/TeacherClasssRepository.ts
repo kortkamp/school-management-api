@@ -1,7 +1,7 @@
 import { ICreateTeacherClassDTO } from '@modules/classGroups/dtos/ICreateTeacherClassDTO';
 import { IListTeacherClassDTO } from '@modules/classGroups/dtos/IListTeacherClassDTO';
 import { ITeacherClassesRepository } from '@modules/classGroups/repositories/ITeacherClassesRepository';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 import { customRepository } from '@shared/infra/tenantContext/tenantRepository';
 import { AppDataSource } from '@shared/infra/typeorm';
@@ -45,14 +45,29 @@ class TeacherClassesRepository implements ITeacherClassesRepository {
     return teacherClass;
   }
 
+  public async findMany(ids: string[]): Promise<TeacherClass[]> {
+    const teacherClasses = await this.ormRepository.find({
+      where: { id: In(ids) },
+    });
+
+    return teacherClasses;
+  }
+
   public async getAll(
     query: IListTeacherClassDTO,
   ): Promise<[TeacherClass[], number]> {
     const where = query;
     const items = await this.ormRepository.findAndCount({
-      relations: ['classGroup', 'teacher', 'subject', 'teacher.person'],
+      relations: [
+        'classGroup',
+        'teacher',
+        'subject',
+        'teacher.person',
+        'routines',
+      ],
       where,
       select: {
+        id: true,
         teacher: {
           id: true,
           person: {
@@ -67,6 +82,10 @@ class TeacherClassesRepository implements ITeacherClassesRepository {
         subject: {
           id: true,
           name: true,
+        },
+        routines: {
+          routine_id: true,
+          week_day: true,
         },
         created_at: true,
       },
@@ -91,6 +110,13 @@ class TeacherClassesRepository implements ITeacherClassesRepository {
     const result = await queryBuilder.getMany();
 
     return result;
+  }
+
+  public async save(data: TeacherClass[]): Promise<void> {
+    // const items = this.ormRepository.create(data);
+
+    // console.log(items[0].routines);
+    await this.ormRepository.save(data);
   }
 
   public async delete(teacherClass: TeacherClass): Promise<void> {

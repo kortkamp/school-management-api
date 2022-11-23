@@ -4,9 +4,7 @@ import { IRoutine } from '../models/IRoutine';
 import { IRoutinesRepository } from '../repositories/IRoutinesRepository';
 
 interface IRequest {
-  auth_user: {
-    school_id?: string;
-  };
+  schoolId: string;
 }
 
 @injectable()
@@ -15,8 +13,8 @@ class ListRoutinesService {
     @inject('RoutinesRepository')
     private routinesRepository: IRoutinesRepository,
   ) {}
-  public async execute({ auth_user }: IRequest): Promise<IRoutine[]> {
-    const routines = await this.routinesRepository.getAll(auth_user.school_id);
+  public async execute({ schoolId }: IRequest): Promise<IRoutine[]> {
+    const routines = await this.routinesRepository.getAll(schoolId);
 
     return routines;
   }

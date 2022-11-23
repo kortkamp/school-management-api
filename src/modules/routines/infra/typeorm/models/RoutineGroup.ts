@@ -1,3 +1,4 @@
+import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
 import { IRoutineGroup } from '@modules/routines/models/IRoutineGroup';
 import { School } from '@modules/schools/infra/typeorm/models/School';
 import {
@@ -27,6 +28,9 @@ class RoutineGroup implements IRoutineGroup {
   @ManyToOne(() => School, school => school)
   @JoinColumn({ name: 'school_id', referencedColumnName: 'id' })
   school: School;
+
+  @ManyToOne(() => ClassGroup, classGroup => classGroup.routineGroup)
+  classGroup: ClassGroup;
 
   @OneToMany(type => Routine, routine => routine.routineGroup, {
     cascade: ['insert', 'update'],

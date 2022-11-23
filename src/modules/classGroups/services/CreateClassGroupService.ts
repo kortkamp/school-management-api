@@ -19,6 +19,7 @@ class CreateClassGroupService {
 
   public async execute({ authSchoolId, data }: IRequest) {
     const classGroupExists = await this.classGroupsRepository.findByName(
+      authSchoolId,
       data.name,
     );
 

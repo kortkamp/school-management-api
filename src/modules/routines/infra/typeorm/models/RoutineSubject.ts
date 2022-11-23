@@ -1,6 +1,5 @@
-import { ClassGroup } from '@modules/classGroups/infra/typeorm/models/ClassGroup';
+import { TeacherClass } from '@modules/classGroups/infra/typeorm/models/TeacherClass';
 import { IRoutineSubject } from '@modules/routines/models/IRoutineSubject';
-import { Subject } from '@modules/subjects/infra/typeorm/models/Subject';
 import {
   Column,
   CreateDateColumn,
@@ -10,36 +9,25 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 
-import { Routine } from './Routine';
-
-@Entity('smsystem.routine_subjects')
+@Entity('periodic.routine_subjects')
 class RoutineSubject implements IRoutineSubject {
   @PrimaryColumn()
   routine_id: string;
 
   @PrimaryColumn()
-  class_group_id: string;
-
-  @PrimaryColumn()
   week_day: number;
 
-  @Column()
-  subject_id: string;
+  @PrimaryColumn()
+  teacher_class_group_id: string;
 
   @Column()
-  teacher_id: string;
+  school_id: string;
 
-  @ManyToOne(() => Routine, routine => routine)
-  @JoinColumn({ name: 'routine_id', referencedColumnName: 'id' })
-  routine: Routine;
-
-  @ManyToOne(() => Subject, subject => subject)
-  @JoinColumn({ name: 'subject_id', referencedColumnName: 'id' })
-  subject: Subject;
-
-  @ManyToOne(() => ClassGroup, classGroup => classGroup)
-  @JoinColumn({ name: 'class_group_id', referencedColumnName: 'id' })
-  classGroup: ClassGroup;
+  @ManyToOne(() => TeacherClass, teacherClassGroup => teacherClassGroup, {
+    orphanedRowAction: 'delete',
+  })
+  @JoinColumn({ name: 'teacher_class_group_id', referencedColumnName: 'id' })
+  teacherClassGroup: TeacherClass;
 
   @CreateDateColumn()
   created_at: Date;

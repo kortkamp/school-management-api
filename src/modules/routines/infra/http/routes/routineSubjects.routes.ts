@@ -1,4 +1,5 @@
 import { ensureRoles } from '@modules/roles/infra/http/middlewares/ensureRoles';
+import { RoleTypes } from '@modules/roles/models/IRole';
 import { authMiddleware } from '@modules/sessions/infra/http/middlewares/authMiddleware';
 import { Router } from 'express';
 
@@ -20,7 +21,9 @@ routineSubjectsRoutes.get(
   routineSubjectsController.indexByClassGroup,
 );
 
-routineSubjectsRoutes.use(ensureRoles(['admin']));
+routineSubjectsRoutes.use(
+  ensureRoles([RoleTypes.PRINCIPAL, RoleTypes.SECRETARY]),
+);
 
 routineSubjectsRoutes.post(
   '/',

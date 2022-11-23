@@ -82,21 +82,30 @@ class ExamsController {
 
     const data = request.body;
 
-    const exam = await updateExamService.execute({ examId, data });
+    const authUserId = request.user.id;
+
+    const schoolId = request.school.id;
+
+    const exam = await updateExamService.execute({
+      examId,
+      data,
+      authUserId,
+      schoolId,
+    });
 
     return response.status(200).json({ success: true, exam });
   }
 
-  // public async show(request: Request, response: Response): Promise<Response> {
-  //   const showExamService = container.resolve(ShowExamService);
+  public async show(request: Request, response: Response): Promise<Response> {
+    const showExamService = container.resolve(ShowExamService);
 
-  //   const { user } = request;
-  //   const exam_id = request.params.id;
+    const { user } = request;
+    const exam_id = request.params.id;
 
-  //   const exam = await showExamService.execute({ user, exam_id });
+    const exam = await showExamService.execute({ user, exam_id });
 
-  //   return response.status(200).json({ success: true, exam });
-  // }
+    return response.status(200).json({ success: true, exam });
+  }
 
   public async listByClassSubject(
     request: Request,

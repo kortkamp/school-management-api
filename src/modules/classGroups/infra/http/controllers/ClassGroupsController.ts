@@ -53,9 +53,12 @@ class ClassGroupsController {
 
     const classGroupId = request.params.id;
 
+    const schoolId = request.school.id;
+
     const data = request.body;
 
     const classGroup = await updateClassGroupService.execute({
+      schoolId,
       classGroupId,
       data,
     });
