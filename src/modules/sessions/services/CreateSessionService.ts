@@ -1,4 +1,7 @@
 import { authConfig } from '@config/auth';
+import { RoleTypes } from '@modules/roles/models/IRole';
+import { IStudentsRepository } from '@modules/students/repositories/IStudentsRepository';
+import { ITeachersRepository } from '@modules/teachers/repositories/ITeachersRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
@@ -22,6 +25,12 @@ class CreateSessionService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('TeachersRepository')
+    private teachersRepository: ITeachersRepository,
+
+    @inject('StudentsRepository')
+    private studentsRepository: IStudentsRepository,
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
@@ -59,12 +68,43 @@ class CreateSessionService {
       );
     }
 
-    const schools = user.userSchoolRoles.map(userSchoolRole => ({
-      role: userSchoolRole.role.type,
-      role_name: userSchoolRole.role.name,
-      id: userSchoolRole.school_id,
-      name: userSchoolRole.school.name,
-    }));
+    const getSchoolRolesPromise = user.userSchoolRoles.map(
+      async userSchoolRole => {
+        const partialUserSchoolRole = {
+          role: userSchoolRole.role.type,
+          role_name: userSchoolRole.role.name,
+          id: userSchoolRole.school_id,
+          name: userSchoolRole.school.name,
+        };
+
+        // get teacher data
+        if (userSchoolRole.role.type === RoleTypes.TEACHER) {
+          const teacher = await this.teachersRepository.findByPersonTenant(
+            userSchoolRole.school_id,
+            user.person_id,
+            user.tenant_id,
+          );
+          Object.assign(partialUserSchoolRole, { teacher_id: teacher?.id });
+        }
+
+        // get student data
+        if (userSchoolRole.role.type === RoleTypes.STUDENT) {
+          const student = await this.studentsRepository.findByPersonTenant(
+            userSchoolRole.school_id,
+            user.person_id,
+            user.tenant_id,
+          );
+          Object.assign(partialUserSchoolRole, {
+            student_id: student?.id,
+            class_group_id: student.class_group_id,
+          });
+        }
+
+        return partialUserSchoolRole;
+      },
+    );
+
+    const schools = await Promise.all(getSchoolRolesPromise);
 
     const token = sign({ tenant_id: user.tenant_id }, authConfig.jwt.secret, {
       subject: user.id,
