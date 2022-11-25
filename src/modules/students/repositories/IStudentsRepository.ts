@@ -15,6 +15,11 @@ interface IStudentsRepository {
     enroll_id: string,
   ): Promise<IStudent | undefined>;
   findByUser(school_id: string, user_id: string): Promise<IStudent | undefined>;
+  findByPersonTenant(
+    school_id: string,
+    person_id: string,
+    tenant_id?: string,
+  ): Promise<IStudent | undefined>;
   save(dataUpdate: IStudent): Promise<void>;
   delete(student: IStudent): Promise<void>;
 }

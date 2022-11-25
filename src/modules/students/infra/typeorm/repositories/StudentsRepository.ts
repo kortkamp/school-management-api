@@ -4,7 +4,10 @@ import { IStudent } from '@modules/students/models/IStudent';
 import { IStudentsRepository } from '@modules/students/repositories/IStudentsRepository';
 import { Repository } from 'typeorm';
 
-import { customRepository } from '@shared/infra/tenantContext/tenantRepository';
+import {
+  customRepository,
+  tenantWrapper,
+} from '@shared/infra/tenantContext/tenantRepository';
 import { AppDataSource } from '@shared/infra/typeorm';
 
 import { Student } from '../models/Student';
@@ -42,6 +45,24 @@ class StudentsRepository implements IStudentsRepository {
         school_id,
       },
     });
+  }
+
+  public async findByPersonTenant(
+    school_id: string,
+    person_id: string,
+    tenant_id?: string,
+  ): Promise<Student | undefined> {
+    return tenantWrapper(async manager => {
+      const qb = manager.getRepository(Student).createQueryBuilder('student');
+      qb.where(
+        'student.person_id = :person_id AND student.school_id = :school_id',
+        {
+          person_id,
+          school_id,
+        },
+      );
+      return qb.getOne();
+    }, tenant_id);
   }
 
   public async create(data: ICreateStudentDTO): Promise<Student> {
