@@ -127,6 +127,7 @@ class UsersRepository implements IUsersRepository {
         'user.id',
         'user.name',
         'user.password',
+        'user.person_id',
         'user.active',
         'user.avatar',
         'user.email',
