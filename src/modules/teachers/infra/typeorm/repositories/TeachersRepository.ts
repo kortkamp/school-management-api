@@ -3,7 +3,10 @@ import { IListTeachersDTO } from '@modules/teachers/dtos/IListTeachersDTO';
 import { ITeachersRepository } from '@modules/teachers/repositories/ITeachersRepository';
 import { Repository } from 'typeorm';
 
-import { customRepository } from '@shared/infra/tenantContext/tenantRepository';
+import {
+  customRepository,
+  tenantWrapper,
+} from '@shared/infra/tenantContext/tenantRepository';
 import { AppDataSource } from '@shared/infra/typeorm';
 
 import { Teacher } from '../models/Teacher';
@@ -69,6 +72,24 @@ class TeachersRepository implements ITeachersRepository {
     return this.ormRepository.findOne({
       where: { person_id, school_id },
     });
+  }
+
+  public async findByPersonTenant(
+    school_id: string,
+    person_id: string,
+    tenant_id?: string,
+  ): Promise<Teacher | undefined> {
+    return tenantWrapper(async manager => {
+      const qb = manager.getRepository(Teacher).createQueryBuilder('teacher');
+      qb.where(
+        'teacher.person_id = :person_id AND teacher.school_id = :school_id',
+        {
+          person_id,
+          school_id,
+        },
+      );
+      return qb.getOne();
+    }, tenant_id);
   }
 
   public async findByUser(
